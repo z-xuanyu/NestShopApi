@@ -1,10 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query, Param, Req, Body } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { User } from '@libs/db/models/user.model';
 import { Crud } from 'nestjs-mongoose-crud';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiPropertyOptional } from '@nestjs/swagger';
 import { ReturnModelType } from '@typegoose/typegoose';
-
+class getAdminDto {
+  @ApiPropertyOptional({ description: '名称' })
+  name: string;
+}
 @Crud({
   model: User,
   routes: {
@@ -33,8 +36,8 @@ export class UsersController {
 
   @Get()
   @ApiOperation({ summary: '管理员列表' })
-  async getAdminList() {
-    const reslut = await this.UserModel.find();
-    return reslut;
+  async getAdminList(@Query() paramData: getAdminDto) {
+    
+    return paramData;
   }
 }
