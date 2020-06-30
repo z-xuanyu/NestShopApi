@@ -1,9 +1,10 @@
-import { Controller, Get, Query, Param, Req, Body } from '@nestjs/common';
+import { Controller, Get, Query, HttpCode } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { User } from '@libs/db/models/user.model';
 import { Crud } from 'nestjs-mongoose-crud';
 import { ApiTags, ApiOperation, ApiPropertyOptional } from '@nestjs/swagger';
 import { ReturnModelType } from '@typegoose/typegoose';
+// eslint-disable-next-line @typescript-eslint/class-name-casing
 class getAdminDto {
   @ApiPropertyOptional({ description: '名称' })
   name: string;
@@ -37,7 +38,12 @@ export class UsersController {
   @Get()
   @ApiOperation({ summary: '管理员列表' })
   async getAdminList(@Query() paramData: getAdminDto) {
-    
-    return paramData;
+    if (paramData.name) {
+      return await this.UserModel.find({
+        username: { $regex: paramData.name },
+      }).exec();
+    } else {
+      return await this.UserModel.find().exec();
+    }
   }
 }
