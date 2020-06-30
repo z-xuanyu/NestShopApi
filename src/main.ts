@@ -11,8 +11,8 @@ async function bootstrap() {
     prefix: '/uploads',
   });
   const options = new DocumentBuilder()
-    .setTitle('我的第一个nest项目api文档')
-    .setDescription('这是个测试的api文档')
+    .setTitle('项目api文档')
+    .setDescription('这是个练习项目的api文档')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, options);
