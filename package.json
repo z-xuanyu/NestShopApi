@@ -29,6 +29,7 @@
     "@types/mongoose": "^5.7.28",
     "bcryptjs": "^2.4.3",
     "mongoose": "^5.9.20",
+    "multer-aliyun-oss": "^1.1.0",
     "nestjs-mongoose-crud": "^2.0.0",
     "nestjs-typegoose": "^7.1.28",
     "reflect-metadata": "^0.1.13",

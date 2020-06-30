@@ -21,11 +21,8 @@ export class AppController {
   @Post('avatarUpload')
   @UseInterceptors(FileInterceptor('file'))
   async avatarUpload(@UploadedFile('file') file) {
-    return {
-      code: 1,
-      avatarUrl: `http://localhost:3000/uploads/${file.filename}`,
-      msg: 'ok',
-    };
+    const imgUrl = file.url;
+    return { code: 1, imgUrl, msg: 'ok' };
   }
 
   // 后台管理员登录

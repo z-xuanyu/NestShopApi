@@ -8,10 +8,19 @@ import { TagsModule } from './tags/tags.module';
 import { MembersModule } from './members/members.module';
 import { ReceiptAddressModule } from './receipt-address/receipt-address.module';
 import { CommoditiesModule } from './commodities/commodities.module';
+import MAO = require('multer-aliyun-oss');
 @Module({
   imports: [
     MulterModule.register({
-      dest: 'uploads',
+      storage: MAO({
+        config: {
+          region: 'oss-cn-shenzhen',
+          accessKeyId: 'LTAI4FzDnAmwU3RpTyFtdGsa',
+          accessKeySecret: 'zot5lHfGOzbjHKLYnUNwmzBGSbHLgs',
+          bucket: 'nestshop',
+        },
+      }),
+      // dest: 'uploads',
     }),
     DbModule,
     UsersModule,
