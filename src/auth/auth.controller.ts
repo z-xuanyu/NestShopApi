@@ -8,7 +8,9 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { CurrentUser } from './current-user.decorator';
 import { JwtService } from '@nestjs/jwt';
-import { Member } from '@libs/db/models/member.model';
+import { PortalRegisterDto } from './dto/portalRegister.dto';
+import { Member, MemberDocument } from '@libs/db/models/member.model';
+import { PortalLoginDto } from './dto/portalLogin.dto';
 @Controller('auth')
 @ApiTags('登录')
 export class AuthController {
@@ -47,6 +49,57 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   async user(@CurrentUser() user: UserDocument) {
+    return user;
+  }
+
+  // H5注册
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  @Post('portal/register')
+  @ApiOperation({ summary: 'H5注册' })
+  async portalRegister(@Body() dto: PortalRegisterDto) {
+    const {
+      phone,
+      name,
+      password,
+      avatarImg,
+      gender,
+      email,
+      receiptAddress,
+    } = dto;
+    const user = await this.memberModel.create({
+      phone,
+      password,
+      name,
+      avatarImg,
+      gender,
+      email,
+      receiptAddress,
+    });
+
+    return user;
+  }
+
+  // H5登录
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  @Post('portal/login')
+  @ApiOperation({ summary: 'H5登录' })
+  @UseGuards(AuthGuard('portalLocal'))
+  async portalLogin(
+    @Body() dto: PortalLoginDto,
+    @CurrentUser() user: MemberDocument,
+  ) {
+    return {
+      token: this.jwtService.sign(String(user._id)),
+    };
+  }
+
+  // 获取登录会员信息
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  @Get('member/info')
+  @ApiOperation({ summary: '会员信息' })
+  @UseGuards(AuthGuard('portalJwt'))
+  @ApiBearerAuth()
+  async getMemberInfo(@CurrentUser() user: MemberDocument) {
     return user;
   }
 }
