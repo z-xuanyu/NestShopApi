@@ -1,4 +1,4 @@
-import { prop, ModelOptions, Ref } from '@typegoose/typegoose';
+import { prop, ModelOptions, Ref, arrayProp } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { ReceiptAddress } from './receiptAddress.model';
 
@@ -29,10 +29,8 @@ export class Member {
   phone: string;
 
   @ApiProperty({ title: '会员收货地址' })
-  @prop({
+  @arrayProp({
     ref: 'ReceiptAddress',
-    localField: '_id',
-    foreignField: 'Member',
   })
   receiptAddress: Ref<ReceiptAddress>[];
 }

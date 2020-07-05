@@ -1,10 +1,15 @@
-import { Controller, Get, Query, HttpCode } from '@nestjs/common';
+import { Controller, Get, Query, HttpCode, UseGuards } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { User } from '@libs/db/models/user.model';
 import { Crud } from 'nestjs-mongoose-crud';
-import { ApiTags, ApiOperation, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiPropertyOptional,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { ReturnModelType } from '@typegoose/typegoose';
-// eslint-disable-next-line @typescript-eslint/class-name-casing
+import { AuthGuard } from '@nestjs/passport';
 class getAdminDto {
   @ApiPropertyOptional({ description: '名称' })
   name: string;
@@ -29,12 +34,15 @@ class getAdminDto {
 })
 @Controller('users')
 @ApiTags('后台管理员')
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 export class UsersController {
   constructor(
     @InjectModel(User) private readonly model,
     @InjectModel(User) private readonly UserModel: ReturnModelType<typeof User>,
   ) {}
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Get()
   @ApiOperation({ summary: '管理员列表' })
   async getAdminList(@Query() paramData: getAdminDto) {

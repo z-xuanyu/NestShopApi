@@ -1,4 +1,4 @@
-import { prop, ModelOptions, Ref } from '@typegoose/typegoose';
+import { prop, ModelOptions, Ref, arrayProp } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from './category.model';
 import { Tag } from './tag.model';
@@ -13,13 +13,10 @@ export class Commodity {
   stock: number;
 
   @ApiProperty({ title: '类别' })
-  @prop({
+  @arrayProp({
     ref: 'Category',
-    localField: '_id',
-    foreignField: 'Commodity',
   })
   categories: Ref<Category>[];
-
   @ApiProperty({ title: '折扣价' })
   @prop()
   discountPrice: number;
@@ -29,10 +26,8 @@ export class Commodity {
   price: number;
 
   @ApiProperty({ title: '标签' })
-  @prop({
+  @arrayProp({
     ref: 'Tag',
-    localField: '_id',
-    foreignField: 'Commodity',
   })
   tags: Ref<Tag>[];
 

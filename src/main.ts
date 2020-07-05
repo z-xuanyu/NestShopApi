@@ -14,6 +14,7 @@ async function bootstrap() {
     .setTitle('项目api文档')
     .setDescription('这是个练习项目的api文档')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api-docs', app, document);

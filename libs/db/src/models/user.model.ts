@@ -16,9 +16,9 @@ export class User {
 
   @ApiProperty({ title: '密码', example: '123456' })
   @prop({
-    select: true,
+    select: false,
     get(val) {
-      return;
+      return val;
     },
     set(val) {
       return val ? hashSync(val) : val;
@@ -28,5 +28,5 @@ export class User {
 
   @ApiProperty({ title: '超级管理员' })
   @prop()
-  isSuper: Boolean;
+  isSuper: boolean;
 }

@@ -8,7 +8,9 @@ import { TagsModule } from './tags/tags.module';
 import { MembersModule } from './members/members.module';
 import { ReceiptAddressModule } from './receipt-address/receipt-address.module';
 import { CommoditiesModule } from './commodities/commodities.module';
+import { AuthModule } from './auth/auth.module';
 import MAO = require('multer-aliyun-oss');
+import { CommonModule } from '@app/common';
 @Module({
   imports: [
     MulterModule.register({
@@ -29,6 +31,8 @@ import MAO = require('multer-aliyun-oss');
     MembersModule,
     ReceiptAddressModule,
     CommoditiesModule,
+    AuthModule,
+    CommonModule,
   ],
   controllers: [AppController],
 })
