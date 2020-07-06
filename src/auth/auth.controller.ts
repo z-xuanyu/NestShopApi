@@ -24,11 +24,14 @@ export class AuthController {
   @Post('admin/register')
   @ApiOperation({ summary: '管理员注册' })
   async register(@Body() dto: RegisterDto) {
-    const { username, password } = dto;
+    const { username, password, isSuper, avatarImg, email, status } = dto;
     const user = await this.userModel.create({
       username,
       password,
-      isSuper: false,
+      isSuper,
+      avatarImg,
+      email,
+      status
     });
     return user;
   }

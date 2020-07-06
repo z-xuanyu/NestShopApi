@@ -10,11 +10,23 @@ export type UserDocument = DocumentType<User>;
   },
 })
 export class User {
-  @ApiProperty({ title: '用户名', example: 'admin' })
+  @ApiProperty({ title: '用户名' })
   @prop()
   username: string;
 
-  @ApiProperty({ title: '密码', example: '123456' })
+  @ApiProperty({ title: '头像' })
+  @prop()
+  avatarImg: string;
+
+  @ApiProperty({ title: '邮箱' })
+  @prop()
+  email: string;
+
+  @ApiProperty({ title: '状态', example: 1, description: '1：开启,2：关闭' })
+  @prop({ default: 1 })
+  status: number;
+
+  @ApiProperty({ title: '密码' })
   @prop({
     select: false,
     get(val) {
@@ -27,6 +39,6 @@ export class User {
   password: string;
 
   @ApiProperty({ title: '超级管理员' })
-  @prop()
+  @prop({ default: true })
   isSuper: boolean;
 }

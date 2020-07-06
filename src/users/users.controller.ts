@@ -1,4 +1,12 @@
-import { Controller, Get, Query, HttpCode, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  UseGuards,
+  Put,
+  Body,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { User } from '@libs/db/models/user.model';
 import { Crud } from 'nestjs-mongoose-crud';
@@ -7,6 +15,7 @@ import {
   ApiOperation,
   ApiPropertyOptional,
   ApiBearerAuth,
+  ApiProperty,
 } from '@nestjs/swagger';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { AuthGuard } from '@nestjs/passport';
@@ -14,6 +23,24 @@ class getAdminDto {
   @ApiPropertyOptional({ description: '名称' })
   name: string;
 }
+class statusDto {
+  @ApiProperty({ title: 'ID' })
+  userID: string;
+  @ApiProperty({
+    title: '状态',
+    description: '1:开启,2:禁用',
+    example: 1,
+  })
+  status: number;
+}
+
+class reSetPasswordDto {
+  @ApiProperty({ title: 'ID' })
+  userID: string;
+  @ApiProperty({ title: '新密码' })
+  password: string;
+}
+
 @Crud({
   model: User,
   routes: {
@@ -54,4 +81,27 @@ export class UsersController {
       return await this.UserModel.find().exec();
     }
   }
+
+  @Put('changeStatus')
+  @ApiOperation({ summary: '改变管理员状态' })
+  async changeUserStatus(@Body() statausDto: statusDto) {
+    const { userID } = statausDto;
+    const result = await this.UserModel.findByIdAndUpdate(userID, statausDto);
+    if (result) {
+      return { code: 1, msg: 'succcess' };
+    }
+  }
+
+  @Put('reSetPassword')
+  @ApiOperation({ summary: '重置密码' })
+  async reSetUserPassword(@Body() reSetPasswordDto: reSetPasswordDto) {
+    const { userID } = reSetPasswordDto;
+    const res = await this.UserModel.findByIdAndUpdate(
+      userID,
+      reSetPasswordDto,
+    );
+    if (res) return { code: 1, msg: 'succcess' };
+  }
+
+  
 }
