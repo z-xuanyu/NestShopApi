@@ -11,6 +11,8 @@ import { CommoditiesModule } from './commodities/commodities.module';
 import { AuthModule } from './auth/auth.module';
 import MAO = require('multer-aliyun-oss');
 import { CommonModule } from '@app/common';
+import { UnitModule } from './unit/unit.module';
+import { BannerModule } from './banner/banner.module';
 @Module({
   imports: [
     MulterModule.register({
@@ -33,6 +35,8 @@ import { CommonModule } from '@app/common';
     CommoditiesModule,
     AuthModule,
     CommonModule,
+    UnitModule,
+    BannerModule,
   ],
   controllers: [AppController],
 })

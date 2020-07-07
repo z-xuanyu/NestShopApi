@@ -1,5 +1,6 @@
-import { prop, ModelOptions } from '@typegoose/typegoose';
+import { prop, ModelOptions, Ref } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from './user.model';
 
 @ModelOptions({
   schemaOptions: {
@@ -7,13 +8,18 @@ import { ApiProperty } from '@nestjs/swagger';
   },
 })
 export class ReceiptAddress {
+  // 地址关联会员
+  @ApiProperty({ title: '会员id' })
+  @prop({ ref: 'User' })
+  userID: Ref<User>[];
+
   @ApiProperty({ title: '姓名' })
   @prop()
   name: string;
 
   @ApiProperty({ title: '电话' })
   @prop()
-  phone: string;
+  phone: number;
 
   @ApiProperty({ title: '地址' })
   @prop()
@@ -21,7 +27,7 @@ export class ReceiptAddress {
 
   @ApiProperty({ title: '邮编' })
   @prop()
-  postalCode: string;
+  postalCode: number;
 
   @ApiProperty({ title: '默认' })
   @prop()

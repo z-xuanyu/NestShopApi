@@ -7,8 +7,10 @@ import { Tag } from './models/tag.model';
 import { Member } from './models/member.model';
 import { ReceiptAddress } from './models/receiptAddress.model';
 import { Commodity } from './models/commodity.model';
+import { Unit } from './models/unit.model';
+import { Banner } from './models/banner.model';
 
-const models = TypegooseModule.forFeature([User, Category, Tag, Member,ReceiptAddress,Commodity]);
+const models = TypegooseModule.forFeature([User, Category, Tag, Member,ReceiptAddress,Commodity,Unit,Banner]);
 
 @Global()
 @Module({

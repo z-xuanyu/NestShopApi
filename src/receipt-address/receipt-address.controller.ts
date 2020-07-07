@@ -1,9 +1,24 @@
-import { Controller, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { Controller, UseGuards, Put, Body } from '@nestjs/common';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiProperty,
+} from '@nestjs/swagger';
 import { InjectModel } from 'nestjs-typegoose';
 import { ReceiptAddress } from '@libs/db/models/receiptAddress.model';
 import { Crud } from 'nestjs-mongoose-crud';
 import { AuthGuard } from '@nestjs/passport';
+import { ReturnModelType } from '@typegoose/typegoose';
+
+class setDefaultDto {
+  @ApiProperty({ title: '用户id' })
+  userID: string;
+  @ApiProperty({ title: '地址id' })
+  addressID: string;
+  @ApiProperty({ title: '是否默认' })
+  isDefaule: boolean;
+}
 
 @Crud({
   model: ReceiptAddress,
@@ -27,8 +42,27 @@ import { AuthGuard } from '@nestjs/passport';
 })
 @Controller('receiptAddress')
 @ApiTags('后台会员收货地址')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth()
+// @UseGuards(AuthGuard('jwt'))
+// @ApiBearerAuth()
 export class ReceiptAddressController {
-  constructor(@InjectModel(ReceiptAddress) private readonly model) {}
+  constructor(
+    @InjectModel(ReceiptAddress) private readonly model,
+    @InjectModel(ReceiptAddress)
+    private readonly receiptAddressModel: ReturnModelType<
+      typeof ReceiptAddress
+    >,
+  ) {}
+
+  // 设置为默认收货地址
+  @Put('setDefault')
+  @ApiOperation({ summary: '设置为默认地址' })
+  async setDefaultAddress(@Body() setDefaultDto: setDefaultDto) {
+    const { userID, isDefaule, addressID } = setDefaultDto;
+    return await this.receiptAddressModel
+      .find({
+        userID: { $elemMatch: { $eq: userID } },
+      })
+      .findOneAndUpdate({ _id: addressID }, { isDefaule: isDefaule })
+      .exec();
+  }
 }

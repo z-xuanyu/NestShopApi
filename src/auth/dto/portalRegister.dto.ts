@@ -9,5 +9,4 @@ export class PortalRegisterDto {
   avatarImg: string;
   gender: number;
   email: string;
-  receiptAddress: [];
 }

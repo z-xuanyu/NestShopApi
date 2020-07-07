@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  UseGuards,
-  Put,
-  Body,
-  Param,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, UseGuards, Put, Body, Query } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { Member } from '@libs/db/models/member.model';
 import { Crud } from 'nestjs-mongoose-crud';
@@ -56,8 +48,8 @@ class getMemberListDto {
 })
 @Controller('members')
 @ApiTags('后台会员管理')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth()
+// @UseGuards(AuthGuard('jwt'))
+// @ApiBearerAuth()
 export class MembersController {
   constructor(
     @InjectModel(Member) private readonly model,
@@ -67,8 +59,11 @@ export class MembersController {
 
   @Get()
   @ApiOperation({ summary: '会员列表' })
-  async getMemberList(@Param() getMemberListDto: getMemberListDto) {
+  async getMemberList(@Query() getMemberListDto: getMemberListDto) {
     const { name, pageSize, pageNo } = getMemberListDto;
+    const totalCountData = await this.memberModel.find()  //总条数
+
+    // 名称查询
     if (name) {
       const data = await this.memberModel
         .find({ name: { $regex: name } })
@@ -80,22 +75,22 @@ export class MembersController {
         pageNo: pageNo,
         pageSize: pageSize,
         data: data,
-        totalCount: data.length,
-        totalPage: data.length / pageSize,
+        totalCount: totalCountData.length,
+        totalPage: totalCountData.length / pageSize < 1 ? 1 : totalCountData.length / pageSize,
       };
     } else {
       const data = await this.memberModel
         .find()
         .populate('receiptAddress')
-        .limit(pageSize || 10)
-        .skip((pageNo - 1) * pageSize)
+        .limit(Number(pageSize))
+        .skip(Number((pageNo - 1) * pageSize))
         .exec();
       return {
         pageNo: pageNo,
         pageSize: pageSize,
         data: data,
-        totalCount: data.length,
-        totalPage: data.length / pageSize,
+        totalCount: totalCountData.length,
+        totalPage: totalCountData.length / pageSize < 1 ? 1 : totalCountData.length / pageSize,
       };
     }
   }

@@ -66,8 +66,7 @@ export class AuthController {
       password,
       avatarImg,
       gender,
-      email,
-      receiptAddress,
+      email
     } = dto;
     const user = await this.memberModel.create({
       phone,
@@ -75,8 +74,7 @@ export class AuthController {
       name,
       avatarImg,
       gender,
-      email,
-      receiptAddress,
+      email
     });
 
     return user;
