@@ -18,7 +18,6 @@ export class PortalLocalStrategy extends PassportStrategy(
       passwordField: 'password',
     } as IStrategyOptions);
   }
-
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async validate(phone: string, password: string) {
     const user = await this.memberModel.findOne({ phone }).select('+password');

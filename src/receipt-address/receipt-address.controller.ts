@@ -11,6 +11,7 @@ import { Crud } from 'nestjs-mongoose-crud';
 import { AuthGuard } from '@nestjs/passport';
 import { ReturnModelType } from '@typegoose/typegoose';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class setDefaultDto {
   @ApiProperty({ title: '用户id' })
   userID: string;
@@ -42,8 +43,8 @@ class setDefaultDto {
 })
 @Controller('receiptAddress')
 @ApiTags('后台会员收货地址')
-// @UseGuards(AuthGuard('jwt'))
-// @ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 export class ReceiptAddressController {
   constructor(
     @InjectModel(ReceiptAddress) private readonly model,
@@ -54,6 +55,7 @@ export class ReceiptAddressController {
   ) {}
 
   // 设置为默认收货地址
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Put('setDefault')
   @ApiOperation({ summary: '设置为默认地址' })
   async setDefaultAddress(@Body() setDefaultDto: setDefaultDto) {

@@ -1,8 +1,8 @@
 {
   "name": "nest-shop-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "nestjs-shop",
+  "author": "xuanyu<969718197@qq.com>",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

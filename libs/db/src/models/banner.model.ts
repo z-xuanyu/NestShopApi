@@ -1,7 +1,5 @@
 import { prop, Ref } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { Commodity } from './commodity.model';
-
 export class Banner {
   @ApiProperty({ title: 'banner图片' })
   @prop()
@@ -20,6 +18,6 @@ export class Banner {
   targetUrl: string;
 
   @ApiProperty({ title: '商品id' })
-  @prop({ ref: 'Commodity' })
-  commodityID: Ref<Commodity>;
+  @prop()
+  commodityID: string;
 }
