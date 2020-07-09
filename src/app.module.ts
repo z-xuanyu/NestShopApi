@@ -13,6 +13,9 @@ import MAO = require('multer-aliyun-oss');
 import { CommonModule } from '@app/common';
 import { UnitModule } from './unit/unit.module';
 import { BannerModule } from './banner/banner.module';
+import { OrderModule } from './order/order.module';
+import { ProtalHomeModule } from './protal-home/protal-home.module';
+import { CartsModule } from './carts/carts.module';
 @Module({
   imports: [
     MulterModule.register({
@@ -37,6 +40,9 @@ import { BannerModule } from './banner/banner.module';
     CommonModule,
     UnitModule,
     BannerModule,
+    OrderModule,
+    ProtalHomeModule,
+    CartsModule,
   ],
   controllers: [AppController],
 })

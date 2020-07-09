@@ -1,9 +1,24 @@
-import { Controller, UseGuards } from '@nestjs/common';
+import { Controller, UseGuards, Get, Query } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { Tag } from '@libs/db/models/tag.model';
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiPropertyOptional,
+} from '@nestjs/swagger';
 import { Crud } from 'nestjs-mongoose-crud';
 import { AuthGuard } from '@nestjs/passport';
+import { ReturnModelType } from '@typegoose/typegoose';
+
+class tagListDto {
+  @ApiPropertyOptional({ title: '名称' })
+  name: string;
+  @ApiPropertyOptional({ title: '一页多少条', example: 10 })
+  pageSize: number;
+  @ApiPropertyOptional({ title: '当前页数', example: 1 })
+  pageNo: number;
+}
 
 @Crud({
   model: Tag,
@@ -11,9 +26,7 @@ import { AuthGuard } from '@nestjs/passport';
     create: {
       decorators: [ApiOperation({ summary: '添加标签' })],
     },
-    find: {
-      decorators: [ApiOperation({ summary: '标签列表' })],
-    },
+    find: false,
     findOne: {
       decorators: [ApiOperation({ summary: '标签信息' })],
     },
@@ -27,8 +40,52 @@ import { AuthGuard } from '@nestjs/passport';
 })
 @Controller('tags')
 @ApiTags('后台标签管理')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth()
+// @UseGuards(AuthGuard('jwt'))
+// @ApiBearerAuth()
 export class TagsController {
-  constructor(@InjectModel(Tag) private readonly model) {}
+  constructor(
+    @InjectModel(Tag) private readonly model,
+    @InjectModel(Tag) private readonly tagModel: ReturnModelType<typeof Tag>,
+  ) {}
+
+  @ApiOperation({ summary: '标签列表' })
+  @Get('list')
+  async tagList(@Query() tagListDto: tagListDto) {
+    const { name, pageSize, pageNo } = tagListDto;
+    const totalCountData = await this.tagModel.find(); //总条数
+    // 名称查询
+    if (name) {
+      const data = await this.tagModel
+        .find({ name: { $regex: name } })
+        .limit(Number(pageSize || 10))
+        .skip(Number((pageNo - 1) * pageSize))
+        .exec();
+      return {
+        pageNo: pageNo,
+        pageSize: pageSize,
+        data: data,
+        totalCount: totalCountData.length,
+        totalPage:
+          totalCountData.length / pageSize < 1
+            ? 1
+            : totalCountData.length / pageSize,
+      };
+    } else {
+      const data = await this.tagModel
+        .find()
+        .limit(Number(pageSize || 10))
+        .skip(Number((pageNo - 1) * pageSize))
+        .exec();
+      return {
+        pageNo: pageNo,
+        pageSize: pageSize,
+        data: data,
+        totalCount: totalCountData.length,
+        totalPage:
+          totalCountData.length / pageSize < 1
+            ? 1
+            : totalCountData.length / pageSize,
+      };
+    }
+  }
 }

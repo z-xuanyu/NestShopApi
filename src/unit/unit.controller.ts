@@ -47,7 +47,7 @@ export class UnitController {
   ) {}
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @ApiOperation({ summary: '单位名称列表' })
-  @Get()
+  @Get('list')
   async getUnitList(@Query() unitListDto: unitListDto) {
     const { name, pageSize, pageNo } = unitListDto;
     const totalCountData = await this.unitModel.find(); //总条数
@@ -56,8 +56,8 @@ export class UnitController {
     if (name) {
       const data = await this.unitModel
         .find({ name: { $regex: name } })
-        .limit(pageSize || 10)
-        .skip((pageNo - 1) * pageSize)
+        .limit(Number(pageSize || 10))
+        .skip(Number((pageNo - 1) * pageSize))
         .exec();
       return {
         pageNo: pageNo,

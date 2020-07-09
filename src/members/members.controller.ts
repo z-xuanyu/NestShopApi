@@ -9,7 +9,7 @@ import {
   ApiProperty,
   ApiPropertyOptional,
 } from '@nestjs/swagger';
-import { ReturnModelType, prop } from '@typegoose/typegoose';
+import { ReturnModelType } from '@typegoose/typegoose';
 import { AuthGuard } from '@nestjs/passport';
 
 class resetMemberPasswordDto {
@@ -48,8 +48,8 @@ class getMemberListDto {
 })
 @Controller('members')
 @ApiTags('后台会员管理')
-// @UseGuards(AuthGuard('jwt'))
-// @ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 export class MembersController {
   constructor(
     @InjectModel(Member) private readonly model,
@@ -61,28 +61,14 @@ export class MembersController {
   @ApiOperation({ summary: '会员列表' })
   async getMemberList(@Query() getMemberListDto: getMemberListDto) {
     const { name, pageSize, pageNo } = getMemberListDto;
-    const totalCountData = await this.memberModel.find()  //总条数
+    const totalCountData = await this.memberModel.find(); //总条数
 
     // 名称查询
     if (name) {
       const data = await this.memberModel
         .find({ name: { $regex: name } })
         .populate('receiptAddress')
-        .limit(pageSize || 10)
-        .skip((pageNo - 1) * pageSize)
-        .exec();
-      return {
-        pageNo: pageNo,
-        pageSize: pageSize,
-        data: data,
-        totalCount: totalCountData.length,
-        totalPage: totalCountData.length / pageSize < 1 ? 1 : totalCountData.length / pageSize,
-      };
-    } else {
-      const data = await this.memberModel
-        .find()
-        .populate('receiptAddress')
-        .limit(Number(pageSize))
+        .limit(Number(pageSize || 10))
         .skip(Number((pageNo - 1) * pageSize))
         .exec();
       return {
@@ -90,7 +76,27 @@ export class MembersController {
         pageSize: pageSize,
         data: data,
         totalCount: totalCountData.length,
-        totalPage: totalCountData.length / pageSize < 1 ? 1 : totalCountData.length / pageSize,
+        totalPage:
+          totalCountData.length / pageSize < 1
+            ? 1
+            : totalCountData.length / pageSize,
+      };
+    } else {
+      const data = await this.memberModel
+        .find()
+        .populate('receiptAddress')
+        .limit(Number(pageSize || 10))
+        .skip(Number((pageNo - 1) * pageSize))
+        .exec();
+      return {
+        pageNo: pageNo,
+        pageSize: pageSize,
+        data: data,
+        totalCount: totalCountData.length,
+        totalPage:
+          totalCountData.length / pageSize < 1
+            ? 1
+            : totalCountData.length / pageSize,
       };
     }
   }

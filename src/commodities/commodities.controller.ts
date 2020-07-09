@@ -31,5 +31,5 @@ import { AuthGuard } from '@nestjs/passport';
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class CommoditiesController {
-  constructor(@InjectModel(Commodity) private readonly model) {}
+  constructor(@InjectModel(Commodity) private readonly model,) {}
 }

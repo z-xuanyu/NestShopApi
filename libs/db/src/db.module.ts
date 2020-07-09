@@ -9,8 +9,22 @@ import { ReceiptAddress } from './models/receiptAddress.model';
 import { Commodity } from './models/commodity.model';
 import { Unit } from './models/unit.model';
 import { Banner } from './models/banner.model';
+import { Order } from './models/order.model';
+import { Cart } from './models/protal.cart.model';
 
-const models = TypegooseModule.forFeature([User, Category, Tag, Member,ReceiptAddress,Commodity,Unit,Banner]);
+// 导入所有的Schema模块
+const models = TypegooseModule.forFeature([
+  User,
+  Category,
+  Tag,
+  Member,
+  ReceiptAddress,
+  Commodity,
+  Unit,
+  Banner,
+  Order,
+  Cart
+]);
 
 @Global()
 @Module({
