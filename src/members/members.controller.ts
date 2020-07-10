@@ -48,8 +48,8 @@ class getMemberListDto {
 })
 @Controller('members')
 @ApiTags('后台会员管理')
-@UseGuards(AuthGuard('jwt'))
-@ApiBearerAuth()
+// @UseGuards(AuthGuard('jwt'))
+// @ApiBearerAuth()
 export class MembersController {
   constructor(
     @InjectModel(Member) private readonly model,
