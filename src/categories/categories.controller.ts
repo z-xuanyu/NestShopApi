@@ -7,6 +7,7 @@ import {
   ApiOperation,
   ApiBearerAuth,
   ApiPropertyOptional,
+  ApiResponse,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { ReturnModelType } from '@typegoose/typegoose';
@@ -49,6 +50,7 @@ export class CategoriesController {
   ) {}
 
   @ApiOperation({ summary: '分类列表' })
+  @ApiResponse({ status: 401, description: '请填写token！' })
   @Get('list')
   async categoryList(@Query() categoryListDto: categoryListDto) {
     const { name, pageSize, pageNo } = categoryListDto;

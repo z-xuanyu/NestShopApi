@@ -35,8 +35,8 @@ export class AppController {
   // 管理端商品多图上传
   @ApiOperation({summary:'商品多图上传'})
   @Post('multiple/upload')
-  // @UseGuards(AuthGuard('jwt'))
-  // @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
   @UseInterceptors(FileInterceptor('files'))
   async multipleUpload(@UploadedFiles() files){
     return files

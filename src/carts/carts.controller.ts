@@ -5,7 +5,19 @@ import { ReturnModelType } from '@typegoose/typegoose';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { addCartDto, getCartInfoDto } from './dto/carts.dto';
 import { Commodity } from '@libs/db/models/commodity.model';
-
+import { Crud } from 'nestjs-mongoose-crud';
+@Crud({
+  model: Cart,
+  routes: {
+    find: false,
+    update: false,
+    create: false,
+    findOne: false,
+    delete: {
+      decorators: [ApiOperation({ summary: '删除购物商品' })],
+    },
+  },
+})
 @Controller('carts')
 @ApiTags('客户端用户购物车')
 export class CartsController {
@@ -13,6 +25,7 @@ export class CartsController {
     @InjectModel(Cart) private readonly cartModel: ReturnModelType<typeof Cart>,
     @InjectModel(Commodity)
     private readonly commodityModel: ReturnModelType<typeof Commodity>,
+    @InjectModel(Cart) private readonly model,
   ) {}
 
   @Post('addCart')
@@ -49,14 +62,16 @@ export class CartsController {
   async getCartInfo(@Query() getCartInfoDto: getCartInfoDto) {
     const { userID } = getCartInfoDto;
     // 查询出用户的购物车信息
-    const userCartInfo = await this.cartModel.find({ userID: userID }).populate('commodityID');
+    const userCartInfo = await this.cartModel
+      .find({ userID: userID })
+      .populate('commodityID');
 
-    return userCartInfo.map(v=>{
-     return {
-        quantity:v.quantity,
-        commodityItem:v.commodityID,
-        _id:v._id
-      }
-    })
+    return userCartInfo.map((v) => {
+      return {
+        quantity: v.quantity,
+        commodityItem: v.commodityID,
+        _id: v._id,
+      };
+    });
   }
 }

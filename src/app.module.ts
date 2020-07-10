@@ -16,6 +16,7 @@ import { BannerModule } from './banner/banner.module';
 import { OrderModule } from './order/order.module';
 import { ProtalHomeModule } from './protal-home/protal-home.module';
 import { CartsModule } from './carts/carts.module';
+import { PortalOrderModule } from './portal-order/portal-order.module';
 @Module({
   imports: [
     MulterModule.register({
@@ -43,6 +44,7 @@ import { CartsModule } from './carts/carts.module';
     OrderModule,
     ProtalHomeModule,
     CartsModule,
+    PortalOrderModule,
   ],
   controllers: [AppController],
 })

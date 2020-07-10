@@ -11,6 +11,7 @@ import { Unit } from './models/unit.model';
 import { Banner } from './models/banner.model';
 import { Order } from './models/order.model';
 import { Cart } from './models/protal.cart.model';
+import { PortalOrder } from './models/portal.order.model';
 
 // 导入所有的Schema模块
 const models = TypegooseModule.forFeature([
@@ -23,7 +24,8 @@ const models = TypegooseModule.forFeature([
   Unit,
   Banner,
   Order,
-  Cart
+  Cart,
+  PortalOrder
 ]);
 
 @Global()
