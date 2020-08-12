@@ -42,7 +42,7 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   async login(@Body() dto: LoginDto, @CurrentUser() user: UserDocument) {
     return {
-      code:'20000',
+      code:20000,
       token: this.jwtService.sign(String(user._id)),
       message:'登录成功'
     };
