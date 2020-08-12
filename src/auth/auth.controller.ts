@@ -55,15 +55,18 @@ export class AuthController {
   @ApiBearerAuth()
   async user(@CurrentUser() user: UserDocument) {
     return {
-      name: user.username,
-      avatar:
-        user.avatarImg ||
-        'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-      roles: [user.isSuper ? 'admin' : 'editor'],
-      email: user.email,
-      _id: user._id,
-      status: user.status,
-    };
+      code: 20000,
+      data: {
+        name: user.username,
+        avatar:
+          user.avatarImg ||
+          'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+        roles: [user.isSuper ? 'admin' : 'editor'],
+        email: user.email,
+        _id: user._id,
+        status: user.status,
+      },
+    }
   }
 
   // H5注册
