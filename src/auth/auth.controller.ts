@@ -31,7 +31,7 @@ export class AuthController {
       isSuper,
       avatarImg,
       email,
-      status
+      status,
     });
     return user;
   }
@@ -42,9 +42,9 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   async login(@Body() dto: LoginDto, @CurrentUser() user: UserDocument) {
     return {
-      code:20000,
+      code: 20000,
       token: this.jwtService.sign(String(user._id)),
-      message:'登录成功'
+      message: '登录成功',
     };
   }
 
@@ -54,7 +54,16 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   async user(@CurrentUser() user: UserDocument) {
-    return user;
+    return {
+      name: user.username,
+      avatar:
+        user.avatarImg ||
+        'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+      roles: [user.isSuper ? 'admin' : 'editor'],
+      email: user.email,
+      _id: user._id,
+      status: user.status,
+    };
   }
 
   // H5注册
@@ -62,21 +71,14 @@ export class AuthController {
   @Post('portal/register')
   @ApiOperation({ summary: 'H5注册' })
   async portalRegister(@Body() dto: PortalRegisterDto) {
-    const {
-      phone,
-      name,
-      password,
-      avatarImg,
-      gender,
-      email
-    } = dto;
+    const { phone, name, password, avatarImg, gender, email } = dto;
     const user = await this.memberModel.create({
       phone,
       password,
       name,
       avatarImg,
       gender,
-      email
+      email,
     });
 
     return user;
