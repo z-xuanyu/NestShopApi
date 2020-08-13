@@ -18,7 +18,7 @@ export class AppController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   getHello(): string {
-    return 'Hello World!';
+    return 'Hello World!---xuanyu<969718197@qq.com>';
   }
 
   // 管理端头像上传
@@ -29,19 +29,18 @@ export class AppController {
   @UseInterceptors(FileInterceptor('file'))
   async avatarUpload(@UploadedFile('file') file) {
     const imgUrl = file.url;
-    return { code: 1, imgUrl, msg: 'ok' };
+    return { code: 20000, data: { imgUrl, message: 'ok' } };
   }
 
   // 管理端商品多图上传
-  @ApiOperation({summary:'商品多图上传'})
+  @ApiOperation({ summary: '商品多图上传' })
   @Post('multiple/upload')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @UseInterceptors(FileInterceptor('files'))
-  async multipleUpload(@UploadedFiles() files){
-    return files
+  async multipleUpload(@UploadedFiles() files) {
+    return files;
   }
-
 
   // H5头像上传
   @ApiOperation({ summary: 'H5端头像上传' })
