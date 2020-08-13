@@ -19,7 +19,7 @@ export class User {
   avatar: string;
 
   @ApiProperty({ title: '邮箱' })
-  @prop({ refType: true })
+  @prop({ required: true })
   email: string;
 
   @ApiProperty({ title: '状态', example: 1, description: '1：开启,2：关闭' })
