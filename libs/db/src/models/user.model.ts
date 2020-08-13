@@ -11,7 +11,7 @@ export type UserDocument = DocumentType<User>;
 })
 export class User {
   @ApiProperty({ title: '用户名' })
-  @prop()
+  @prop({ required: true })
   username: string;
 
   @ApiProperty({ title: '头像' })
@@ -19,7 +19,7 @@ export class User {
   avatar: string;
 
   @ApiProperty({ title: '邮箱' })
-  @prop()
+  @prop({ refType: true })
   email: string;
 
   @ApiProperty({ title: '状态', example: 1, description: '1：开启,2：关闭' })
@@ -29,6 +29,7 @@ export class User {
   @ApiProperty({ title: '密码' })
   @prop({
     select: false,
+    required: true,
     get(val) {
       return val;
     },
