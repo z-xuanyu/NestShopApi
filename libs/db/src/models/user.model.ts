@@ -39,6 +39,6 @@ export class User {
   password: string;
 
   @ApiProperty({ title: '超级管理员' })
-  @prop({ default: true })
+  @prop({ default: false })
   isSuper: boolean;
 }
