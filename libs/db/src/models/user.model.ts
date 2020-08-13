@@ -29,7 +29,6 @@ export class User {
   @ApiProperty({ title: '密码' })
   @prop({
     select: false,
-    required: true,
     get(val) {
       return val;
     },
