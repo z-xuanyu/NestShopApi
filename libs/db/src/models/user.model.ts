@@ -16,7 +16,7 @@ export class User {
 
   @ApiProperty({ title: '头像' })
   @prop()
-  avatarImg: string;
+  avatar: string;
 
   @ApiProperty({ title: '邮箱' })
   @prop()
