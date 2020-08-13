@@ -24,12 +24,12 @@ export class AuthController {
   @Post('admin/register')
   @ApiOperation({ summary: '管理员注册' })
   async register(@Body() dto: RegisterDto) {
-    const { username, password, isSuper, avatarImg, email, status } = dto;
+    const { username, password, isSuper, avatar, email, status } = dto;
     const user = await this.userModel.create({
       username,
       password,
       isSuper,
-      avatarImg,
+      avatar,
       email,
       status,
     });
@@ -59,7 +59,7 @@ export class AuthController {
       data: {
         name: user.username,
         avatar:
-          user.avatarImg ||
+          user.avatar ||
           'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
         roles: [user.isSuper ? 'admin' : 'editor'],
         email: user.email,

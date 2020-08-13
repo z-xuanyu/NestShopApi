@@ -7,7 +7,7 @@ export class RegisterDto {
   email: string;
   @ApiProperty()
   password: string;
-  avatarImg: string;
+  avatar: string;
   status: number;
   isSuper: boolean;
 }
