@@ -29,7 +29,7 @@ export class AppController {
   @UseInterceptors(FileInterceptor('file'))
   async avatarUpload(@UploadedFile('file') file) {
     const imgUrl = file.url;
-    return { code: 20000, data: { imgUrl, message: 'ok' } };
+    return { code: 20000, url: imgUrl, message: 'ok' };
   }
 
   // 管理端商品多图上传
