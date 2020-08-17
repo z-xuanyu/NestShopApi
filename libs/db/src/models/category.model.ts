@@ -18,4 +18,8 @@ export class Category {
   })
   @prop()
   pic: string;
+
+  @ApiProperty({ title: '类别排序', description: '整数数字类型' })
+  @prop({ default: 1 })
+  sort: number;
 }
