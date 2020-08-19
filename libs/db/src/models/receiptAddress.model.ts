@@ -11,7 +11,7 @@ export class ReceiptAddress {
   // 地址关联会员
   @ApiProperty({ title: '会员id' })
   @prop({ ref: 'User' })
-  userID: Ref<User>[];
+  userID: Ref<User>;
 
   @ApiProperty({ title: '姓名' })
   @prop()
@@ -19,7 +19,7 @@ export class ReceiptAddress {
 
   @ApiProperty({ title: '电话' })
   @prop()
-  phone: number;
+  phone: string;
 
   @ApiProperty({ title: '地址' })
   @prop()
@@ -27,7 +27,7 @@ export class ReceiptAddress {
 
   @ApiProperty({ title: '邮编' })
   @prop()
-  postalCode: number;
+  postalCode: string;
 
   @ApiProperty({ title: '默认' })
   @prop()

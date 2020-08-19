@@ -48,8 +48,8 @@ class getMemberListDto {
 })
 @Controller('members')
 @ApiTags('后台会员管理')
-// @UseGuards(AuthGuard('jwt'))
-// @ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 export class MembersController {
   constructor(
     @InjectModel(Member) private readonly model,
@@ -110,6 +110,6 @@ export class MembersController {
     const res = await this.memberModel.findByIdAndUpdate(memberID, {
       password: password,
     });
-    if (res) return { code: 1, msg: 'success' };
+    if (res) return { code: 20000, msg: 'success' };
   }
 }

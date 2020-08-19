@@ -59,12 +59,13 @@ export class ReceiptAddressController {
   @Put('setDefault')
   @ApiOperation({ summary: '设置为默认地址' })
   async setDefaultAddress(@Body() setDefaultDto: setDefaultDto) {
-    const { userID, isDefaule, addressID } = setDefaultDto;
-    return await this.receiptAddressModel
-      .find({
-        userID: { $elemMatch: { $eq: userID } },
-      })
-      .findOneAndUpdate({ _id: addressID }, { isDefaule: isDefaule })
-      .exec();
+    // const { userID, isDefaule, addressID } = setDefaultDto;
+    // return await this.receiptAddressModel
+    //   .find({
+    //     userID: { $elemMatch: { $eq: userID } },
+    //   })
+    //   .findOneAndUpdate({ _id: addressID }, { isDefaule: isDefaule })
+    //   .exec();
+    return{code:'1'}
   }
 }
