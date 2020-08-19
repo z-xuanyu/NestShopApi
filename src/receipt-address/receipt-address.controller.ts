@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Put, Body } from '@nestjs/common';
+import { Controller, UseGuards, Put, Body, Get, Query, HttpException, HttpStatus } from '@nestjs/common';
 import {
   ApiTags,
   ApiBearerAuth,
@@ -21,6 +21,10 @@ class setDefaultDto {
   isDefaule: boolean;
 }
 
+class MemberAddressDto {
+  @ApiProperty({ title: '会员ID' })
+  userID: string;
+}
 @Crud({
   model: ReceiptAddress,
   routes: {
@@ -28,7 +32,7 @@ class setDefaultDto {
       decorators: [ApiOperation({ summary: '添加收货地址' })],
     },
     find: {
-      decorators: [ApiOperation({ summary: '收货地址列表' })],
+      decorators: [ApiOperation({ summary: '全部会员收货地址列表' })],
     },
     findOne: {
       decorators: [ApiOperation({ summary: '收货地址详细信息' })],
@@ -66,6 +70,18 @@ export class ReceiptAddressController {
     //   })
     //   .findOneAndUpdate({ _id: addressID }, { isDefaule: isDefaule })
     //   .exec();
-    return{code:'1'}
+    return { code: '1' };
+  }
+
+  @Get('list')
+  @ApiOperation({ summary: '会员收货地址列表' })
+  async getMemberAddressList(@Query() MemberAddressDto: MemberAddressDto) {
+    const { userID } = MemberAddressDto;
+    const res = await this.receiptAddressModel.find({ userID:userID });
+    return {
+      code: 20000,
+      data: res,
+      message: 'ok',
+    };
   }
 }
