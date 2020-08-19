@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Query } from '@nestjs/common';
+import { Controller, UseGuards, Get, Query, Put } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { Tag } from '@libs/db/models/tag.model';
 import {
@@ -11,6 +11,7 @@ import { Crud } from 'nestjs-mongoose-crud';
 import { AuthGuard } from '@nestjs/passport';
 import { ReturnModelType } from '@typegoose/typegoose';
 
+// 标签列表Dto
 class tagListDto {
   @ApiPropertyOptional({ title: '名称' })
   name: string;
@@ -18,6 +19,14 @@ class tagListDto {
   pageSize: number;
   @ApiPropertyOptional({ title: '当前页数', example: 1 })
   pageNo: number;
+}
+// 标签改变状态Dto
+class tagChangeDto {
+  @ApiPropertyOptional({ title: '标题ID' })
+  tagID: string;
+
+  @ApiPropertyOptional({ title: '状态' })
+  status: boolean;
 }
 
 @Crud({
@@ -40,8 +49,8 @@ class tagListDto {
 })
 @Controller('tags')
 @ApiTags('后台标签管理')
-// @UseGuards(AuthGuard('jwt'))
-// @ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 export class TagsController {
   constructor(
     @InjectModel(Tag) private readonly model,
@@ -87,5 +96,17 @@ export class TagsController {
             : totalCountData.length / pageSize,
       };
     }
+  }
+
+  @ApiOperation({ summary: '改变状态' })
+  @Put('changeStatus')
+  async changeStatus(@Query() tagChangeDto: tagChangeDto) {
+    const { tagID, status } = tagChangeDto;
+
+    await this.tagModel.findByIdAndUpdate(tagID, { status: status });
+    return {
+      code: 20000,
+      message: '成功',
+    };
   }
 }

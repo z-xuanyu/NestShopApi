@@ -10,4 +10,8 @@ export class Tag {
   @ApiProperty({ title: '标签名', example: '标签一' })
   @prop()
   name: string;
+
+  @ApiProperty({title:'状态',example:true})
+  @prop()
+  status:boolean
 }
