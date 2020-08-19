@@ -57,7 +57,7 @@ export class MembersController {
     private readonly memberModel: ReturnModelType<typeof Member>,
   ) {}
 
-  @Get()
+  @Get('list')
   @ApiOperation({ summary: '会员列表' })
   async getMemberList(@Query() getMemberListDto: getMemberListDto) {
     const { name, pageSize, pageNo } = getMemberListDto;
