@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Query, Put } from '@nestjs/common';
+import { Controller, UseGuards, Get, Query } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { Tag } from '@libs/db/models/tag.model';
 import {
@@ -99,7 +99,7 @@ export class TagsController {
   }
 
   @ApiOperation({ summary: '改变状态' })
-  @Put('changeStatus')
+  @Get('changeStatus')
   async changeStatus(@Query() tagChangeDto: tagChangeDto) {
     const { tagID, status } = tagChangeDto;
 
