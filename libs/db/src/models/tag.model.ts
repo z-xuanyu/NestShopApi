@@ -11,7 +11,7 @@ export class Tag {
   @prop()
   name: string;
 
-  @ApiProperty({title:'状态',example:true})
-  @prop()
-  status:boolean
+  @ApiProperty({ title: '状态', example: true })
+  @prop({ default: true })
+  status: boolean;
 }

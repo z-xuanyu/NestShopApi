@@ -106,7 +106,7 @@ export class TagsController {
     await this.tagModel.findByIdAndUpdate(tagID, { status: status });
     return {
       code: 20000,
-      message: '成功',
+      message: '成功'
     };
   }
 }
