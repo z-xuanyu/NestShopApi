@@ -1,7 +1,8 @@
-import { prop, ModelOptions, Ref, arrayProp } from '@typegoose/typegoose';
+import { prop, Ref } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from './category.model';
 import { Tag } from './tag.model';
+import { Unit } from './unit.model';
 
 export class Commodity {
   @ApiProperty({ title: '名称' })
@@ -13,10 +14,10 @@ export class Commodity {
   stock: number;
 
   @ApiProperty({ title: '类别' })
-  @arrayProp({
+  @prop({
     ref: 'Category',
   })
-  categories: Ref<Category>[];
+  categories: Ref<Category>;
   @ApiProperty({ title: '折扣价' })
   @prop()
   discountPrice: number;
@@ -26,24 +27,38 @@ export class Commodity {
   price: number;
 
   @ApiProperty({ title: '标签' })
-  @arrayProp({
+  @prop({
     ref: 'Tag',
   })
   tags: Ref<Tag>[];
 
+  @ApiProperty({ title: '商品单位' })
+  @prop({
+    ref: 'Unit',
+  })
+  unit: Ref<Unit>;
+
   @ApiProperty({ title: '推荐' })
-  @prop()
+  @prop({ default: false })
   isRecommend: boolean;
 
+  @ApiProperty({ title: '新品' })
+  @prop({ default: true })
+  isNew: boolean;
+
   @ApiProperty({ title: '状态' })
-  @prop()
+  @prop({ default: 1 })
   status: number;
 
   @ApiProperty({ title: '描述' })
   @prop()
-  describe: string;
+  desc: string;
 
-  @ApiProperty({ title: '商品图片' })
+  @ApiProperty({ title: '商品详情图片' })
   @prop()
-  imgPath: string[];
+  imgPathList: string[];
+
+  @ApiProperty({ title: '商品轮播图' })
+  @prop()
+  bannerPathList: string[];
 }
