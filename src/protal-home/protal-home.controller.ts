@@ -95,11 +95,11 @@ export class ProtalHomeController {
 
     try {
       const totalCountData = await this.commodityModel.find({
-        categories: { $elemMatch: { $eq: categoryID } },
+        categories: categoryID,
       });
       const categoryCommodityList = await this.commodityModel
         .find({
-          categories: { $elemMatch: { $eq: categoryID } },
+          categories: categoryID,
         })
         .limit(Number(pageSize || 10))
         .skip(Number((pageNo - 1) * pageSize))

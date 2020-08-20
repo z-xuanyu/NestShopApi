@@ -44,7 +44,7 @@ export class Commodity {
 
   @ApiProperty({ title: '新品' })
   @prop({ default: true })
-  isNew: boolean;
+  newest: boolean;
 
   @ApiProperty({ title: '状态' })
   @prop({ default: 1 })
