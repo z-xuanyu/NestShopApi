@@ -1,4 +1,13 @@
-import { Controller, UseGuards, Put, Body, Get, Query, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  UseGuards,
+  Put,
+  Body,
+  Get,
+  Query,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import {
   ApiTags,
   ApiBearerAuth,
@@ -10,6 +19,7 @@ import { ReceiptAddress } from '@libs/db/models/receiptAddress.model';
 import { Crud } from 'nestjs-mongoose-crud';
 import { AuthGuard } from '@nestjs/passport';
 import { ReturnModelType } from '@typegoose/typegoose';
+import { async } from 'rxjs/internal/scheduler/async';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class setDefaultDto {
@@ -63,21 +73,33 @@ export class ReceiptAddressController {
   @Put('setDefault')
   @ApiOperation({ summary: '设置为默认地址' })
   async setDefaultAddress(@Body() setDefaultDto: setDefaultDto) {
-    // const { userID, isDefaule, addressID } = setDefaultDto;
-    // return await this.receiptAddressModel
-    //   .find({
-    //     userID: { $elemMatch: { $eq: userID } },
-    //   })
-    //   .findOneAndUpdate({ _id: addressID }, { isDefaule: isDefaule })
-    //   .exec();
-    return { code: '1' };
+    const { userID, isDefaule, addressID } = setDefaultDto;
+    await this.receiptAddressModel.findByIdAndUpdate(
+      { _id: addressID },
+      { isDefaule: isDefaule },
+    );
+    const addressArr = await this.receiptAddressModel.find({ userID });
+    const otherAddress = addressArr.filter(
+      (item) => String(item._id) !== String(addressID),
+    );
+    otherAddress.forEach(async (item) => {
+      await this.receiptAddressModel.findByIdAndUpdate(
+        { _id: item._id },
+        { isDefaule: !isDefaule },
+      );
+    });
+    return {
+      code: 20000,
+      message: 'ok',
+      data: await this.receiptAddressModel.find({}),
+    };
   }
 
   @Get('list')
   @ApiOperation({ summary: '会员收货地址列表' })
   async getMemberAddressList(@Query() MemberAddressDto: MemberAddressDto) {
     const { userID } = MemberAddressDto;
-    const res = await this.receiptAddressModel.find({ userID:userID });
+    const res = await this.receiptAddressModel.find({ userID: userID });
     return {
       code: 20000,
       data: res,
