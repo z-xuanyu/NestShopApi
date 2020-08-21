@@ -33,7 +33,7 @@ export class ProtalHomeController {
       const categoryList = await this.categoryModel.find();
       //  获取推荐商品
       const hotCommodityList = await this.commodityModel.find({
-        isRecommend: true,
+        isRecommend: 1,
       });
 
       // 获取6条最新的商品信息
