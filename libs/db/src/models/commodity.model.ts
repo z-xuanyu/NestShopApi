@@ -39,12 +39,12 @@ export class Commodity {
   unit: Ref<Unit>;
 
   @ApiProperty({ title: '推荐' })
-  @prop({ default: false })
-  isRecommend: boolean;
+  @prop({ default: 2 })
+  isRecommend:number;
 
   @ApiProperty({ title: '新品' })
-  @prop({ default: true })
-  isNewest: boolean;
+  @prop({ default: 1 })
+  isNewest: number;
 
   @ApiProperty({ title: '状态' })
   @prop({ default: 1 })
