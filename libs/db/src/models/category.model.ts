@@ -1,9 +1,14 @@
-import { prop, ModelOptions } from '@typegoose/typegoose';
+import { prop, ModelOptions, Ref } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { SubCategory } from './subCategory.model';
 
 @ModelOptions({
   schemaOptions: {
     timestamps: true,
+    toJSON: {
+      virtuals: true, versionKey: false
+    },
+    toObject: { virtuals: true }
   },
 })
 export class Category {
@@ -22,4 +27,8 @@ export class Category {
   @ApiProperty({ title: '类别排序', description: '整数数字类型' })
   @prop({ default: 1 })
   sort: number;
+
+  @ApiProperty({ title: "子分类", example: [] })
+  @prop({ ref: () => SubCategory })
+  children: Ref<SubCategory>[]
 }

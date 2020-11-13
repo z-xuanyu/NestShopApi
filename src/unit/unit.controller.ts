@@ -1,16 +1,16 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
-  ApiProperty,
   ApiPropertyOptional,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { InjectModel } from 'nestjs-typegoose';
 import { Unit } from '@libs/db/models/unit.model';
 import { Crud } from 'nestjs-mongoose-crud';
 import { ReturnModelType } from '@typegoose/typegoose';
+import { AuthGuard } from '@nestjs/passport';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class unitListDto {
   @ApiPropertyOptional({ title: '名称' })
   name: string;
@@ -38,20 +38,23 @@ class unitListDto {
     },
   },
 })
+
 @Controller('unit')
 @ApiTags('后台商品单位管理')
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 export class UnitController {
+
   constructor(
     @InjectModel(Unit) private readonly model,
     @InjectModel(Unit) private readonly unitModel: ReturnModelType<typeof Unit>,
   ) {}
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
   @ApiOperation({ summary: '单位名称列表' })
   @Get('list')
-  async getUnitList(@Query() unitListDto: unitListDto) {
-    const { name, pageSize, pageNo } = unitListDto;
+  async getUnitList(@Query() unitList: unitListDto): Promise<any> {
+    const { name, pageSize, pageNo } = unitList;
     const totalCountData = await this.unitModel.find(); //总条数
-
     // 名称查询
     if (name) {
       const data = await this.unitModel

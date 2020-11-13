@@ -11,6 +11,7 @@ import {
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { ReturnModelType } from '@typegoose/typegoose';
+import { SubCategory } from '@libs/db/models/subCategory.model';
 
 class categoryListDto {
   @ApiPropertyOptional({ title: '名称' })
@@ -47,13 +48,14 @@ export class CategoriesController {
     @InjectModel(Category) private readonly model,
     @InjectModel(Category)
     private readonly categoryModel: ReturnModelType<typeof Category>,
-  ) {}
+    @InjectModel(SubCategory) private readonly subCategoryModel: ReturnModelType<typeof SubCategory>
+  ) { }
 
   @ApiOperation({ summary: '分类列表' })
   @ApiResponse({ status: 401, description: '请填写token！' })
   @Get('list')
-  async categoryList(@Query() categoryListDto: categoryListDto) {
-    const { name, pageSize, pageNo } = categoryListDto;
+  async categoryList(@Query() categoryList: categoryListDto): Promise<any> {
+    const { name, pageSize, pageNo } = categoryList;
     const totalCountData = await this.categoryModel.find(); //总条数
     // 名称查询
     if (name) {
@@ -61,6 +63,7 @@ export class CategoriesController {
         .find({ name: { $regex: name } })
         .limit(Number(pageSize || 10))
         .skip(Number((pageNo - 1) * pageSize))
+        .populate('children')
         .exec();
       return {
         pageNo: pageNo,
@@ -77,6 +80,7 @@ export class CategoriesController {
         .find()
         .limit(Number(pageSize || 10))
         .skip(Number((pageNo - 1) * pageSize))
+        .populate('children')
         .exec();
       return {
         pageNo: pageNo,
@@ -91,3 +95,4 @@ export class CategoriesController {
     }
   }
 }
+

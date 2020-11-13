@@ -11,8 +11,8 @@ async function bootstrap() {
     prefix: '/uploads',
   });
   const options = new DocumentBuilder()
-    .setTitle('项目api文档')
-    .setDescription('这是个练习项目的api文档')
+    .setTitle('小商城api文档')
+    .setDescription('这是个小商城练习项目的api文档')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

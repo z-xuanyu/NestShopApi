@@ -1,8 +1,9 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { Banner } from '@libs/db/models/banner.model';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { Crud } from 'nestjs-mongoose-crud';
+import { AuthGuard } from '@nestjs/passport';
 @Crud({
   model: Banner,
   routes: {
@@ -25,6 +26,8 @@ import { Crud } from 'nestjs-mongoose-crud';
 })
 @Controller('banner')
 @ApiTags('后台banner管理')
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 export class BannerController {
   constructor(@InjectModel(Banner) private readonly model) {}
 }

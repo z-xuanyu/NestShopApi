@@ -12,11 +12,13 @@ import { Banner } from './models/banner.model';
 import { Order } from './models/order.model';
 import { Cart } from './models/protal.cart.model';
 import { PortalOrder } from './models/portal.order.model';
+import { SubCategory } from './models/subCategory.model';
 
 // 导入所有的Schema模块
 const models = TypegooseModule.forFeature([
   User,
   Category,
+  SubCategory,
   Tag,
   Member,
   ReceiptAddress,
@@ -31,7 +33,7 @@ const models = TypegooseModule.forFeature([
 @Global()
 @Module({
   imports: [
-    TypegooseModule.forRoot('mongodb://121.42.14.221:27017/nest-demo', {
+    TypegooseModule.forRoot('mongodb://localhost/nest-demo', {
       useNewUrlParser: true,
       useFindAndModify: false,
       useUnifiedTopology: true,

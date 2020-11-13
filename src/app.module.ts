@@ -17,6 +17,8 @@ import { OrderModule } from './order/order.module';
 import { ProtalHomeModule } from './protal-home/protal-home.module';
 import { CartsModule } from './carts/carts.module';
 import { PortalOrderModule } from './portal-order/portal-order.module';
+import { SubCategoryController } from './sub-category/sub-category.controller';
+import { SubCategoryModule } from './sub-category/sub-category.module';
 @Module({
   imports: [
     MulterModule.register({
@@ -45,7 +47,8 @@ import { PortalOrderModule } from './portal-order/portal-order.module';
     ProtalHomeModule,
     CartsModule,
     PortalOrderModule,
+    SubCategoryModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, SubCategoryController],
 })
 export class AppModule {}
