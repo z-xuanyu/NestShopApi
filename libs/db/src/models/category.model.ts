@@ -12,8 +12,8 @@ import { SubCategory } from './subCategory.model';
   },
 })
 export class Category {
-  @ApiProperty({ title: '分类名称', example: '分类一' })
-  @prop()
+  @ApiProperty({ title: '分类名称', example: '手机' })
+  @prop({ required: true, unique: true })
   name: string;
 
   @ApiProperty({
@@ -27,6 +27,10 @@ export class Category {
   @ApiProperty({ title: '类别排序', description: '整数数字类型' })
   @prop({ default: 1 })
   sort: number;
+
+  @ApiProperty({ title: '分类状态', example: true })
+  @prop({ default: true })
+  status: boolean
 
   @ApiProperty({ title: "子分类", example: [] })
   @prop({ ref: () => SubCategory })

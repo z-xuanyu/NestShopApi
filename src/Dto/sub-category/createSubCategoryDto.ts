@@ -10,6 +10,9 @@ export class craeteSubCategoryDto {
     @ApiProperty({ title: "分类排序" })
     sort: number
 
+    @ApiProperty({ title: "分类状态" })
+    status: boolean
+    
     @ApiProperty({ title: "父级ID" })
     parentID: any
 }
