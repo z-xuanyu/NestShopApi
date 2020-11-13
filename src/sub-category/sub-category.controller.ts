@@ -32,7 +32,7 @@ import { craeteSubCategoryDto } from "../Dto/sub-category/createSubCategoryDto"
 import { DeleteSubCategoryDto } from "../Dto/sub-category/deleteSubCategoryDto"
 import { UpdateSubCategoryDto } from "../Dto/sub-category/updateSubCategoryDto"
 
-@Controller('sub-category')
+@Controller('subCategory')
 @ApiTags("后台二级分类")
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
