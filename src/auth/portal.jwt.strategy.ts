@@ -14,8 +14,7 @@ export class PortalJwtStrategy extends PassportStrategy(Strategy, 'portalJwt') {
     } as StrategyOptions);
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async validate(id) {
+  async validate(id): Promise<Member> {
     return await this.memberModel.findById(id);
   }
 }

@@ -18,12 +18,11 @@ export class AuthController {
     private jwtService: JwtService,
     @InjectModel(User) private userModel: ReturnModelType<typeof User>,
     @InjectModel(Member) private memberModel: ReturnModelType<typeof Member>,
-  ) {}
+  ) { }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Post('admin/register')
   @ApiOperation({ summary: '管理员注册' })
-  async register(@Body() dto: RegisterDto) {
+  async register(@Body() dto: RegisterDto): Promise<User> {
     const { username, password, isSuper, avatar, email, status } = dto;
     const user = await this.userModel.create({
       username,
@@ -36,11 +35,10 @@ export class AuthController {
     return user;
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Post('admin/login')
   @ApiOperation({ summary: '管理登录' })
   @UseGuards(AuthGuard('local'))
-  async login(@Body() dto: LoginDto, @CurrentUser() user: UserDocument) {
+  async login(@Body() dto: LoginDto, @CurrentUser() user: UserDocument): Promise<any> {
     return {
       code: 20000,
       token: this.jwtService.sign(String(user._id)),
@@ -48,12 +46,11 @@ export class AuthController {
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Get('admin/info')
   @ApiOperation({ summary: '管理员信息' })
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
-  async user(@CurrentUser() user: UserDocument) {
+  async user(@CurrentUser() user: UserDocument): Promise<any> {
     return {
       code: 20000,
       data: {
@@ -69,11 +66,10 @@ export class AuthController {
     }
   }
 
-  // H5注册
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  // web端注册
   @Post('portal/register')
   @ApiOperation({ summary: 'H5注册' })
-  async portalRegister(@Body() dto: PortalRegisterDto) {
+  async portalRegister(@Body() dto: PortalRegisterDto): Promise<Member> {
     const { phone, name, password, avatarImg, gender, email } = dto;
     const user = await this.memberModel.create({
       phone,
@@ -87,27 +83,25 @@ export class AuthController {
     return user;
   }
 
-  // H5登录
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  // web端登录
   @Post('portal/login')
   @ApiOperation({ summary: 'H5登录' })
   @UseGuards(AuthGuard('portalLocal'))
   async portalLogin(
     @Body() dto: PortalLoginDto,
     @CurrentUser() user: MemberDocument,
-  ) {
+  ): Promise<any> {
     return {
       token: this.jwtService.sign(String(user._id)),
     };
   }
 
   // 获取登录会员信息
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Get('member/info')
   @ApiOperation({ summary: '会员信息' })
   @UseGuards(AuthGuard('portalJwt'))
   @ApiBearerAuth()
-  async getMemberInfo(@CurrentUser() user: MemberDocument) {
+  async getMemberInfo(@CurrentUser() user: MemberDocument): Promise<MemberDocument> {
     return user;
   }
 }

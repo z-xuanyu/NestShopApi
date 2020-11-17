@@ -16,8 +16,8 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     } as IStrategyOptions);
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async validate(email: string, password: string) {
+  // 校验管理端 用户和密码
+  async validate(email: string, password: string): Promise<User> {
     const user = await this.userModel.findOne({ email }).select('+password');
     if (!user) {
       throw new BadRequestException('用户名不正确');
@@ -25,7 +25,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     if (!compareSync(password, user.password)) {
       throw new BadRequestException('密码不正确');
     }
-    if(user.status !== 1){
+    if (user.status !== 1) {
       throw new BadRequestException('用户已被禁用');
     }
     return user;

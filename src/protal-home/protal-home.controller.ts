@@ -21,11 +21,11 @@ export class ProtalHomeController {
     private readonly categoryModel: ReturnModelType<typeof Category>,
     @InjectModel(Commodity)
     private readonly commodityModel: ReturnModelType<typeof Commodity>,
-  ) {}
+  ) { }
 
   @Get()
   @ApiOperation({ summary: '首页全部数据' })
-  async getAllHomeData() {
+  async getAllHomeData(): Promise<any> {
     try {
       // 获取5张banner图
       const bannerList = await this.bannerModel.find().limit(5);
@@ -47,7 +47,7 @@ export class ProtalHomeController {
 
   @Get('SearchCommodity')
   @ApiOperation({ summary: '搜索商品' })
-  async searchCommodity(@Query() searchKeyword: commoditySearchKeywordDto) {
+  async searchCommodity(@Query() searchKeyword: commoditySearchKeywordDto): Promise<any> {
     const { name, pageSize, pageNo } = searchKeyword;
     const totalCountData = await this.commodityModel.find(); //总条数
     // 名称查询
@@ -90,8 +90,8 @@ export class ProtalHomeController {
 
   @Get('categoryCommodity')
   @ApiOperation({ summary: '分类商品' })
-  async categoryCommodity(@Query() categoryCommodityDto: categoryCommodityDto) {
-    const { categoryID, pageSize, pageNo } = categoryCommodityDto;
+  async categoryCommodity(@Query() categoryCommodity: categoryCommodityDto): Promise<any> {
+    const { categoryID, pageSize, pageNo } = categoryCommodity;
 
     try {
       const totalCountData = await this.commodityModel.find({
@@ -121,8 +121,8 @@ export class ProtalHomeController {
 
   @Get('getCommodityInfo')
   @ApiOperation({ summary: '获取商品详细信息' })
-  async getCommodityInfo(@Query() commodityInfoDto: commodityInfoDto) {
-    const { commodityID } = commodityInfoDto;
+  async getCommodityInfo(@Query() commodityInfo: commodityInfoDto): Promise<any> {
+    const { commodityID } = commodityInfo;
     try {
       const commodityInfo = await this.commodityModel.findById(commodityID);
       return commodityInfo;

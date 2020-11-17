@@ -9,10 +9,10 @@ import { PortalJwtStrategy } from './portal.jwt.strategy';
   imports: [PassportModule],
   controllers: [AuthController],
   providers: [
-    LocalStrategy,
-    JwtStrategy,
-    PortalLocalStrategy,
-    PortalJwtStrategy,
+    LocalStrategy, // 管理端本地策略
+    JwtStrategy,   // 管理端jwt策略
+    PortalLocalStrategy, // web端本地策略
+    PortalJwtStrategy,  // web端jwt策略
   ],
 })
 export class AuthModule {}

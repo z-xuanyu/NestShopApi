@@ -10,8 +10,7 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { ReturnModelType } from '@typegoose/typegoose';
-import { SubCategory } from '@libs/db/models/subCategory.model';
+import { ReturnModelType } from '@typegoose/typegoose'
 
 class categoryListDto {
   @ApiPropertyOptional({ title: '名称' })
@@ -47,8 +46,7 @@ export class CategoriesController {
   constructor(
     @InjectModel(Category) private readonly model,
     @InjectModel(Category)
-    private readonly categoryModel: ReturnModelType<typeof Category>,
-    @InjectModel(SubCategory) private readonly subCategoryModel: ReturnModelType<typeof SubCategory>
+    private readonly categoryModel: ReturnModelType<typeof Category>
   ) { }
 
   @ApiOperation({ summary: '分类列表' })

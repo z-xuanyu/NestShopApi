@@ -59,8 +59,8 @@ export class TagsController {
 
   @ApiOperation({ summary: '标签列表' })
   @Get('list')
-  async tagList(@Query() tagListDto: tagListDto) {
-    const { name, pageSize, pageNo } = tagListDto;
+  async tagList(@Query() tagList: tagListDto):Promise<any> {
+    const { name, pageSize, pageNo } = tagList;
     const totalCountData = await this.tagModel.find(); //总条数
     // 名称查询
     if (name) {
@@ -100,8 +100,8 @@ export class TagsController {
 
   @ApiOperation({ summary: '改变状态' })
   @Get('changeStatus')
-  async changeStatus(@Query() tagChangeDto: tagChangeDto) {
-    const { tagID, status } = tagChangeDto;
+  async changeStatus(@Query() tagChange: tagChangeDto):Promise<any> {
+    const { tagID, status } = tagChange;
 
     await this.tagModel.findByIdAndUpdate(tagID, { status: status });
     return {

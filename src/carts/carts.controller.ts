@@ -26,12 +26,12 @@ export class CartsController {
     @InjectModel(Commodity)
     private readonly commodityModel: ReturnModelType<typeof Commodity>,
     @InjectModel(Cart) private readonly model,
-  ) {}
+  ) { }
 
   @Post('addCart')
   @ApiOperation({ summary: '加入购物车' })
-  async addCart(@Body() addCartDto: addCartDto) {
-    const { userID, commodityID } = addCartDto;
+  async addCart(@Body() addCart: addCartDto): Promise<any> {
+    const { userID, commodityID } = addCart;
     // 查找用户是否有购物车信息
     const userCartInfo = await this.cartModel.find({ userID: userID });
     // 如果用户购物车有商品，再查询商品是否存在,追加商品
@@ -52,15 +52,15 @@ export class CartsController {
       }
     } else {
       // 如果用户购物车没有商品，则添加商品
-      const res = await this.cartModel.create(addCartDto as Cart);
+      const res = await this.cartModel.create(addCart as Cart);
       if (res) return { code: 1, msg: '添加成功' };
     }
   }
 
   @Get('getCartInfo')
   @ApiOperation({ summary: '查看用户购物车信息' })
-  async getCartInfo(@Query() getCartInfoDto: getCartInfoDto) {
-    const { userID } = getCartInfoDto;
+  async getCartInfo(@Query() getCartInfo: getCartInfoDto): Promise<any> {
+    const { userID } = getCartInfo;
     // 查询出用户的购物车信息
     const userCartInfo = await this.cartModel
       .find({ userID: userID })

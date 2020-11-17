@@ -10,6 +10,7 @@ import { Unit } from '@libs/db/models/unit.model';
 import { Crud } from 'nestjs-mongoose-crud';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { AuthGuard } from '@nestjs/passport';
+import { changeUnitStatusDto } from 'src/Dto/unit/changeUnitStatusDto';
 
 class unitListDto {
   @ApiPropertyOptional({ title: '名称' })
@@ -48,7 +49,7 @@ export class UnitController {
   constructor(
     @InjectModel(Unit) private readonly model,
     @InjectModel(Unit) private readonly unitModel: ReturnModelType<typeof Unit>,
-  ) {}
+  ) { }
 
   @ApiOperation({ summary: '单位名称列表' })
   @Get('list')
@@ -88,6 +89,19 @@ export class UnitController {
             ? 1
             : totalCountData.length / pageSize,
       };
+    }
+  }
+
+  @ApiOperation({ summary: '改变状态' })
+  @Get('changeStatus')
+  async changeUnitStatus(@Query() changeUnitStatus: changeUnitStatusDto): Promise<any> {
+    const { unitID, status } = changeUnitStatus
+
+    await this.unitModel.findByIdAndUpdate(unitID, { status: status })
+
+    return {
+      code: 20000,
+      message: '成功'
     }
   }
 }

@@ -4,8 +4,7 @@ import {
   Query,
   UseGuards,
   Put,
-  Body,
-  InternalServerErrorException,
+  Body
 } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { User } from '@libs/db/models/user.model';
@@ -19,6 +18,7 @@ import {
 } from '@nestjs/swagger';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { AuthGuard } from '@nestjs/passport';
+
 class getAdminDto {
   @ApiPropertyOptional({ description: '名称' })
   name: string;
@@ -67,12 +67,11 @@ export class UsersController {
   constructor(
     @InjectModel(User) private readonly model,
     @InjectModel(User) private readonly UserModel: ReturnModelType<typeof User>,
-  ) {}
+  ) { }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Get()
   @ApiOperation({ summary: '管理员列表' })
-  async getAdminList(@Query() paramData: getAdminDto) {
+  async getAdminList(@Query() paramData: getAdminDto): Promise<any> {
     if (paramData.name) {
       return await this.UserModel.find({
         username: { $regex: paramData.name },
@@ -84,9 +83,9 @@ export class UsersController {
 
   @Put('changeStatus')
   @ApiOperation({ summary: '改变管理员状态' })
-  async changeUserStatus(@Body() statausDto: statusDto) {
-    const { userID } = statausDto;
-    const result = await this.UserModel.findByIdAndUpdate(userID, statausDto);
+  async changeUserStatus(@Body() status: statusDto): Promise<any> {
+    const { userID } = status;
+    const result = await this.UserModel.findByIdAndUpdate(userID, status);
     if (result) {
       return { code: 1, msg: 'succcess' };
     }
@@ -94,8 +93,8 @@ export class UsersController {
 
   @Put('reSetPassword')
   @ApiOperation({ summary: '重置密码' })
-  async reSetUserPassword(@Body() reSetPasswordDto: reSetPasswordDto) {
-    const { userID } = reSetPasswordDto;
+  async reSetUserPassword(@Body() reSetPassword: reSetPasswordDto): Promise<any> {
+    const { userID } = reSetPassword;
     const res = await this.UserModel.findByIdAndUpdate(
       userID,
       reSetPasswordDto,
@@ -103,5 +102,5 @@ export class UsersController {
     if (res) return { code: 1, msg: 'succcess' };
   }
 
-  
+
 }

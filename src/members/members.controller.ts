@@ -55,12 +55,12 @@ export class MembersController {
     @InjectModel(Member) private readonly model,
     @InjectModel(Member)
     private readonly memberModel: ReturnModelType<typeof Member>,
-  ) {}
+  ) { }
 
   @Get('list')
   @ApiOperation({ summary: '会员列表' })
-  async getMemberList(@Query() getMemberListDto: getMemberListDto) {
-    const { name, pageSize, pageNo } = getMemberListDto;
+  async getMemberList(@Query() getMemberList: getMemberListDto): Promise<any> {
+    const { name, pageSize, pageNo } = getMemberList;
     const totalCountData = await this.memberModel.find(); //总条数
 
     // 名称查询
@@ -104,9 +104,9 @@ export class MembersController {
   @Put('resetMemberPassword')
   @ApiOperation({ summary: '重新会员密码' })
   async resetMemberPassword(
-    @Body() resetMemberPasswordDto: resetMemberPasswordDto,
-  ) {
-    const { memberID, password } = resetMemberPasswordDto;
+    @Body() resetMemberPassword: resetMemberPasswordDto,
+  ): Promise<any> {
+    const { memberID, password } = resetMemberPassword;
     const res = await this.memberModel.findByIdAndUpdate(memberID, {
       password: password,
     });

@@ -2,7 +2,7 @@ import { Strategy, IStrategyOptions } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { InjectModel } from 'nestjs-typegoose';
 import { ReturnModelType } from '@typegoose/typegoose';
-import { BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { compareSync } from 'bcryptjs';
 import { Member } from '@libs/db/models/member.model';
 
@@ -18,8 +18,8 @@ export class PortalLocalStrategy extends PassportStrategy(
       passwordField: 'password',
     } as IStrategyOptions);
   }
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async validate(phone: string, password: string) {
+  // 校验用户账号和密码
+  async validate(phone: string, password: string):Promise<any> {
     const user = await this.memberModel.findOne({ phone }).select('+password');
     if (!user) {
       throw new BadRequestException('用户名不正确');

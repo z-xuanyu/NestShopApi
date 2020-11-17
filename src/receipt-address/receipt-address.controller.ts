@@ -4,9 +4,7 @@ import {
   Put,
   Body,
   Get,
-  Query,
-  HttpException,
-  HttpStatus,
+  Query
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -19,9 +17,7 @@ import { ReceiptAddress } from '@libs/db/models/receiptAddress.model';
 import { Crud } from 'nestjs-mongoose-crud';
 import { AuthGuard } from '@nestjs/passport';
 import { ReturnModelType } from '@typegoose/typegoose';
-import { async } from 'rxjs/internal/scheduler/async';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class setDefaultDto {
   @ApiProperty({ title: '用户id' })
   userID: string;
@@ -66,14 +62,13 @@ export class ReceiptAddressController {
     private readonly receiptAddressModel: ReturnModelType<
       typeof ReceiptAddress
     >,
-  ) {}
+  ) { }
 
   // 设置为默认收货地址
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   @Put('setDefault')
   @ApiOperation({ summary: '设置为默认地址' })
-  async setDefaultAddress(@Body() setDefaultDto: setDefaultDto) {
-    const { userID, isDefaule, addressID } = setDefaultDto;
+  async setDefaultAddress(@Body() setDefault: setDefaultDto): Promise<any> {
+    const { userID, isDefaule, addressID } = setDefault;
     await this.receiptAddressModel.findByIdAndUpdate(
       { _id: addressID },
       { isDefaule: isDefaule },
@@ -97,8 +92,8 @@ export class ReceiptAddressController {
 
   @Get('list')
   @ApiOperation({ summary: '会员收货地址列表' })
-  async getMemberAddressList(@Query() MemberAddressDto: MemberAddressDto) {
-    const { userID } = MemberAddressDto;
+  async getMemberAddressList(@Query() MemberAddress: MemberAddressDto): Promise<any> {
+    const { userID } = MemberAddress;
     const res = await this.receiptAddressModel.find({ userID: userID });
     return {
       code: 20000,
