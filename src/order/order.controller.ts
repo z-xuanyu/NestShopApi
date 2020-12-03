@@ -3,6 +3,7 @@ import { InjectModel } from 'nestjs-typegoose';
 import { Order } from '@libs/db/models/order.model';
 import { Crud } from 'nestjs-mongoose-crud';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ModelType } from '@typegoose/typegoose/lib/types';
 @Crud({
   model: Order,
   routes: {
@@ -18,5 +19,5 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 @Controller('order')
 @ApiTags('后台订单管理')
 export class OrderController {
-  constructor(@InjectModel(Order) private readonly model) {}
+  constructor(@InjectModel(Order) private readonly model:ModelType<Order>) {}
 }

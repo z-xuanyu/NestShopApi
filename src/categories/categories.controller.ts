@@ -11,6 +11,7 @@ import {
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { ReturnModelType } from '@typegoose/typegoose'
+import { ModelType } from '@typegoose/typegoose/lib/types';
 
 class categoryListDto {
   @ApiPropertyOptional({ title: '名称' })
@@ -44,7 +45,7 @@ class categoryListDto {
 @ApiBearerAuth()
 export class CategoriesController {
   constructor(
-    @InjectModel(Category) private readonly model,
+    @InjectModel(Category) private readonly model:ModelType<Category>,
     @InjectModel(Category)
     private readonly categoryModel: ReturnModelType<typeof Category>
   ) { }

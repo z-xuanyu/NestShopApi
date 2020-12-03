@@ -17,6 +17,7 @@ import { ReceiptAddress } from '@libs/db/models/receiptAddress.model';
 import { Crud } from 'nestjs-mongoose-crud';
 import { AuthGuard } from '@nestjs/passport';
 import { ReturnModelType } from '@typegoose/typegoose';
+import { ModelType } from '@typegoose/typegoose/lib/types';
 
 class setDefaultDto {
   @ApiProperty({ title: '用户id' })
@@ -57,7 +58,7 @@ class MemberAddressDto {
 @ApiBearerAuth()
 export class ReceiptAddressController {
   constructor(
-    @InjectModel(ReceiptAddress) private readonly model,
+    @InjectModel(ReceiptAddress) private readonly model:ModelType<ReceiptAddress>,
     @InjectModel(ReceiptAddress)
     private readonly receiptAddressModel: ReturnModelType<
       typeof ReceiptAddress

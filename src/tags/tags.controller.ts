@@ -10,6 +10,7 @@ import {
 import { Crud } from 'nestjs-mongoose-crud';
 import { AuthGuard } from '@nestjs/passport';
 import { ReturnModelType } from '@typegoose/typegoose';
+import { ModelType } from '@typegoose/typegoose/lib/types';
 
 // 标签列表Dto
 class tagListDto {
@@ -53,7 +54,7 @@ class tagChangeDto {
 @ApiBearerAuth()
 export class TagsController {
   constructor(
-    @InjectModel(Tag) private readonly model,
+    @InjectModel(Tag) private readonly model:ModelType<Tag>,
     @InjectModel(Tag) private readonly tagModel: ReturnModelType<typeof Tag>,
   ) {}
 

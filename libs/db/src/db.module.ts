@@ -33,12 +33,25 @@ const models = TypegooseModule.forFeature([
 @Global()
 @Module({
   imports: [
-    TypegooseModule.forRoot('mongodb://localhost/nest-demo', {
-      useNewUrlParser: true,
-      useFindAndModify: false,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
+    // 异步加载
+    TypegooseModule.forRootAsync({
+      useFactory(){
+        return{
+          uri:process.env.DB,
+          useNewUrlParser: true,
+          useFindAndModify: false,
+          useUnifiedTopology: true,
+          useCreateIndex: true,
+        }
+      }
     }),
+    // 同步加载
+    // TypegooseModule.forRoot('mongodb://localhost/nest-demo', {
+    //   useNewUrlParser: true,
+    //   useFindAndModify: false,
+    //   useUnifiedTopology: true,
+    //   useCreateIndex: true,
+    // }),
     models,
   ],
   providers: [DbService],

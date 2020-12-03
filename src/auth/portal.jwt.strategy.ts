@@ -10,7 +10,7 @@ export class PortalJwtStrategy extends PassportStrategy(Strategy, 'portalJwt') {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'xuanyu',
+      secretOrKey: process.env.JWT_SECRET,
     } as StrategyOptions);
   }
 

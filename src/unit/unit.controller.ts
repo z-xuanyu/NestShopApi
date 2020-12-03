@@ -11,6 +11,7 @@ import { Crud } from 'nestjs-mongoose-crud';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { AuthGuard } from '@nestjs/passport';
 import { changeUnitStatusDto } from 'src/Dto/unit/changeUnitStatusDto';
+import { ModelType } from '@typegoose/typegoose/lib/types';
 
 class unitListDto {
   @ApiPropertyOptional({ title: '名称' })
@@ -47,7 +48,7 @@ class unitListDto {
 export class UnitController {
 
   constructor(
-    @InjectModel(Unit) private readonly model,
+    @InjectModel(Unit) private readonly model:ModelType<Unit>,
     @InjectModel(Unit) private readonly unitModel: ReturnModelType<typeof Unit>,
   ) { }
 

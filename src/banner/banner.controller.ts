@@ -4,6 +4,7 @@ import { Banner } from '@libs/db/models/banner.model';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { Crud } from 'nestjs-mongoose-crud';
 import { AuthGuard } from '@nestjs/passport';
+import { ModelType } from '@typegoose/typegoose/lib/types';
 @Crud({
   model: Banner,
   routes: {
@@ -29,5 +30,5 @@ import { AuthGuard } from '@nestjs/passport';
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class BannerController {
-  constructor(@InjectModel(Banner) private readonly model) {}
+  constructor(@InjectModel(Banner) private readonly model:ModelType<Banner>) {}
 }

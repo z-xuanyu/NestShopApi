@@ -6,6 +6,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { addCartDto, getCartInfoDto } from './dto/carts.dto';
 import { Commodity } from '@libs/db/models/commodity.model';
 import { Crud } from 'nestjs-mongoose-crud';
+import { ModelType } from '@typegoose/typegoose/lib/types';
 @Crud({
   model: Cart,
   routes: {
@@ -25,7 +26,7 @@ export class CartsController {
     @InjectModel(Cart) private readonly cartModel: ReturnModelType<typeof Cart>,
     @InjectModel(Commodity)
     private readonly commodityModel: ReturnModelType<typeof Commodity>,
-    @InjectModel(Cart) private readonly model,
+    @InjectModel(Cart) private readonly model:ModelType<Cart>,
   ) { }
 
   @Post('addCart')

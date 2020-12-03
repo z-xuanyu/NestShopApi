@@ -18,6 +18,7 @@ import {
 } from '@nestjs/swagger';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { AuthGuard } from '@nestjs/passport';
+import { ModelType } from '@typegoose/typegoose/lib/types';
 
 class getAdminDto {
   @ApiPropertyOptional({ description: '名称' })
@@ -65,7 +66,7 @@ class reSetPasswordDto {
 @ApiBearerAuth()
 export class UsersController {
   constructor(
-    @InjectModel(User) private readonly model,
+    @InjectModel(User) private readonly model:ModelType<User>,
     @InjectModel(User) private readonly UserModel: ReturnModelType<typeof User>,
   ) { }
 

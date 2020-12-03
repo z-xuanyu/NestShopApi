@@ -4,6 +4,7 @@ import { Commodity } from '@libs/db/models/commodity.model';
 import { Crud } from 'nestjs-mongoose-crud';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { ModelType } from '@typegoose/typegoose/lib/types';
 
 @Crud({
   model: Commodity,
@@ -31,5 +32,5 @@ import { AuthGuard } from '@nestjs/passport';
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class CommoditiesController {
-  constructor(@InjectModel(Commodity) private readonly model,) {}
+  constructor(@InjectModel(Commodity) private readonly model:ModelType<Commodity>,) {}
 }

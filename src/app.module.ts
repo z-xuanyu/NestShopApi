@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { DbModule } from '@libs/db';
 import { UsersModule } from './users/users.module';
 import { CategoriesModule } from './categories/categories.module';
 import { MulterModule } from '@nestjs/platform-express';
@@ -21,18 +20,35 @@ import { SubCategoryController } from './sub-category/sub-category.controller';
 import { SubCategoryModule } from './sub-category/sub-category.module';
 @Module({
   imports: [
-    MulterModule.register({
-      storage: MAO({
-        config: {
-          region: 'oss-cn-shenzhen',
-          accessKeyId: 'LTAI4FzDnAmwU3RpTyFtdGsa',
-          accessKeySecret: 'zot5lHfGOzbjHKLYnUNwmzBGSbHLgs',
-          bucket: 'nestshop',
-        },
-      }),
-      // dest: 'uploads',
+    // 优先加载公共模块
+    CommonModule,
+    // 异步加载
+    MulterModule.registerAsync({
+      useFactory(){
+        return {
+          storage: MAO({
+            config: {
+              region: process.env.OSS_REGION,
+              accessKeyId: process.env.OSS_ACCESS_KEY_ID,
+              accessKeySecret: process.env.OSS_ACCESS_KEY_SECRET,
+              bucket: process.env.OSS_BUCKET
+            }
+          })
+        }
+      }
     }),
-    DbModule,
+    // 同步
+    // MulterModule.register({
+    //   storage: MAO({
+    //     config: {
+    //       region: 'oss-cn-shenzhen',
+    //       accessKeyId: 'LTAI4FzDnAmwU3RpTyFtdGsa',
+    //       accessKeySecret: 'zot5lHfGOzbjHKLYnUNwmzBGSbHLgs',
+    //       bucket: 'nestshop',
+    //     },
+    //   }),
+    //   // dest: 'uploads',
+    // }),
     UsersModule,
     CategoriesModule,
     TagsModule,
@@ -40,14 +56,13 @@ import { SubCategoryModule } from './sub-category/sub-category.module';
     ReceiptAddressModule,
     CommoditiesModule,
     AuthModule,
-    CommonModule,
     UnitModule,
     BannerModule,
     OrderModule,
     ProtalHomeModule,
     CartsModule,
     PortalOrderModule,
-    SubCategoryModule,
+    SubCategoryModule
   ],
   controllers: [AppController, SubCategoryController],
 })
