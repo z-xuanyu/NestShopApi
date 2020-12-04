@@ -18,6 +18,7 @@ import { CartsModule } from './carts/carts.module';
 import { PortalOrderModule } from './portal-order/portal-order.module';
 import { SubCategoryController } from './sub-category/sub-category.controller';
 import { SubCategoryModule } from './sub-category/sub-category.module';
+import { NavigatorModule } from './navigator/navigator.module';
 @Module({
   imports: [
     // 优先加载公共模块
@@ -62,7 +63,8 @@ import { SubCategoryModule } from './sub-category/sub-category.module';
     ProtalHomeModule,
     CartsModule,
     PortalOrderModule,
-    SubCategoryModule
+    SubCategoryModule,
+    NavigatorModule
   ],
   controllers: [AppController, SubCategoryController],
 })

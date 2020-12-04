@@ -13,6 +13,7 @@ import { Order } from './models/order.model';
 import { Cart } from './models/protal.cart.model';
 import { PortalOrder } from './models/portal.order.model';
 import { SubCategory } from './models/subCategory.model';
+import { Navigator } from './models/navigator.model';
 
 // 导入所有的Schema模块
 const models = TypegooseModule.forFeature([
@@ -27,7 +28,8 @@ const models = TypegooseModule.forFeature([
   Banner,
   Order,
   Cart,
-  PortalOrder
+  PortalOrder,
+  Navigator
 ]);
 
 @Global()
