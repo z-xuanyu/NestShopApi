@@ -1,8 +1,14 @@
-import { prop, Ref } from '@typegoose/typegoose';
+import { modelOptions, prop, Ref } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from './category.model';
 import { Tag } from './tag.model';
 import { Unit } from './unit.model';
+
+@modelOptions({
+  schemaOptions:{
+      timestamps:true
+  }
+})
 
 export class Commodity {
   @ApiProperty({ title: '名称' })

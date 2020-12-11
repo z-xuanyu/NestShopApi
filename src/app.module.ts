@@ -19,6 +19,8 @@ import { PortalOrderModule } from './portal-order/portal-order.module';
 import { SubCategoryController } from './sub-category/sub-category.controller';
 import { SubCategoryModule } from './sub-category/sub-category.module';
 import { NavigatorModule } from './navigator/navigator.module';
+import { CommoditiesRatingController } from './commodities-rating/commodities-rating.controller';
+import { CommoditiesRatingModule } from './commodities-rating/commodities-rating.module';
 @Module({
   imports: [
     // 优先加载公共模块
@@ -64,8 +66,9 @@ import { NavigatorModule } from './navigator/navigator.module';
     CartsModule,
     PortalOrderModule,
     SubCategoryModule,
-    NavigatorModule
+    NavigatorModule,
+    CommoditiesRatingModule
   ],
-  controllers: [AppController, SubCategoryController],
+  controllers: [AppController, SubCategoryController, CommoditiesRatingController],
 })
 export class AppModule {}
