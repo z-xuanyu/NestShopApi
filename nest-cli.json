@@ -31,6 +31,7 @@
     }
   },
   "compilerOptions": {
+    "assets": ["src/send-email/template/**/*"],
     "webpack": true
   }
 }

@@ -19,6 +19,10 @@ import { PortalOrderModule } from './portal-order/portal-order.module';
 import { SubCategoryController } from './sub-category/sub-category.controller';
 import { SubCategoryModule } from './sub-category/sub-category.module';
 import { NavigatorModule } from './navigator/navigator.module';
+import { SendMailModule } from './send-email/send-email.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { PugAdapter} from '@nestjs-modules/mailer/dist/adapters/pug.adapter'
+import path = require('path');
 @Module({
   imports: [
     // 优先加载公共模块
@@ -64,7 +68,24 @@ import { NavigatorModule } from './navigator/navigator.module';
     CartsModule,
     PortalOrderModule,
     SubCategoryModule,
-    NavigatorModule
+    NavigatorModule,
+    SendMailModule,
+    MailerModule.forRootAsync({
+			useFactory: () => ({
+				transport: 'smtps://812006298@qq.com:fttlcuxaqxeobdhg@smtp.qq.com',
+				defaults: {
+					from: '"测试" <812006298@qq.com>'
+				},
+				template: {
+                    // dir: process.cwd() + '/src/template/', // 这一句不用配置，可以找到路径
+                    dir: path.join(process.cwd(), './src/send-email/template'),
+					adapter: new PugAdapter(),
+					options: {
+						strict: true
+					}
+				}
+			})
+		})
   ],
   controllers: [AppController, SubCategoryController],
 })
