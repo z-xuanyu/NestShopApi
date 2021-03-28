@@ -23,6 +23,7 @@ import { SendMailModule } from './send-email/send-email.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter} from '@nestjs-modules/mailer/dist/adapters/pug.adapter'
 import path = require('path');
+import { CommoditiesRatingController } from './commodities-rating/commodities-rating.controller';
 @Module({
   imports: [
     // 优先加载公共模块
@@ -87,6 +88,6 @@ import path = require('path');
 			})
 		})
   ],
-  controllers: [AppController, SubCategoryController],
+  controllers: [AppController, SubCategoryController, CommoditiesRatingController],
 })
 export class AppModule {}
