@@ -62,9 +62,9 @@ export class Commodity {
 
   @ApiProperty({ title: '商品详情图片' })
   @prop()
-  imgPathList: any;
+  imgPathList: [];
 
   @ApiProperty({ title: '商品轮播图' })
   @prop()
-  bannerPathList: any;
+  bannerPathList: [];
 }

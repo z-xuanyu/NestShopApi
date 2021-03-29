@@ -43,18 +43,6 @@ import { CommoditiesRatingController } from './commodities-rating/commodities-ra
         }
       }
     }),
-    // 同步
-    // MulterModule.register({
-    //   storage: MAO({
-    //     config: {
-    //       region: 'oss-cn-shenzhen',
-    //       accessKeyId: 'LTAI4FzDnAmwU3RpTyFtdGsa',
-    //       accessKeySecret: 'zot5lHfGOzbjHKLYnUNwmzBGSbHLgs',
-    //       bucket: 'nestshop',
-    //     },
-    //   }),
-    //   // dest: 'uploads',
-    // }),
     UsersModule,
     CategoriesModule,
     TagsModule,
@@ -79,7 +67,7 @@ import { CommoditiesRatingController } from './commodities-rating/commodities-ra
 				},
 				template: {
                     // dir: process.cwd() + '/src/template/', // 这一句不用配置，可以找到路径
-                    dir: path.join(process.cwd(), './src/send-email/template'),
+                    dir: path.join(__dirname, './send-email/template'),
 					adapter: new PugAdapter(),
 					options: {
 						strict: true

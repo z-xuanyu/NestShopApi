@@ -23,6 +23,6 @@ async function bootstrap() {
 
   await app.listen(PORT);
   
-  console.log(`接口文档：http://localhost:${PORT}/api-docs`)
+  console.log(`接口文档：http://localhost:${PORT}/api-docs`);
 }
 bootstrap();
