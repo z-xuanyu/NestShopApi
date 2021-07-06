@@ -1,3 +1,11 @@
+/*
+ * @Author: xuanyu
+ * @Date: 2020-10-20 10:11:57
+ * @LastEditTime: 2021-04-28 17:14:24
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \NestShopApi\src\app.controller.ts
+ */
 import {
   Controller,
   Get,
@@ -27,9 +35,8 @@ export class AppController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @UseInterceptors(FileInterceptor('file'))
-  async avatarUpload(@UploadedFile('file') file) {
-    const imgUrl = file.url;
-    return { code: 20000, data: { url: imgUrl, message: 'ok' } };
+  async avatarUpload(@UploadedFile('file') file: File): Promise<any> {
+    return { code: 20000, data: { url: file, message: 'ok' } };
   }
 
   // 管理端商品多图上传
@@ -38,7 +45,7 @@ export class AppController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @UseInterceptors(FileInterceptor('files'))
-  async multipleUpload(@UploadedFiles() files) {
+  async multipleUpload(@UploadedFiles() files: File): Promise<File> {
     return files;
   }
 
@@ -48,8 +55,7 @@ export class AppController {
   @UseGuards(AuthGuard('portalJwt'))
   @ApiBearerAuth()
   @UseInterceptors(FileInterceptor('file'))
-  async portalAvatarUpload(@UploadedFile('file') file) {
-    const imgUrl = file.url;
-    return { code: 1, imgUrl, msg: 'ok' };
+  async portalAvatarUpload(@UploadedFile('file') file: File): Promise<any> {
+    return { code: 1, file, msg: 'ok' };
   }
 }

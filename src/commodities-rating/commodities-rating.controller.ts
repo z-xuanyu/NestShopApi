@@ -1,3 +1,12 @@
+/*
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2020-12-11 15:25:17
+ * @LastEditTime: 2021-07-06 14:37:23
+ * @Description: Modify here please
+ */
 import { CommoditiesRating } from '@libs/db/models/commoditiesRating.model';
 import { Controller, UseGuards } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
