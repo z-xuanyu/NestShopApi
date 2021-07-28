@@ -1,3 +1,12 @@
+/*
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2020-10-20 10:11:57
+ * @LastEditTime: 2021-07-28 11:26:53
+ * @Description: Modify here please
+ */
 import { Controller, UseGuards, Query, Get } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { Category } from '@libs/db/models/category.model';
@@ -54,44 +63,44 @@ export class CategoriesController {
   @ApiResponse({ status: 401, description: '请填写token！' })
   @Get('list')
   async categoryList(@Query() categoryList: categoryListDto): Promise<any> {
+
+    // 列表转树
+    const list2tree = (items, parentId = 'null') => {
+      return items
+        .filter(item => String(item.parentId) == String(parentId))
+        .map(item => {
+          return {
+            _id: item._id,
+            name: item.name,
+            status: item.status,
+            createdAt: item.createdAt,
+            updatedAt: item.updatedAt,
+            pic: item.pic,
+            parentId: item.parentId,
+            sort: item.sort,
+            children: list2tree(items, String(item._id)),
+          };
+        });
+    };
+
     const { name, pageSize, pageNo } = categoryList;
     const totalCountData = await this.categoryModel.find(); //总条数
     // 名称查询
-    if (name) {
-      const data = await this.categoryModel
-        .find({ name: { $regex: name } })
+    const data = await this.categoryModel
+        .find(name? { name: { $regex: name }}: {})
         .limit(Number(pageSize || 10))
         .skip(Number((pageNo - 1) * pageSize))
-        .populate('children')
         .exec();
       return {
         pageNo: pageNo,
         pageSize: pageSize,
-        data: data,
+        data: list2tree(data),
         totalCount: totalCountData.length,
         totalPage:
           totalCountData.length / pageSize < 1
             ? 1
             : totalCountData.length / pageSize,
       };
-    } else {
-      const data = await this.categoryModel
-        .find()
-        .limit(Number(pageSize || 10))
-        .skip(Number((pageNo - 1) * pageSize))
-        .populate('children')
-        .exec();
-      return {
-        pageNo: pageNo,
-        pageSize: pageSize,
-        data: data,
-        totalCount: totalCountData.length,
-        totalPage:
-          totalCountData.length / pageSize < 1
-            ? 1
-            : totalCountData.length / pageSize,
-      };
-    }
   }
 }
 

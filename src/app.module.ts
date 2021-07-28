@@ -1,3 +1,12 @@
+/*
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2020-10-20 10:11:57
+ * @LastEditTime: 2021-07-28 10:41:02
+ * @Description: Modify here please
+ */
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { UsersModule } from './users/users.module';
@@ -16,14 +25,13 @@ import { OrderModule } from './order/order.module';
 import { ProtalHomeModule } from './protal-home/protal-home.module';
 import { CartsModule } from './carts/carts.module';
 import { PortalOrderModule } from './portal-order/portal-order.module';
-import { SubCategoryController } from './sub-category/sub-category.controller';
-import { SubCategoryModule } from './sub-category/sub-category.module';
 import { NavigatorModule } from './navigator/navigator.module';
 import { SendMailModule } from './send-email/send-email.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter} from '@nestjs-modules/mailer/dist/adapters/pug.adapter'
 import path = require('path');
 import { CommoditiesRatingController } from './commodities-rating/commodities-rating.controller';
+console.log(path.join(__dirname, './send-email/template'))
 @Module({
   imports: [
     // 优先加载公共模块
@@ -56,7 +64,6 @@ import { CommoditiesRatingController } from './commodities-rating/commodities-ra
     ProtalHomeModule,
     CartsModule,
     PortalOrderModule,
-    SubCategoryModule,
     NavigatorModule,
     SendMailModule,
     MailerModule.forRootAsync({
@@ -76,6 +83,6 @@ import { CommoditiesRatingController } from './commodities-rating/commodities-ra
 			})
 		})
   ],
-  controllers: [AppController, SubCategoryController, CommoditiesRatingController],
+  controllers: [AppController, CommoditiesRatingController],
 })
 export class AppModule {}

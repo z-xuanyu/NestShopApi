@@ -1,6 +1,14 @@
-import { prop, ModelOptions, Ref } from '@typegoose/typegoose';
+/*
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2020-10-20 10:11:57
+ * @LastEditTime: 2021-07-28 10:40:15
+ * @Description: Modify here please
+ */
+import { prop, ModelOptions } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { SubCategory } from './subCategory.model';
 
 @ModelOptions({
   schemaOptions: {
@@ -13,7 +21,7 @@ import { SubCategory } from './subCategory.model';
 })
 export class Category {
   @ApiProperty({ title: '分类名称', example: '手机' })
-  @prop({ required: true, unique: true })
+  @prop({ required: true })
   name: string;
 
   @ApiProperty({
@@ -32,7 +40,7 @@ export class Category {
   @prop({ default: true })
   status: boolean
 
-  @ApiProperty({ title: "子分类", example: [] })
-  @prop({ ref: () => SubCategory })
-  children: Ref<SubCategory>[]
+  @ApiProperty({ title: '上级分类' , default: 'null'})
+  @prop()
+  parentId: string
 }

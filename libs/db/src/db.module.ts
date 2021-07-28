@@ -1,3 +1,12 @@
+/*
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2020-10-20 10:11:57
+ * @LastEditTime: 2021-07-28 10:41:29
+ * @Description: Modify here please
+ */
 import { Module, Global } from '@nestjs/common';
 import { DbService } from './db.service';
 import { TypegooseModule } from 'nestjs-typegoose';
@@ -12,7 +21,6 @@ import { Banner } from './models/banner.model';
 import { Order } from './models/order.model';
 import { Cart } from './models/protal.cart.model';
 import { PortalOrder } from './models/portal.order.model';
-import { SubCategory } from './models/subCategory.model';
 import { Navigator } from './models/navigator.model';
 import { CommoditiesRating } from './models/commoditiesRating.model';
 
@@ -20,7 +28,6 @@ import { CommoditiesRating } from './models/commoditiesRating.model';
 const models = TypegooseModule.forFeature([
   User,
   Category,
-  SubCategory,
   Tag,
   Member,
   ReceiptAddress,
