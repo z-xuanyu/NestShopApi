@@ -1,5 +1,15 @@
+/*
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2020-12-11 15:26:39
+ * @LastEditTime: 2021-07-29 10:01:40
+ * @Description: Modify here please
+ */
 import { ApiProperty } from "@nestjs/swagger";
-import { modelOptions, prop } from "@typegoose/typegoose";
+import { modelOptions, prop, Ref } from "@typegoose/typegoose";
+import { Member } from "./member.model";
 
 @modelOptions({
     schemaOptions:{
@@ -17,9 +27,9 @@ export class CommoditiesRating {
     @prop({ required: true })
     commoditiesName: string
 
-    @ApiProperty({ title: '评价用户信息' })
-    @prop({ required: true })
-    ratingMemberInfo: string
+    @ApiProperty({ title: '评价用户' })
+    @prop({ required: true , ref:()=> Member})
+    memberId: Ref<Member>
 
     @ApiProperty({ title: '评价星级' })
     @prop({ required: true })

@@ -1,6 +1,15 @@
+/*
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2020-10-20 10:11:57
+ * @LastEditTime: 2021-07-29 10:25:40
+ * @Description: Modify here please
+ */
 import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
-import { Cart } from '@libs/db/models/protal.cart.model';
+import { Cart } from '@libs/db/models/cart.model';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { addCartDto, getCartInfoDto } from './dto/carts.dto';

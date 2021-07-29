@@ -1,3 +1,12 @@
+/*
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2020-10-20 10:11:57
+ * @LastEditTime: 2021-07-29 10:04:10
+ * @Description: Modify here please
+ */
 import {
   prop,
   ModelOptions,
@@ -34,7 +43,7 @@ export class Member {
   avatarImg: string;
 
   @ApiProperty({ title: '会员性别' })
-  @prop({ required: true })
+  @prop({ required: true, default: 1, example: 1, description: '1:男 ，2：女' })
   gender: number;
 
   @ApiProperty({ title: '会员邮箱' })

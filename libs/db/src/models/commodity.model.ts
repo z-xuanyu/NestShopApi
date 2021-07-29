@@ -1,3 +1,12 @@
+/*
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2020-10-20 10:11:57
+ * @LastEditTime: 2021-07-29 10:02:42
+ * @Description: Modify here please
+ */
 import { modelOptions, prop, Ref } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from './category.model';
@@ -62,9 +71,9 @@ export class Commodity {
 
   @ApiProperty({ title: '商品详情图片' })
   @prop()
-  imgPathList: [];
+  imgPathList: Array<string>;
 
   @ApiProperty({ title: '商品轮播图' })
   @prop()
-  bannerPathList: [];
+  bannerPathList: Array<string>;
 }

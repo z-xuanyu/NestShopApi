@@ -10,8 +10,8 @@ import { Unit } from '@libs/db/models/unit.model';
 import { Crud } from 'nestjs-mongoose-crud';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { AuthGuard } from '@nestjs/passport';
-import { changeUnitStatusDto } from 'src/Dto/unit/changeUnitStatusDto';
 import { ModelType } from '@typegoose/typegoose/lib/types';
+import { changeUnitStatusDto } from './Dto/changeUnitStatusDto';
 
 class unitListDto {
   @ApiPropertyOptional({ title: '名称' })
