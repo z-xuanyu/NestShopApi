@@ -3,7 +3,6 @@ import { CommonService } from './common.service';
 import { JwtModule } from '@nestjs/jwt';
 import { DbModule } from '@libs/db';
 import { ConfigModule } from '@nestjs/config'
-
 @Global()
 @Module({
   imports: [

@@ -11,13 +11,14 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     @InjectModel(User) private userModel: ReturnModelType<typeof User>,
   ) {
     super({
-      emailField: 'email',
+      usernameField: 'email',
       passwordField: 'password',
     } as IStrategyOptions);
   }
 
   // 校验管理端 用户和密码
   async validate(email: string, password: string): Promise<User> {
+    console.log(email, password);
     const user = await this.userModel.findOne({ email }).select('+password');
     if (!user) {
       throw new BadRequestException('用户名不正确');

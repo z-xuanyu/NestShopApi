@@ -23,7 +23,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     } as StrategyOptions);
   }
   async validate(id:string): Promise<User> {
-    console.log(45456)
     return await this.userModel.findById(id);
   }
 }

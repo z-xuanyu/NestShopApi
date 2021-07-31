@@ -4,104 +4,134 @@ import {
   Query,
   UseGuards,
   Put,
-  Body
+  Body,
+  Delete,
+  Param,
+  Post,
+  Patch
 } from '@nestjs/common';
-import { InjectModel } from 'nestjs-typegoose';
-import { User } from '@libs/db/models/user.model';
-import { Crud } from 'nestjs-mongoose-crud';
+import { UserDocument } from '@libs/db/models/user.model';
 import {
   ApiTags,
   ApiOperation,
   ApiPropertyOptional,
   ApiBearerAuth,
   ApiProperty,
+  ApiParam,
 } from '@nestjs/swagger';
-import { ReturnModelType } from '@typegoose/typegoose';
 import { AuthGuard } from '@nestjs/passport';
-import { ModelType } from '@typegoose/typegoose/lib/types';
+import { UsersService } from './users.service';
+import { getUserListDto } from './Dto/getUserListDto';
+import { changeUserStatusDto } from './Dto/changeUserStatusDto';
+import { CurrentUser } from 'src/auth/current-user.decorator';
+import { reSetUserPasswordDto } from './Dto/reSetUserPasswordDto';
+import { addUserDto } from './Dto/addUserDto';
+import { editUserDto } from './Dto/editUserDto';
 
-class getAdminDto {
-  @ApiPropertyOptional({ description: '名称' })
-  name: string;
-}
-class statusDto {
-  @ApiProperty({ title: 'ID' })
-  userID: string;
-  @ApiProperty({
-    title: '状态',
-    description: 'true:开启,false:禁用',
-    example: true,
-  })
-  status: boolean;
-}
-
-class reSetPasswordDto {
-  @ApiProperty({ title: 'ID' })
-  userID: string;
-  @ApiProperty({ title: '新密码' })
-  password: string;
-}
-
-@Crud({
-  model: User,
-  routes: {
-    find: false,
-    create: {
-      decorators: [ApiOperation({ summary: '添加管理员' })],
-    },
-    findOne: {
-      decorators: [ApiOperation({ summary: '查看管理员信息' })],
-    },
-    update: {
-      decorators: [ApiOperation({ summary: '更新管理员信息' })],
-    },
-    delete: {
-      decorators: [ApiOperation({ summary: '删除管理员' })],
-    },
-  },
-})
 @Controller('users')
-@ApiTags('后台管理员')
+@ApiTags('后台用户')
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class UsersController {
-  constructor(
-    @InjectModel(User) private readonly model:ModelType<User>,
-    @InjectModel(User) private readonly UserModel: ReturnModelType<typeof User>,
-  ) { }
+  constructor(private userService: UsersService) {}
 
+  /**
+   * 获取管理员列表
+   */
   @Get()
-  @ApiOperation({ summary: '管理员列表' })
-  async getAdminList(@Query() paramData: getAdminDto): Promise<any> {
-    if (paramData.name) {
-      return await this.UserModel.find({
-        name: { $regex: paramData.name },
-      }).exec();
-    } else {
-      return await this.UserModel.find().exec();
-    }
+  @ApiOperation({ summary: '用户列表' })
+  async getAdminList(@Query() param: getUserListDto): Promise<any> {
+    const result = await this.userService.getUsers(param);
+
+    return {
+      code: 1,
+      result,
+      message: '成功',
+    };
   }
 
+  /**
+   * 添加管理员
+   */
+  @Post()
+  @ApiOperation({ summary: '添加用户' })
+  async addAdmin(@Body() addUserForm: addUserDto) {
+    const result = await this.userService.createUser(addUserForm);
+    return {
+      code: 1,
+      message: '请求成功',
+      result,
+    };
+  }
+
+  /**
+   * 更新管理员信息
+   */
+  @Patch(':id')
+  @ApiOperation({ summary: '编辑用户' })
+  @ApiParam({ name: 'id', description: '用户id' })
+  async updateAdmin(
+    @Body() editUserForm: editUserDto,
+    @Param('id') id: string,
+  ) {
+    const result = await this.userService.updateUser(editUserForm, id);
+    return {
+      code: 1,
+      message: '请求成功',
+      result,
+    };
+  }
+
+  // 改变管理员状态
   @Put('changeStatus')
-  @ApiOperation({ summary: '改变管理员状态' })
-  async changeUserStatus(@Body() status: statusDto): Promise<any> {
-    const { userID } = status;
-    const result = await this.UserModel.findByIdAndUpdate(userID, status);
-    if (result) {
-      return { code: 1, msg: 'succcess' };
-    }
+  @ApiOperation({ summary: '改变用户状态' })
+  async changeUserStatus(
+    @Body() param: changeUserStatusDto,
+    @CurrentUser() user: UserDocument,
+  ): Promise<any> {
+    const result = await this.userService.changeUserStatus(user._id, param);
+    return {
+      code: 1,
+      result,
+      message: '成功',
+    };
   }
 
+  /**
+   * 重置密码
+   */
   @Put('reSetPassword')
   @ApiOperation({ summary: '重置密码' })
-  async reSetUserPassword(@Body() reSetPassword: reSetPasswordDto): Promise<any> {
-    const { userID } = reSetPassword;
-    const res = await this.UserModel.findByIdAndUpdate(
-      userID,
-      reSetPasswordDto,
+  async reSetUserPassword(
+    @Body() reSetPassword: reSetUserPasswordDto,
+    @CurrentUser() user: UserDocument,
+  ): Promise<any> {
+    const result = await this.reSetUserPassword(
+      user._id,
+      reSetPassword.password as any,
     );
-    if (res) return { code: 1, msg: 'succcess' };
+    return {
+      code: 1,
+      result,
+      message: '成功',
+    };
   }
 
-
+  /**
+   * 删除管理员
+   */
+  @Delete(':id')
+  @ApiParam({
+    name: 'id',
+    description: '管理员id',
+  })
+  @ApiOperation({ summary: '删除管理员' })
+  async delAdmin(@Param('id') id: string) {
+    const result = await this.userService.delUser(id);
+    return {
+      code: 1,
+      message: '请求成功',
+      result,
+    };
+  }
 }

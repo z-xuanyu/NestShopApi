@@ -23,7 +23,7 @@ import { RoleService } from './role.service';
 
 @Controller('role')
 @ApiTags('角色管理')
-@UseGuards(AuthGuard('jwt-admin'))
+@UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class RoleController {
   constructor(private roleService: RoleService) {}

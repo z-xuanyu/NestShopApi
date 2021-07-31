@@ -1041,6 +1041,11 @@
   dependencies:
     source-map "^0.6.1"
 
+"@types/validator@^13.1.3":
+  version "13.6.3"
+  resolved "https://r.cnpmjs.org/@types/validator/download/@types/validator-13.6.3.tgz#31ca2e997bf13a0fffca30a25747d5b9f7dbb7de"
+  integrity sha1-McoumXvxOg//yjCiV0fVuffbt94=
+
 "@types/webpack-sources@*":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@types/webpack-sources/-/webpack-sources-1.4.0.tgz#e58f1f05f87d39a5c64cf85705bdbdbb94d4d57e"
@@ -2302,6 +2307,15 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+class-validator@^0.13.1:
+  version "0.13.1"
+  resolved "https://r.cnpmjs.org/class-validator/download/class-validator-0.13.1.tgz#381b2001ee6b9e05afd133671fbdf760da7dec67"
+  integrity sha1-OBsgAe5rngWv0TNnH733YNp97Gc=
+  dependencies:
+    "@types/validator" "^13.1.3"
+    libphonenumber-js "^1.9.7"
+    validator "^13.5.2"
+
 clean-css@^4.1.11:
   version "4.2.3"
   resolved "https://r.cnpmjs.org/clean-css/download/clean-css-4.2.3.tgz#507b5de7d97b48ee53d84adb0160ff6216380f78"
@@ -3052,6 +3066,11 @@ dotenv@8.2.0:
   version "8.2.0"
   resolved "https://r.cnpmjs.org/dotenv/download/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha1-l+YZJZradQ7qPk6j4mvO6lQksWo=
+
+dotenv@^10.0.0:
+  version "10.0.0"
+  resolved "https://r.cnpmjs.org/dotenv/download/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
+  integrity sha1-PUInuPuV+BCWzdK2ZlP7LHCFuoE=
 
 duplexify@^3.4.2, duplexify@^3.6.0:
   version "3.7.1"
@@ -5563,6 +5582,11 @@ libmime@5.0.0:
     iconv-lite "0.6.2"
     libbase64 "1.2.1"
     libqp "1.1.0"
+
+libphonenumber-js@^1.9.7:
+  version "1.9.22"
+  resolved "https://r.cnpmjs.org/libphonenumber-js/download/libphonenumber-js-1.9.22.tgz#b6b460603dedbd58f2d71f15500f216d70850fad"
+  integrity sha1-trRgYD3tvVjy1x8VUA8hbXCFD60=
 
 libqp@1.1.0:
   version "1.1.0"
@@ -9196,6 +9220,11 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
+
+validator@^13.5.2:
+  version "13.6.0"
+  resolved "https://r.cnpmjs.org/validator/download/validator-13.6.0.tgz#1e71899c14cdc7b2068463cb24c1cc16f6ec7059"
+  integrity sha1-HnGJnBTNx7IGhGPLJMHMFvbscFk=
 
 vary@^1, vary@~1.1.2:
   version "1.1.2"

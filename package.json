@@ -35,6 +35,8 @@
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
     "bcryptjs": "^2.4.3",
+    "class-validator": "^0.13.1",
+    "dotenv": "^10.0.0",
     "jwt": "^0.2.0",
     "mongoose": "^5.9.20",
     "multer-aliyun-oss": "^1.1.0",

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { InjectModel } from 'nestjs-typegoose';
 import { User, UserDocument } from '@libs/db/models/user.model';
@@ -18,7 +18,7 @@ export class AuthController {
     private jwtService: JwtService,
     @InjectModel(User) private userModel: ReturnModelType<typeof User>,
     @InjectModel(Member) private memberModel: ReturnModelType<typeof Member>,
-  ) { }
+  ) {}
 
   @Post('admin/register')
   @ApiOperation({ summary: '管理员注册' })
@@ -30,10 +30,17 @@ export class AuthController {
   @Post('admin/login')
   @ApiOperation({ summary: '管理登录' })
   @UseGuards(AuthGuard('local'))
-  async login(@Body() dto: LoginDto, @CurrentUser() user: UserDocument): Promise<any> {
+  async login(@Body() dto: LoginDto, @Req() req): Promise<any> {
     return {
-      code: 20000,
-      token: this.jwtService.sign(String(user._id)),
+      code: 1,
+      result: {
+        token: this.jwtService.sign(String(req.user._id)),
+        userInfo: {
+          avatar: req.user.avatar,
+          email: req.user.email,
+          name: req.user.name,
+        },
+      },
       message: '登录成功',
     };
   }
@@ -55,7 +62,7 @@ export class AuthController {
         _id: user._id,
         status: user.status,
       },
-    }
+    };
   }
 
   // web端注册
@@ -93,7 +100,9 @@ export class AuthController {
   @ApiOperation({ summary: '会员信息' })
   @UseGuards(AuthGuard('portalJwt'))
   @ApiBearerAuth()
-  async getMemberInfo(@CurrentUser() user: MemberDocument): Promise<MemberDocument> {
+  async getMemberInfo(
+    @CurrentUser() user: MemberDocument,
+  ): Promise<MemberDocument> {
     return user;
   }
 }

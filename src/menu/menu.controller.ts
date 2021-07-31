@@ -23,7 +23,7 @@ import { MenuService } from './menu.service';
 
 @Controller('menu')
 @ApiTags('菜单管理')
-@UseGuards(AuthGuard('jwt-admin'))
+@UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class MenuController {
   constructor(private menuService: MenuService) {}
