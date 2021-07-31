@@ -22,16 +22,8 @@ export class AuthController {
 
   @Post('admin/register')
   @ApiOperation({ summary: '管理员注册' })
-  async register(@Body() dto: RegisterDto): Promise<User> {
-    const { username, password, isSuper, avatar, email, status } = dto;
-    const user = await this.userModel.create({
-      username,
-      password,
-      isSuper,
-      avatar,
-      email,
-      status,
-    });
+  async register(@Body() createDto: RegisterDto): Promise<User> {
+    const user = await this.userModel.create(createDto as User);
     return user;
   }
 
@@ -52,9 +44,9 @@ export class AuthController {
   @ApiBearerAuth()
   async user(@CurrentUser() user: UserDocument): Promise<any> {
     return {
-      code: 20000,
+      code: 1,
       data: {
-        name: user.username,
+        name: user.name,
         avatar:
           user.avatar ||
           'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',

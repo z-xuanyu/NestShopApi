@@ -24,13 +24,14 @@ import { BannerModule } from './banner/banner.module';
 import { OrderModule } from './order/order.module';
 import { ProtalHomeModule } from './protal-home/protal-home.module';
 import { CartsModule } from './carts/carts.module';
-import { PortalOrderModule } from './portal-order/portal-order.module';
 import { NavigatorModule } from './navigator/navigator.module';
 import { SendMailModule } from './send-email/send-email.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter} from '@nestjs-modules/mailer/dist/adapters/pug.adapter'
 import path = require('path');
-import { CommoditiesRatingController } from './commodities-rating/commodities-rating.controller';
+import { RoleModule } from './role/role.module';
+import { MenuModule } from './menu/menu.module';
+import { InitDbModule } from './init-db/init-db.module';
 console.log(path.join(__dirname, './send-email/template'))
 @Module({
   imports: [
@@ -63,7 +64,6 @@ console.log(path.join(__dirname, './send-email/template'))
     OrderModule,
     ProtalHomeModule,
     CartsModule,
-    PortalOrderModule,
     NavigatorModule,
     SendMailModule,
     MailerModule.forRootAsync({
@@ -81,8 +81,11 @@ console.log(path.join(__dirname, './send-email/template'))
 					}
 				}
 			})
-		})
+		}),
+    RoleModule,
+    MenuModule,
+    InitDbModule
   ],
-  controllers: [AppController, CommoditiesRatingController],
+  controllers: [AppController],
 })
 export class AppModule {}

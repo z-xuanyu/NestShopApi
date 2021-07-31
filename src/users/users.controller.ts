@@ -29,10 +29,10 @@ class statusDto {
   userID: string;
   @ApiProperty({
     title: '状态',
-    description: '1:开启,2:禁用',
-    example: 1,
+    description: 'true:开启,false:禁用',
+    example: true,
   })
-  status: number;
+  status: boolean;
 }
 
 class reSetPasswordDto {
@@ -75,7 +75,7 @@ export class UsersController {
   async getAdminList(@Query() paramData: getAdminDto): Promise<any> {
     if (paramData.name) {
       return await this.UserModel.find({
-        username: { $regex: paramData.name },
+        name: { $regex: paramData.name },
       }).exec();
     } else {
       return await this.UserModel.find().exec();

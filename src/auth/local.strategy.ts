@@ -11,7 +11,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     @InjectModel(User) private userModel: ReturnModelType<typeof User>,
   ) {
     super({
-      usernameField: 'email',
+      emailField: 'email',
       passwordField: 'password',
     } as IStrategyOptions);
   }
@@ -25,7 +25,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     if (!compareSync(password, user.password)) {
       throw new BadRequestException('密码不正确');
     }
-    if (user.status !== 1) {
+    if (!user.status) {
       throw new BadRequestException('用户已被禁用');
     }
     return user;

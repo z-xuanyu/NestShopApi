@@ -14,7 +14,7 @@ export class PortalLocalStrategy extends PassportStrategy(
     @InjectModel(Member) private memberModel: ReturnModelType<typeof Member>,
   ) {
     super({
-      usernameField: 'phone',
+      phoneField: 'phone',
       passwordField: 'password',
     } as IStrategyOptions);
   }
