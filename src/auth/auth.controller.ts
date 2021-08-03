@@ -69,15 +69,12 @@ export class AuthController {
   @Post('portal/register')
   @ApiOperation({ summary: 'H5注册' })
   async portalRegister(@Body() dto: PortalRegisterDto): Promise<Member> {
-    const { phone, name, password, avatarImg, gender, email } = dto;
+    const { phone, name, password } = dto;
     const user = await this.memberModel.create({
       phone,
       password,
       name,
-      avatarImg,
-      gender,
-      email,
-    });
+    } as Member);
 
     return user;
   }

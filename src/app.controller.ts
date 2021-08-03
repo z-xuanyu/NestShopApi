@@ -1,7 +1,7 @@
 /*
  * @Author: xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-07-28 13:45:44
+ * @LastEditTime: 2021-08-03 16:44:14
  * @LastEditors: xuanyu
  * @Description: In User Settings Edit
  * @FilePath: \NestShopApi\src\app.controller.ts
@@ -50,14 +50,14 @@ export class AppController {
     type: FileUploadDto,
   })
   async avatarUpload(@UploadedFile('file') file): Promise<any> {
-    return { code: 20000, data: { url: file.url, message: 'ok' } };
+    return { code: 1, result: { url: file.url, message: 'ok' } };
   }
 
   // 管理端商品多图上传
   @ApiOperation({ summary: '商品多图上传' })
   @Post('multiple/upload')
-  // @UseGuards(AuthGuard('jwt'))
-  // @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
   @UseInterceptors(FilesInterceptor('files'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -65,7 +65,11 @@ export class AppController {
     type: multipleFileUploadDto,
   })
   async multipleUpload(@UploadedFiles() files: Array<any>): Promise<any> {
-    return files;
+    return {
+      code:1,
+      result:files,
+      message: '成功'
+    };
   }
 
   // H5头像上传
@@ -80,6 +84,6 @@ export class AppController {
     type: FileUploadDto,
   })
   async portalAvatarUpload(@UploadedFile('file') file): Promise<any> {
-    return { code: 1, file, msg: 'ok' };
+    return { code: 1, result:file, msg: '成功' };
   }
 }
