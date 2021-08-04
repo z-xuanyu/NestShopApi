@@ -10,13 +10,11 @@ import {
   Post,
   Patch
 } from '@nestjs/common';
-import { UserDocument } from '@libs/db/models/user.model';
+import { User, UserDocument } from '@libs/db/models/user.model';
 import {
   ApiTags,
   ApiOperation,
-  ApiPropertyOptional,
   ApiBearerAuth,
-  ApiProperty,
   ApiParam,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -27,6 +25,7 @@ import { CurrentUser } from 'src/auth/current-user.decorator';
 import { reSetUserPasswordDto } from './Dto/reSetUserPasswordDto';
 import { addUserDto } from './Dto/addUserDto';
 import { editUserDto } from './Dto/editUserDto';
+import { BaseResponseResult } from 'src/BaseResponseResult';
 
 @Controller('users')
 @ApiTags('后台用户')
@@ -40,9 +39,8 @@ export class UsersController {
    */
   @Get()
   @ApiOperation({ summary: '用户列表' })
-  async getAdminList(@Query() param: getUserListDto): Promise<any> {
+  async getAdminList(@Query() param: getUserListDto): Promise<BaseResponseResult<Array<User>>> {
     const result = await this.userService.getUsers(param);
-
     return {
       code: 1,
       result,
@@ -55,7 +53,7 @@ export class UsersController {
    */
   @Post()
   @ApiOperation({ summary: '添加用户' })
-  async addAdmin(@Body() addUserForm: addUserDto) {
+  async addAdmin(@Body() addUserForm: addUserDto):Promise<BaseResponseResult<User>> {
     const result = await this.userService.createUser(addUserForm);
     return {
       code: 1,
@@ -73,7 +71,7 @@ export class UsersController {
   async updateAdmin(
     @Body() editUserForm: editUserDto,
     @Param('id') id: string,
-  ) {
+  ) :Promise<BaseResponseResult<User>>{
     const result = await this.userService.updateUser(editUserForm, id);
     return {
       code: 1,
@@ -88,7 +86,7 @@ export class UsersController {
   async changeUserStatus(
     @Body() param: changeUserStatusDto,
     @CurrentUser() user: UserDocument,
-  ): Promise<any> {
+  ): Promise<BaseResponseResult<User>> {
     const result = await this.userService.changeUserStatus(user._id, param);
     return {
       code: 1,
@@ -105,7 +103,7 @@ export class UsersController {
   async reSetUserPassword(
     @Body() reSetPassword: reSetUserPasswordDto,
     @CurrentUser() user: UserDocument,
-  ): Promise<any> {
+  ): Promise<BaseResponseResult<any>> {
     const result = await this.reSetUserPassword(
       user._id,
       reSetPassword.password as any,
@@ -126,7 +124,7 @@ export class UsersController {
     description: '管理员id',
   })
   @ApiOperation({ summary: '删除管理员' })
-  async delAdmin(@Param('id') id: string) {
+  async delAdmin(@Param('id') id: string):Promise<BaseResponseResult<User>> {
     const result = await this.userService.delUser(id);
     return {
       code: 1,

@@ -1,3 +1,12 @@
+/*
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2021-08-02 17:30:19
+ * @LastEditTime: 2021-08-03 18:33:38
+ * @Description: Modify here please
+ */
 import { Menu } from '@libs/db/models/menu.model';
 import { Role } from '@libs/db/models/role.model';
 import { User } from '@libs/db/models/user.model';
@@ -18,7 +27,7 @@ export class MenuService {
   /**
    * 通过管理员关联的角色获取权限菜单
    */
-  async getMenuListByRoleAndAdmin(id: string) {
+  async getMenuListByRoleAndAdmin(id: string):Promise<any> {
     // 通过admin查询该管理员的角色
     const roles = await this.adminModel
       .findById({ _id: id })
@@ -48,14 +57,14 @@ export class MenuService {
   /**
    * 获取菜单列表
    */
-  async getMenuList() {
+  async getMenuList():Promise<Array<Menu>> {
     return await this.menuModel.find();
   }
 
   /**
    * 添加菜单
    */
-  async addMenu(addMenuForm: AddMenuDto) {
+  async addMenu(addMenuForm: AddMenuDto):Promise<Menu> {
     const result = await this.menuModel.create(addMenuForm as any);
     if (!result) {
       throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
@@ -66,7 +75,7 @@ export class MenuService {
   /**
    * 更新菜单信息
    */
-  async updateMenu(updateMenuForm: UpdateMenuDto, id: string) {
+  async updateMenu(updateMenuForm: UpdateMenuDto, id: string):Promise<Menu> {
     const result = await this.menuModel.findByIdAndUpdate(
       id,
       updateMenuForm as any,
@@ -80,7 +89,7 @@ export class MenuService {
   /**
    * 删除菜单
    */
-  async delMenu(id: string) {
+  async delMenu(id: string):Promise<Menu> {
     const result = await this.menuModel.findByIdAndDelete({ _id: id });
     if (!result) {
       throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);

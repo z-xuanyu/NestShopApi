@@ -2,10 +2,10 @@ import { User } from '@libs/db/models/user.model';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose';
-import { addUserDto } from './Dto/addUserDto';
-import { changeUserStatusDto } from './Dto/changeUserStatusDto';
-import { editUserDto } from './Dto/editUserDto';
-import { getUserListDto } from './Dto/getUserListDto';
+import { addUserDto } from './dto/addUserDto';
+import { changeUserStatusDto } from './dto/changeUserStatusDto';
+import { editUserDto } from './dto/editUserDto';
+import { getUserListDto } from './dto/getUserListDto';
 
 @Injectable()
 export class UsersService {
@@ -16,15 +16,13 @@ export class UsersService {
   /**
    * 获取管理员列表
    */
-  async getUsers(param: getUserListDto) {
+  async getUsers(param: getUserListDto):Promise<Array<User>> {
     const result = await this.userModel
-      .find(
-        param.name
-          ? {
-              name: { $regex: param.name },
-            }
-          : {},
-      )
+      .find({ $or:[
+        {
+          name: { $regex: new RegExp(param.name, "i") }
+        }
+      ] })
       .populate('roleIds')
       .exec();
     return result;
@@ -33,7 +31,7 @@ export class UsersService {
   /** 
    * 添加用户
    */
-  async createUser(addUserForm: addUserDto) {
+  async createUser(addUserForm: addUserDto):Promise<User> {
     const isHasEmail = await this.userModel.findOne({
       email: addUserForm.email,
     });
@@ -52,7 +50,7 @@ export class UsersService {
    * 更新管理员信息
    */
 
-  async updateUser(editUserForm: editUserDto, id: string) {
+  async updateUser(editUserForm: editUserDto, id: string):Promise<User> {
     const isHasEmail = await this.userModel.findOne({
       email: editUserForm.email,
     });
@@ -75,7 +73,7 @@ export class UsersService {
   /**
    * 改变管理员状态
    */
-  async changeUserStatus(userID: string, status: changeUserStatusDto) {
+  async changeUserStatus(userID: string, status: changeUserStatusDto):Promise<User> {
     const result = await this.userModel.findByIdAndUpdate(userID, status);
     if (!result) {
       throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
@@ -87,7 +85,7 @@ export class UsersService {
   /**
    * 重置会员密码
    */
-  async reSetUserPassword(userId: string, newPassword: string) {
+  async reSetUserPassword(userId: string, newPassword: string):Promise<User> {
     const result = await this.userModel.findByIdAndUpdate(userId, {
       password: newPassword,
     });
@@ -100,7 +98,7 @@ export class UsersService {
   /**
    * 删除账号
    */
-  async delUser(userId: string) {
+  async delUser(userId: string):Promise<User> {
     const userInfo = await this.userModel.findById(userId);
     if (userInfo.isSuper) {
       throw new HttpException('此账号为超级账号，不能删除', HttpStatus.OK);
