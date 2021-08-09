@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-09 16:16:57
+ * @LastEditTime: 2021-08-09 17:03:09
  * @Description: Modify here please
  */
 import { Controller, UseGuards, Get, Query, Patch, Param, Delete, Post, Body } from '@nestjs/common';
@@ -65,7 +65,7 @@ export class TagsController {
 
 
   // 删除标签
-  @Delete()
+  @Delete(":id")
   @ApiParam({ name: 'id', description: '标签id' })
   @ApiOperation( { summary: '删除标签' } )
   async delTag(@Param('id') id: string):Promise<Tag>{
