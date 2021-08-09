@@ -4,11 +4,12 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-12-11 15:26:39
- * @LastEditTime: 2021-07-29 10:01:40
+ * @LastEditTime: 2021-08-09 15:35:21
  * @Description: Modify here please
  */
 import { ApiProperty } from "@nestjs/swagger";
 import { modelOptions, prop, Ref } from "@typegoose/typegoose";
+import { Commodity } from "./commodity.model";
 import { Member } from "./member.model";
 
 @modelOptions({
@@ -19,13 +20,9 @@ import { Member } from "./member.model";
 
 export class CommoditiesRating {
 
-    @ApiProperty({ title: '商品图片' })
-    @prop({ required: true })
-    commoditiesPic: string
-
-    @ApiProperty({ title: '商品名称' })
-    @prop({ required: true })
-    commoditiesName: string
+    @ApiProperty({ title: '商品id' })
+    @prop({ required: true ,ref: ()=> Commodity})
+    commoditiesId: Ref<Commodity>
 
     @ApiProperty({ title: '评价用户' })
     @prop({ required: true , ref:()=> Member})
