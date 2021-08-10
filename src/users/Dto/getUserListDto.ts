@@ -7,9 +7,20 @@
  * @LastEditTime: 2021-08-04 10:39:09
  * @Description: Modify here please
  */
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class getUserListDto {
-  @ApiPropertyOptional({ description: '名称' })
+  @ApiProperty({ title: '分页数量' })
+  pageSize: number;
+
+
+  @ApiProperty({ title: '页码' })
+  pageNumber:number
+
+  @ApiProperty({ description: '名称' })
   name: string;
+
+
+  @ApiProperty({ title: '状态' })
+  status: boolean
 }

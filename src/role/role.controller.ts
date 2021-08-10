@@ -1,3 +1,4 @@
+import { Role } from '@libs/db/models/role.model';
 import {
   Controller,
   Get,
@@ -16,9 +17,10 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { addRoleDto } from './Dto/addRoleDto';
-import { getRoleListDto } from './Dto/getRoleListDto';
-import { editRoleDto } from './Dto/updateRoleDto';
+import { BaseResponseResult, TableResponseResult } from 'src/BaseResponseResult';
+import { addRoleDto } from './dto/addRoleDto';
+import { getRoleListDto } from './dto/getRoleListDto';
+import { editRoleDto } from './dto/updateRoleDto';
 import { RoleService } from './role.service';
 
 @Controller('role')
@@ -47,7 +49,9 @@ export class RoleController {
    */
   @Get()
   @ApiOperation({ summary: '角色列表' })
-  async getRoleList(@Query() getRoleQuery: getRoleListDto) {
+  async getRoleList(
+    @Query() getRoleQuery: getRoleListDto,
+  ): Promise<BaseResponseResult<TableResponseResult<Role>>> {
     const result = await this.roleService.getRoleList(getRoleQuery);
     return {
       code: 1,
@@ -96,9 +100,8 @@ export class RoleController {
     };
   }
 
-
-  /** 
-   * 删除角色 
+  /**
+   * 删除角色
    */
   @Delete(':id')
   @ApiParam({

@@ -1,14 +1,21 @@
+import { Query } from 'mongoose';
+
 /*
  * @Author: xuanyu
  * @LastEditors: xuanyu
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-04 11:35:47
- * @LastEditTime: 2021-08-04 11:38:17
+ * @LastEditTime: 2021-08-10 10:01:58
  * @Description: Modify here please
  */
-export class BaseResponseResult<T>{
-    code: number;
-    result: T;
-    message: string
+export class BaseResponseResult<T> {
+  code: number;
+  result: T;
+  message: string;
+}
+
+export class TableResponseResult<T> {
+  items: Array<T>;
+  total: number | any;
 }

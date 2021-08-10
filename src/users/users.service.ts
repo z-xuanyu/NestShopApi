@@ -2,6 +2,7 @@ import { User } from '@libs/db/models/user.model';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose';
+import { TableResponseResult } from 'src/BaseResponseResult';
 import { addUserDto } from './dto/addUserDto';
 import { changeUserStatusDto } from './dto/changeUserStatusDto';
 import { editUserDto } from './dto/editUserDto';
@@ -16,16 +17,25 @@ export class UsersService {
   /**
    * 获取管理员列表
    */
-  async getUsers(param: getUserListDto):Promise<Array<User>> {
+  async getUsers(param: getUserListDto): Promise<TableResponseResult<User>> {
+    const total =  await this.userModel.countDocuments();
     const result = await this.userModel
-      .find({ $or:[
-        {
-          name: { $regex: new RegExp(param.name, "i") }
-        }
-      ] })
+      .find({
+        $or: [
+          {
+            name: { $regex: new RegExp(param.name, 'i') },
+            status: param.status ? param.status : { $ne: param.status },
+          },
+        ],
+      })
       .populate('roleIds')
+      .limit(~~param.pageSize)
+      .skip(~~(param.pageNumber - 1) * param.pageSize)
       .exec();
-    return result;
+    return {
+      items: result,
+      total
+    };
   }
 
   /** 

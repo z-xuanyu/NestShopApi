@@ -28,7 +28,7 @@ class categoryListDto {
   @ApiPropertyOptional({ title: '一页多少条', example: 10 })
   pageSize: number;
   @ApiPropertyOptional({ title: '当前页数', example: 1 })
-  pageNo: number;
+  pageNumber: number;
 }
 @Crud({
   model: Category,
@@ -83,16 +83,16 @@ export class CategoriesController {
         });
     };
 
-    const { name, pageSize, pageNo } = categoryList;
+    const { name, pageSize, pageNumber } = categoryList;
     const totalCountData = await this.categoryModel.find(); //总条数
     // 名称查询
     const data = await this.categoryModel
-        .find(name? { name: { $regex: name }}: {})
-        .limit(Number(pageSize || 10))
-        .skip(Number((pageNo - 1) * pageSize))
-        .exec();
+      .find(name ? { name: { $regex: name } } : {})
+      .limit(Number(pageSize || 10))
+      .skip(Number((pageNumber - 1) * pageSize))
+      .exec();
       return {
-        pageNo: pageNo,
+        pageNo: pageNumber,
         pageSize: pageSize,
         data: list2tree(data),
         totalCount: totalCountData.length,
