@@ -1,45 +1,25 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+/*
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2020-10-20 10:11:57
+ * @LastEditTime: 2021-08-10 14:21:43
+ * @Description: Modify here please
+ */
+import { Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
-  ApiPropertyOptional,
   ApiBearerAuth,
+  ApiParam,
 } from '@nestjs/swagger';
-import { InjectModel } from 'nestjs-typegoose';
-import { Unit } from '@libs/db/models/unit.model';
-import { Crud } from 'nestjs-mongoose-crud';
-import { ReturnModelType } from '@typegoose/typegoose';
 import { AuthGuard } from '@nestjs/passport';
-import { ModelType } from '@typegoose/typegoose/lib/types';
-import { changeUnitStatusDto } from './Dto/changeUnitStatusDto';
-
-class unitListDto {
-  @ApiPropertyOptional({ title: '名称' })
-  name: string;
-  @ApiPropertyOptional({ title: '一页多少条', example: 10 })
-  pageSize: number;
-  @ApiPropertyOptional({ title: '当前页数', example: 1 })
-  pageNo: number;
-}
-
-@Crud({
-  model: Unit,
-  routes: {
-    create: {
-      decorators: [ApiOperation({ summary: '添加单位名称' })],
-    },
-    find: false,
-    findOne: {
-      decorators: [ApiOperation({ summary: '单位名称信息' })],
-    },
-    update: {
-      decorators: [ApiOperation({ summary: '更新单位名称' })],
-    },
-    delete: {
-      decorators: [ApiOperation({ summary: '删除单位名称' })],
-    },
-  },
-})
+import { UnitService } from './unit.service';
+import { GetUnitsDto } from './dto/getUnits.dto';
+import { AddOrUpdateUnitDto } from './dto/addOrUpdateUnit.dto';
+import { BaseResponseResult } from 'src/BaseResponseResult';
+import { Unit } from '@libs/db/models/unit.model';
 
 @Controller('unit')
 @ApiTags('后台商品单位管理')
@@ -47,62 +27,56 @@ class unitListDto {
 @ApiBearerAuth()
 export class UnitController {
 
-  constructor(
-    @InjectModel(Unit) private readonly model:ModelType<Unit>,
-    @InjectModel(Unit) private readonly unitModel: ReturnModelType<typeof Unit>,
-  ) { }
+  constructor(private unitService: UnitService) { }
 
+  
+  @Get()
   @ApiOperation({ summary: '单位名称列表' })
-  @Get('list')
-  async getUnitList(@Query() unitList: unitListDto): Promise<any> {
-    const { name, pageSize, pageNo } = unitList;
-    const totalCountData = await this.unitModel.find(); //总条数
-    // 名称查询
-    if (name) {
-      const data = await this.unitModel
-        .find({ name: { $regex: name } })
-        .limit(Number(pageSize || 10))
-        .skip(Number((pageNo - 1) * pageSize))
-        .exec();
-      return {
-        pageNo: pageNo,
-        pageSize: pageSize,
-        data: data,
-        totalCount: totalCountData.length,
-        totalPage:
-          totalCountData.length / pageSize < 1
-            ? 1
-            : totalCountData.length / pageSize,
-      };
-    } else {
-      const data = await this.unitModel
-        .find()
-        .limit(Number(pageSize || 10))
-        .skip(Number((pageNo - 1) * pageSize))
-        .exec();
-      return {
-        pageNo: pageNo,
-        pageSize: pageSize,
-        data: data,
-        totalCount: totalCountData.length,
-        totalPage:
-          totalCountData.length / pageSize < 1
-            ? 1
-            : totalCountData.length / pageSize,
-      };
+  async getUnitList(@Query() parameters:GetUnitsDto ): Promise<any> {
+    const result = await this.unitService.getUnits(parameters)
+    return {
+      code:1,
+      message: '成功',
+      result
     }
   }
 
-  @ApiOperation({ summary: '改变状态' })
-  @Get('changeStatus')
-  async changeUnitStatus(@Query() changeUnitStatus: changeUnitStatusDto): Promise<any> {
-    const { unitID, status } = changeUnitStatus
 
-    await this.unitModel.findByIdAndUpdate(unitID, { status: status })
-
+  @Post()
+  @ApiOperation({ summary: '添加单位' })
+  async addUnit(parameters:AddOrUpdateUnitDto):Promise<BaseResponseResult<Unit>>{
+    const result = await this.unitService.addUnit(parameters)
     return {
-      code: 20000,
-      message: '成功'
+      code:1,
+      message: '成功',
+      result
+    }
+  }
+
+
+
+  @Patch(":id")
+  @ApiParam({ name:'id',description:"单位id" })
+  @ApiOperation({ summary: '编辑更新单位信息' })
+  async updateUnit(@Param("id") id:string, parameters:AddOrUpdateUnitDto):Promise<BaseResponseResult<Unit>>{
+    const result = await this.unitService.updateUnit(id, parameters)
+    return {
+      code:1,
+      message: '成功',
+      result
+    }
+  }
+
+
+  @Delete(":id")
+  @ApiParam({ name:'id',description:"单位id" })
+  @ApiOperation({ summary: '删除单位信息' })
+  async delUnit(@Param("id") id:string):Promise<BaseResponseResult<Unit>>{
+    const result = await this.unitService.delUnit(id)
+    return {
+      code:1,
+      message: '成功',
+      result
     }
   }
 }
