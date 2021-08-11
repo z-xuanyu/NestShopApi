@@ -35,7 +35,7 @@ export class RoleController {
    */
   @Post()
   @ApiOperation({ summary: '添加角色' })
-  async addRole(@Body() addRoleForm: addRoleDto) {
+  async addRole(@Body() addRoleForm: addRoleDto) :Promise<BaseResponseResult<Role>>{
     const result = await this.roleService.addRole(addRoleForm);
     return {
       code: 1,
@@ -69,7 +69,7 @@ export class RoleController {
     description: '角色id',
   })
   @ApiOperation({ summary: '通过角色获取菜单列表' })
-  async getRoleMenuList(@Param('id') id: string) {
+  async getRoleMenuList(@Param('id') id: string):Promise<BaseResponseResult<Role>> {
     const result = await this.roleService.getRoleInfo(id);
     return {
       code: 1,
@@ -87,7 +87,7 @@ export class RoleController {
     description: '角色id',
   })
   @ApiOperation({ summary: '编辑更新角色信息' })
-  async updateRole(@Body() editRoleForm: editRoleDto, @Param('id') id: string) {
+  async updateRole(@Body() editRoleForm: editRoleDto, @Param('id') id: string) :Promise<BaseResponseResult<Role>>{
     if (editRoleForm.menuIds.includes('')) {
       editRoleForm.menuIds = [];
     }
@@ -108,7 +108,7 @@ export class RoleController {
     name: 'id',
     description: '角色id',
   })
-  async delRole(@Param('id') id: string) {
+  async delRole(@Param('id') id: string) :Promise<BaseResponseResult<Role>>{
     const result = await this.roleService.delRole(id);
     return {
       code: 1,
