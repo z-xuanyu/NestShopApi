@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-02 17:30:19
- * @LastEditTime: 2021-08-11 10:00:02
+ * @LastEditTime: 2021-08-11 10:17:19
  * @Description: Modify here please
  */
 import { Role } from '@libs/db/models/role.model';
@@ -36,6 +36,14 @@ export class RoleService {
       items: result,
       total,
     };
+  }
+
+
+  /**
+   * 获取账号选中角色列表
+   */
+  async getAccountRloe():Promise<Array<Role>>{
+    return await this.roleModel.find()
   }
 
   /**

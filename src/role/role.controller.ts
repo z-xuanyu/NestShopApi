@@ -60,6 +60,21 @@ export class RoleController {
     };
   }
 
+
+  /**
+   * 获取管理账号tree选择角色列表
+   */
+  @Get("account")
+  @ApiOperation({ summary:"账号下面角色列表" })
+  async accountRole():Promise<BaseResponseResult<Array<Role>>>{
+    const result = await this.roleService.getAccountRloe()
+    return {
+      code: 1,
+      message: '请求成功',
+      result,
+    };
+  }
+
   /**
    *  通过角色获取菜单列表
    */
