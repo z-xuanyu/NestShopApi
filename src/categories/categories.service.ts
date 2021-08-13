@@ -4,12 +4,13 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-13 10:46:54
- * @LastEditTime: 2021-08-13 11:08:01
+ * @LastEditTime: 2021-08-13 14:45:01
  * @Description: Modify here please
  */
 import { Category } from '@libs/db/models/category.model';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ReturnModelType } from '@typegoose/typegoose';
+import e = require('express');
 import { InjectModel } from 'nestjs-typegoose';
 import { TableResponseResult } from 'src/BaseResponseResult';
 import { AddGoodsCategory } from './dto/addCategory.dto';
@@ -24,13 +25,46 @@ export class CategoriesService {
 
     // 获取商品分类列表
     async getGoodsCategory(parameters: GetGoodsCategoriesDto): Promise<TableResponseResult<Category>> {
+
+        // 列表转树
+        const list2tree = (items, parentId = null) => {
+            return items
+                .filter(item => String(item.parentId) == String(parentId))
+                .map(item => {
+                    if (list2tree(items, String(item._id)).length) {
+                        return {
+                            _id: item._id,
+                            name: item.name,
+                            status: item.status,
+                            createdAt: item.createdAt,
+                            updatedAt: item.updatedAt,
+                            pic: item.pic,
+                            parentId: item.parentId,
+                            sort: item.sort,
+                            children: list2tree(items, String(item._id)),
+                        };
+                    } else {
+                        return {
+                            _id: item._id,
+                            name: item.name,
+                            status: item.status,
+                            createdAt: item.createdAt,
+                            updatedAt: item.updatedAt,
+                            pic: item.pic,
+                            parentId: item.parentId,
+                            sort: item.sort,
+                        };
+                    }
+
+                });
+        };
         const total = await this.categoryModel.countDocuments();
         const result = await this.categoryModel
             .find({ name: { $regex: new RegExp(parameters.name, 'i') } })
             .limit(~~parameters.pageSize)
             .skip(~~((parameters.pageNumber - 1) * parameters.pageSize))
         return {
-            items: result,
+            items: list2tree(result),
             total
         };
     }
@@ -57,7 +91,7 @@ export class CategoriesService {
 
 
     // 删除商品分类
-    async delGoodsCategory(id:string):Promise<Category>{
+    async delGoodsCategory(id: string): Promise<Category> {
         const result = await this.categoryModel.findByIdAndDelete(id)
         if (!result) {
             throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
