@@ -4,10 +4,10 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-07-28 10:40:15
+ * @LastEditTime: 2021-08-13 15:50:56
  * @Description: Modify here please
  */
-import { prop, ModelOptions } from '@typegoose/typegoose';
+import { prop, ModelOptions, Ref } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
 
 @ModelOptions({
@@ -40,7 +40,7 @@ export class Category {
   @prop({ default: true })
   status: boolean
 
-  @ApiProperty({ title: '上级分类' , default: 'null'})
-  @prop()
-  parentId: string
+  @ApiProperty({ title: '上级分类' , default: null})
+  @prop({ ref:()=> Category , default: null})
+  parentId: Ref<Category> | null;
 }

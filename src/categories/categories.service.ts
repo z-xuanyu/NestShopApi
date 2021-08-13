@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-13 10:46:54
- * @LastEditTime: 2021-08-13 14:45:01
+ * @LastEditTime: 2021-08-13 15:52:40
  * @Description: Modify here please
  */
 import { Category } from '@libs/db/models/category.model';
@@ -72,7 +72,7 @@ export class CategoriesService {
 
     // 添加商品分类
     async addCategory(parameters: AddGoodsCategory): Promise<Category> {
-        const result = await this.categoryModel.create(parameters as Category)
+        const result = await this.categoryModel.create(parameters as any)
         if (!result) {
             throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
         }
@@ -82,7 +82,7 @@ export class CategoriesService {
 
     // 编辑更新商品分类
     async updateGoodsCategory(id: string, parameters: UpdateGoodsCategory): Promise<Category> {
-        const result = await this.categoryModel.findByIdAndUpdate(id, parameters)
+        const result = await this.categoryModel.findByIdAndUpdate(id, parameters as any)
         if (!result) {
             throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
         }
