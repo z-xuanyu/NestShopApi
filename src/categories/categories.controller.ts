@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-13 11:55:53
+ * @LastEditTime: 2021-08-13 17:56:01
  * @Description: Modify here please
  */
 import { Controller, UseGuards, Query, Get, Body, Post, Patch, Param, Delete } from '@nestjs/common';
@@ -46,38 +46,38 @@ export class CategoriesController {
 
   @Post()
   @ApiOperation({ summary: '添加商品分类' })
-  async addGoodsCategory(@Body() parameters:AddGoodsCategory):Promise<BaseResponseResult<Category>>{
+  async addGoodsCategory(@Body() parameters: AddGoodsCategory): Promise<BaseResponseResult<Category>> {
     const result = await this.categoryService.addCategory(parameters)
     return {
       code: 1,
       result,
-      message:'成功'
+      message: '成功'
     }
   }
 
 
   @Patch(":id")
   @ApiOperation({ summary: '编辑更新商品分类信息' })
-  @ApiParam({ name:'id', description: '商品分类id' })
-  async updateGoodsCategory(@Param('id') id:string,@Body() parameters: UpdateGoodsCategory):Promise<BaseResponseResult<Category>>{
-    const result = await this.categoryService.updateGoodsCategory(id,parameters)
+  @ApiParam({ name: 'id', description: '商品分类id' })
+  async updateGoodsCategory(@Param('id') id: string, @Body() parameters: UpdateGoodsCategory): Promise<BaseResponseResult<Category>> {
+    const result = await this.categoryService.updateGoodsCategory(id, parameters)
     return {
       code: 1,
       result,
-      message:'成功'
+      message: '成功'
     }
   }
 
 
-  @Delete()
+  @Delete(":id")
   @ApiOperation({ summary: '删除商品分类' })
-  @ApiParam({ name:'id', description: '商品分类id' })
-  async delGoodsCategory(@Param('id') id:string):Promise<BaseResponseResult<Category>>{
+  @ApiParam({ name: 'id', description: '商品分类id' })
+  async delGoodsCategory(@Param('id') id: string): Promise<BaseResponseResult<Category>> {
     const result = await this.categoryService.delGoodsCategory(id)
     return {
       code: 1,
       result,
-      message:'成功'
+      message: '成功'
     }
   }
 }

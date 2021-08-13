@@ -7,7 +7,6 @@ import { Category } from '@libs/db/models/category.model';
 import { Commodity } from '@libs/db/models/commodity.model';
 import {
   commoditySearchKeywordDto,
-  categoryCommodityDto,
   commodityInfoDto,
 } from './dto/protal.home.dto';
 
@@ -85,37 +84,6 @@ export class ProtalHomeController {
             ? 1
             : totalCountData.length / pageSize,
       };
-    }
-  }
-
-  @Get('categoryCommodity')
-  @ApiOperation({ summary: '分类商品' })
-  async categoryCommodity(@Query() categoryCommodity: categoryCommodityDto): Promise<any> {
-    const { categoryID, pageSize, pageNo } = categoryCommodity;
-
-    try {
-      const totalCountData = await this.commodityModel.find({
-        categories: categoryID,
-      });
-      const categoryCommodityList = await this.commodityModel
-        .find({
-          categories: categoryID,
-        })
-        .limit(Number(pageSize || 10))
-        .skip(Number((pageNo - 1) * pageSize))
-        .exec();
-      return {
-        pageNo: pageNo,
-        pageSize: pageSize,
-        data: categoryCommodityList,
-        totalCount: totalCountData.length,
-        totalPage:
-          totalCountData.length / pageSize < 1
-            ? 1
-            : totalCountData.length / pageSize,
-      };
-    } catch (err) {
-      return { code: 0, msg: err };
     }
   }
 

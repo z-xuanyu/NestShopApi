@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-03 17:00:16
+ * @LastEditTime: 2021-08-13 17:05:06
  * @Description: Modify here please
  */
 import { modelOptions, prop, Ref } from '@typegoose/typegoose';
@@ -35,9 +35,11 @@ export class Commodity {
 
   @ApiProperty({ title: '类别' })
   @prop({
-    ref: 'Category',
+    ref: ()=>Category,
   })
-  categories: Ref<Category>;
+  categories: Ref<Category>[];
+
+
   @ApiProperty({ title: '折扣价' })
   @prop()
   discountPrice: number;
@@ -50,15 +52,15 @@ export class Commodity {
   @prop({
     ref: 'Tag',
   })
-  tags: Ref<Tag>[];
+  tags?: Ref<Tag>[];
 
   @ApiProperty({ title: '商品单位' })
   @prop({
     ref: 'Unit',
   })
-  unit: Ref<Unit>;
+  unit?: Ref<Unit>;
 
-  @ApiProperty({ title: '推荐' })
+  @ApiProperty({ title: '热门推荐' })
   @prop({ default: 2 })
   isRecommend:number;
 
@@ -73,6 +75,11 @@ export class Commodity {
   @ApiProperty({ title: '描述' })
   @prop()
   desc: string;
+
+
+  @ApiProperty({ title: '商品主图' })
+  @prop()
+  coverImg: string
 
   @ApiProperty({ title: '商品详情图片' })
   @prop()
