@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-13 17:55:24
+ * @LastEditTime: 2021-08-26 18:25:05
  * @Description: Modify here please
  */
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
@@ -62,7 +62,7 @@ export class CommoditiesController {
 
   @Delete(":id")
   @ApiParam({ name:'id', description:'商品id' })
-  @ApiOperation({ summary: '商品' })
+  @ApiOperation({ summary: '删除商品' })
   async delCommodity(@Param('id') id:string,) :Promise<BaseResponseResult<Commodity>>{
     const result = await this.commodityService.delCommodity(id)
     return {

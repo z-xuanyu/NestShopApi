@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-13 17:05:06
+ * @LastEditTime: 2021-08-26 18:22:19
  * @Description: Modify here please
  */
 import { modelOptions, prop, Ref } from '@typegoose/typegoose';
@@ -60,17 +60,17 @@ export class Commodity {
   })
   unit?: Ref<Unit>;
 
-  @ApiProperty({ title: '热门推荐' })
-  @prop({ default: 2 })
-  isRecommend:number;
+  @ApiProperty({ title: '热门推荐', description: 'true：新品' })
+  @prop({ default: true })
+  isRecommend: boolean;
 
-  @ApiProperty({ title: '新品' })
-  @prop({ default: 1 })
-  isNewest: number;
+  @ApiProperty({ title: '新品', description: 'true：新品' })
+  @prop({ default: true })
+  isNewest: boolean;
 
-  @ApiProperty({ title: '状态' })
-  @prop({ default: 1 })
-  status: number;
+  @ApiProperty({ title: '状态',description: 'true：上架，false:下架' })
+  @prop({ default: true })
+  status: boolean;
 
   @ApiProperty({ title: '描述' })
   @prop()

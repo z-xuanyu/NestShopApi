@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-13 17:07:37
- * @LastEditTime: 2021-08-13 17:07:51
+ * @LastEditTime: 2021-08-26 18:24:42
  * @Description: Modify here please
  */
 import { ApiProperty } from "@nestjs/swagger";
@@ -27,13 +27,13 @@ export class UpdateCommodityDto {
     price: number;
 
     @ApiProperty({ title: '热门推荐' })
-    isRecommend: number;
+    isRecommend: boolean;
 
     @ApiProperty({ title: '新品' })
-    isNewest: number;
+    isNewest: boolean;
 
     @ApiProperty({ title: '状态' })
-    status: number;
+    status: boolean;
 
     @ApiProperty({ title: '描述' })
     desc: string;
