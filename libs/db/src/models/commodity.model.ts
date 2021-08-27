@@ -4,18 +4,17 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-27 10:43:14
+ * @LastEditTime: 2021-08-27 16:17:21
  * @Description: Modify here please
  */
 import { modelOptions, prop, Ref } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from './category.model';
 import { Tag } from './tag.model';
-import { Unit } from './unit.model';
 
 @modelOptions({
-  schemaOptions:{
-      timestamps:true
+  schemaOptions: {
+    timestamps: true
   }
 })
 
@@ -24,20 +23,20 @@ export class Commodity {
   @prop()
   name: string;
 
-  @ApiProperty({ title:'副标题' })
+  @ApiProperty({ title: '副标题' })
   @prop()
   subTitle: string
 
-  
+
   @ApiProperty({ title: '库存' })
   @prop()
   stock: number;
 
   @ApiProperty({ title: '类别' })
   @prop({
-    ref: ()=>Category,
+    ref: () => Category,
   })
-  categories: Ref<Category>[];
+  categories: Ref<Category>;
 
 
   @ApiProperty({ title: '折扣价' })
@@ -55,10 +54,8 @@ export class Commodity {
   tags?: Ref<Tag>[];
 
   @ApiProperty({ title: '商品单位' })
-  @prop({
-    ref: 'Unit',
-  })
-  unit?: Ref<Unit>;
+  @prop()
+  unit: string;
 
   @ApiProperty({ title: '热门推荐', description: 'true：新品' })
   @prop({ default: true })
@@ -68,7 +65,7 @@ export class Commodity {
   @prop({ default: true })
   isNewest: boolean;
 
-  @ApiProperty({ title: '状态',description: 'true：上架，false:下架' })
+  @ApiProperty({ title: '状态', description: 'true：上架，false:下架' })
   @prop({ default: true })
   status: boolean;
 
@@ -83,11 +80,19 @@ export class Commodity {
 
   @ApiProperty({ title: '商品详情图片' })
   @prop()
-  imgPathList: Array<string>;
+  imgPathList?: [];
 
   @ApiProperty({ title: '商品轮播图' })
-  @prop()
-  bannerPathList: Array<string>;
+  @prop({
+    get(val) {
+      console.log(val, '商品模型')
+      return val;
+    },
+    set(val) {
+      return val;
+    },
+  })
+  bannerPathList: string[];
 
   @ApiProperty({ title: "商品销量" })
   @prop({ default: 0 })

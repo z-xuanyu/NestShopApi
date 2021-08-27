@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-13 17:07:37
- * @LastEditTime: 2021-08-26 18:24:42
+ * @LastEditTime: 2021-08-27 12:04:19
  * @Description: Modify here please
  */
 import { ApiProperty } from "@nestjs/swagger";
@@ -42,8 +42,8 @@ export class UpdateCommodityDto {
     coverImg: string
 
     @ApiProperty({ title: '商品详情图片' })
-    imgPathList: Array<string>;
+    imgPathList: [];
 
     @ApiProperty({ title: '商品轮播图' })
-    bannerPathList: Array<string>;
+    bannerPathList: [];
 }
