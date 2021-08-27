@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-26 18:22:19
+ * @LastEditTime: 2021-08-27 10:43:14
  * @Description: Modify here please
  */
 import { modelOptions, prop, Ref } from '@typegoose/typegoose';
@@ -88,4 +88,12 @@ export class Commodity {
   @ApiProperty({ title: '商品轮播图' })
   @prop()
   bannerPathList: Array<string>;
+
+  @ApiProperty({ title: "商品销量" })
+  @prop({ default: 0 })
+  sales?: number;
+
+  @ApiProperty({ title: '商品浏览量' })
+  @prop({ default: 0 })
+  views?: number;
 }
