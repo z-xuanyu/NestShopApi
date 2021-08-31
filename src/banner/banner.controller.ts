@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-09 17:02:59
+ * @LastEditTime: 2021-08-31 14:28:11
  * @Description: Modify here please
  */
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
@@ -56,7 +56,7 @@ export class BannerController {
   @Patch(":id")
   @ApiParam({ name: 'id', description: "bannerId" })
   @ApiOperation({ summary: '更新banner信息' })
-  async updateBanner(@Param("id") id:string,parameters:UpdateBannerDto ):Promise<any>{
+  async updateBanner(@Param("id") id:string, @Body() parameters:UpdateBannerDto ):Promise<any>{
     const result = await this.bannerService.updateBanner(id,parameters)
     return {
       code: 1,
