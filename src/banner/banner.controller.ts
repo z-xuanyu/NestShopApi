@@ -4,10 +4,10 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-31 14:28:11
+ * @LastEditTime: 2021-09-01 14:57:16
  * @Description: Modify here please
  */
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { BannerService } from './banner.service';
@@ -28,7 +28,7 @@ export class BannerController {
   // 获取banner列表
   @Get()
   @ApiOperation({ summary: 'banner列表' })
-  async getBanners(parameters:GetBannersDto):Promise<any>{
+  async getBanners(@Query() parameters:GetBannersDto):Promise<any>{
     const result = await this.bannerService.getBanners(parameters)
     return {
       code: 1,
