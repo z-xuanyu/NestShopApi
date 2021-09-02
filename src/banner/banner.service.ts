@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-09 10:33:08
- * @LastEditTime: 2021-08-09 16:59:51
+ * @LastEditTime: 2021-09-01 17:45:13
  * @Description: Modify here please
  */
 import { Banner } from '@libs/db/models/banner.model';
@@ -18,29 +18,29 @@ import { UpdateBannerDto } from './dto/updateBanner.dto';
 
 @Injectable()
 export class BannerService {
-    constructor(@InjectModel(Banner) private readonly bannerModel:ModelType<Banner>){}
+    constructor(@InjectModel(Banner) private readonly bannerModel: ModelType<Banner>) { }
 
     // 获取banner列表
-    async getBanners(parameters:GetBannersDto):Promise<Array<Banner>>{
-        const result = await this.bannerModel.find({ name: { $regex: new RegExp(parameters.name, 'i') } }).limit(~~parameters.pageSize).skip(~~((parameters.pageNumber - 1) * parameters.pageSize))
+    async getBanners(parameters: GetBannersDto): Promise<Array<Banner>> {
+        const result = await this.bannerModel.find({ name: { $regex: new RegExp(parameters.name, 'i') } }).populate("commodityId").limit(~~parameters.pageSize).skip(~~((parameters.pageNumber - 1) * parameters.pageSize))
         return result;
     }
 
 
     // 添加banner
-    async addBanner(parameters: AddBannerDto):Promise<Banner> {
+    async addBanner(parameters: AddBannerDto): Promise<Banner> {
         const result = await this.bannerModel.create(parameters as any)
-        if(!result) {
+        if (!result) {
             throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
         }
         return result;
     }
-    
+
 
     // 更新banner
-    async updateBanner(id:string, parameters:UpdateBannerDto):Promise<Banner>{
-        const result = await this.bannerModel.findByIdAndUpdate(id,parameters as any)
-        if(!result) {
+    async updateBanner(id: string, parameters: UpdateBannerDto): Promise<Banner> {
+        const result = await this.bannerModel.findByIdAndUpdate(id, parameters as any)
+        if (!result) {
             throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
         }
         return result;
@@ -48,12 +48,12 @@ export class BannerService {
 
 
     // 删除banner
-    async delBanner(id:string):Promise<Banner>{
+    async delBanner(id: string): Promise<Banner> {
         const result = await this.bannerModel.findByIdAndDelete(id)
-        if(!result) {
+        if (!result) {
             throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
         }
         return result
     }
-    
+
 }
