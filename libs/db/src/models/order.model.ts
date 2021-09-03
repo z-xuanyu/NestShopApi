@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-07-29 10:13:45
+ * @LastEditTime: 2021-09-03 16:29:17
  * @Description: Modify here please
  */
 import { ApiProperty } from '@nestjs/swagger';
@@ -19,10 +19,6 @@ import { ReceiptAddress } from './receiptAddress.model';
 })
 export class Order {
   
-  @ApiProperty({ title: '订单编号' })
-  @prop()
-  orderNo: string;
-
   @ApiProperty({ title: '收货地址id' })
   @prop({ ref:()=> ReceiptAddress })
   receiptAddressId: Ref<ReceiptAddress>
@@ -33,10 +29,20 @@ export class Order {
   commodityId: Ref<ReceiptAddress>[]
 
 
-  @ApiProperty({ title: '订单金额' })
-  @prop()
-  payMentTotal: number;
+  @ApiProperty({ title: '商品数量' })
+  @prop({ default: 1 })
+  commodityNum: number;
 
+  
+  @ApiProperty({ title: '订单实付金额' })
+  @prop()
+  paymentTotal: number;
+
+  @ApiProperty({ title: '支付方式', description: '1: 余额支付，2: 微信支付，3: 支付宝' })
+  @prop({ default: 1 })
+  paymentType: number;
+
+  
   @ApiProperty({
     title: '订单状态',
     description: '1:待付款 2:已支付 3:已完成 4:已取消',

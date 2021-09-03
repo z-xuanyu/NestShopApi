@@ -1,105 +1,80 @@
 import {
   Controller,
   UseGuards,
-  Put,
   Body,
   Get,
-  Query
+  Query,
+  Post,
+  Patch,
+  Param,
+  Delete
 } from '@nestjs/common';
 import {
   ApiTags,
   ApiBearerAuth,
   ApiOperation,
-  ApiProperty,
+  ApiParam,
 } from '@nestjs/swagger';
-import { InjectModel } from 'nestjs-typegoose';
-import { ReceiptAddress } from '@libs/db/models/receiptAddress.model';
-import { Crud } from 'nestjs-mongoose-crud';
 import { AuthGuard } from '@nestjs/passport';
-import { ReturnModelType } from '@typegoose/typegoose';
-import { ModelType } from '@typegoose/typegoose/lib/types';
+import { ReceiptAddressService } from './receipt-address.service';
+import { AddReceiptAddress, GetReceiptAddressList, UpdateReceiptAddress } from './dto/receiptAddress.dto';
+import { BaseResponseResult } from 'src/BaseResponseResult';
+import { ReceiptAddress } from '@libs/db/models/receiptAddress.model';
 
-class setDefaultDto {
-  @ApiProperty({ title: '用户id' })
-  userID: string;
-  @ApiProperty({ title: '地址id' })
-  addressID: string;
-  @ApiProperty({ title: '是否默认' })
-  isDefaule: boolean;
-}
 
-class MemberAddressDto {
-  @ApiProperty({ title: '会员ID' })
-  userID: string;
-}
-@Crud({
-  model: ReceiptAddress,
-  routes: {
-    create: {
-      decorators: [ApiOperation({ summary: '添加收货地址' })],
-    },
-    find: {
-      decorators: [ApiOperation({ summary: '全部会员收货地址列表' })],
-    },
-    findOne: {
-      decorators: [ApiOperation({ summary: '收货地址详细信息' })],
-    },
-    update: {
-      decorators: [ApiOperation({ summary: '更新收货地址信息' })],
-    },
-    delete: {
-      decorators: [ApiOperation({ summary: '删除收货地址' })],
-    },
-  },
-})
 @Controller('receiptAddress')
 @ApiTags('后台会员收货地址')
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class ReceiptAddressController {
-  constructor(
-    @InjectModel(ReceiptAddress) private readonly model:ModelType<ReceiptAddress>,
-    @InjectModel(ReceiptAddress)
-    private readonly receiptAddressModel: ReturnModelType<
-      typeof ReceiptAddress
-    >,
-  ) { }
+  constructor( private receiptAddressService: ReceiptAddressService) {};
 
-  // 设置为默认收货地址
-  @Put('setDefault')
-  @ApiOperation({ summary: '设置为默认地址' })
-  async setDefaultAddress(@Body() setDefault: setDefaultDto): Promise<any> {
-    const { userID, isDefaule, addressID } = setDefault;
-    await this.receiptAddressModel.findByIdAndUpdate(
-      { _id: addressID },
-      { isDefaule: isDefaule },
-    );
-    const addressArr = await this.receiptAddressModel.find({ userID });
-    const otherAddress = addressArr.filter(
-      (item) => String(item._id) !== String(addressID),
-    );
-    otherAddress.forEach(async (item) => {
-      await this.receiptAddressModel.findByIdAndUpdate(
-        { _id: item._id },
-        { isDefaule: !isDefaule },
-      );
-    });
+  @Get()
+  @ApiOperation({ summary: '获取会员地址列表' })
+  async getUserReceiptAddressList(@Query() parameters: GetReceiptAddressList ): Promise<any> {
+    const result = await this.receiptAddressService.getUserReceiptAddressList(parameters)
     return {
-      code: 20000,
-      message: 'ok',
-      data: await this.receiptAddressModel.find({}),
-    };
+      code:1,
+      message: '成功',
+      result
+    }
   }
 
-  @Get('list')
-  @ApiOperation({ summary: '会员收货地址列表' })
-  async getMemberAddressList(@Query() MemberAddress: MemberAddressDto): Promise<any> {
-    const { userID } = MemberAddress;
-    const res = await this.receiptAddressModel.find({ userID: userID });
+
+  @Post()
+  @ApiOperation({ summary: '添加会员地址' })
+  async addReceiptAddress(@Body() parameters:AddReceiptAddress):Promise<BaseResponseResult<ReceiptAddress>>{
+    const result = await this.receiptAddressService.addReceiptAddress(parameters)
     return {
-      code: 20000,
-      data: res,
-      message: 'ok',
-    };
+      code:1,
+      message: '成功',
+      result
+    }
+  }
+
+  
+  @Patch(":id")
+  @ApiParam({ name:'id',description:"地址id" })
+  @ApiOperation({ summary: '编辑会员地址信息' })
+  async updateReceiptAddress(@Param("id") id:string, @Body() parameters:UpdateReceiptAddress):Promise<BaseResponseResult<ReceiptAddress>>{
+    const result = await this.receiptAddressService.updateReceiptAddress(id, parameters)
+    return {
+      code:1,
+      message: '成功',
+      result
+    }
+  }
+
+
+  @Delete(":id")
+  @ApiParam({ name:'id',description:"地址id" })
+  @ApiOperation({ summary: '删除会员地址信息' })
+  async delReceiptAddress(@Param("id") id:string):Promise<BaseResponseResult<ReceiptAddress>>{
+    const result = await this.receiptAddressService.delReceiptAddress(id)
+    return {
+      code:1,
+      message: '成功',
+      result
+    }
   }
 }

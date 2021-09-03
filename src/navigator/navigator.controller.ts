@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-12-04 10:29:30
- * @LastEditTime: 2021-08-31 14:21:22
+ * @LastEditTime: 2021-09-03 17:46:46
  * @Description: Modify here please
  */
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
@@ -25,7 +25,7 @@ export class NavigatorController {
 
   @Get()
   @ApiOperation({ summary: '导航列表' })
-  async getUnitList(@Query() parameters: GetNavigatorDto ): Promise<any> {
+  async getNavigatorList(@Query() parameters: GetNavigatorDto ): Promise<any> {
     const result = await this.navigatorService.getNavigator(parameters)
     return {
       code:1,
@@ -36,7 +36,7 @@ export class NavigatorController {
 
   @Post()
   @ApiOperation({ summary: '添加导航' })
-  async addUnit(@Body() parameters:AddNavigatorDto):Promise<BaseResponseResult<Navigator>>{
+  async addNavigator(@Body() parameters:AddNavigatorDto):Promise<BaseResponseResult<Navigator>>{
     const result = await this.navigatorService.addNavigator(parameters)
     return {
       code:1,
@@ -49,7 +49,7 @@ export class NavigatorController {
   @Patch(":id")
   @ApiParam({ name:'id',description:"导航id" })
   @ApiOperation({ summary: '编辑导航信息' })
-  async updateUnit(@Param("id") id:string, @Body() parameters:UpdateNavigatorDto):Promise<BaseResponseResult<Navigator>>{
+  async updateNavigator(@Param("id") id:string, @Body() parameters:UpdateNavigatorDto):Promise<BaseResponseResult<Navigator>>{
     const result = await this.navigatorService.updateNavigator(id, parameters)
     return {
       code:1,
@@ -61,7 +61,7 @@ export class NavigatorController {
   @Delete(":id")
   @ApiParam({ name:'id',description:"导航id" })
   @ApiOperation({ summary: '删除导航信息' })
-  async delUnit(@Param("id") id:string):Promise<BaseResponseResult<Navigator>>{
+  async delNavigator(@Param("id") id:string):Promise<BaseResponseResult<Navigator>>{
     const result = await this.navigatorService.delNavigator(id)
     return {
       code:1,

@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-10 16:27:31
- * @LastEditTime: 2021-09-03 11:44:31
+ * @LastEditTime: 2021-09-03 16:17:45
  * @Description: Modify here please
  */
 import { Member } from '@libs/db/models/member.model';
@@ -34,6 +34,14 @@ export class MembersService {
 
     // 添加会员
     async addMember(parameters: AddMemberDto): Promise<Member> {
+        const isHasPhone = await this.memberModel.findOne({ phone: parameters.phone });
+        const isHasEmail = await this.memberModel.findOne({ email: parameters.email });
+        if(isHasPhone){
+            throw new HttpException('手机号码已存在', HttpStatus.OK);
+        }
+        if(isHasEmail){
+            throw new HttpException('会员邮箱已存在', HttpStatus.OK);
+        }
         const result = await this.memberModel.create(parameters as Member)
         if (!result) {
             throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
@@ -46,8 +54,16 @@ export class MembersService {
     async updateMember(id: string, parameters: UpdateMemberDto): Promise<Member> {
         // 认证会员id是否正确
         const isObjectId = mongoose.Types.ObjectId.isValid(id)
+        const isHasPhone = await this.memberModel.findOne({ phone: parameters.phone });
+        const isHasEmail = await this.memberModel.findOne({ email: parameters.email });
         if (!isObjectId) {
             throw new HttpException('会员Id有误!', HttpStatus.OK);
+        }
+        if(isHasPhone){
+            throw new HttpException('手机号码已存在', HttpStatus.OK);
+        }
+        if(isHasEmail){
+            throw new HttpException('会员邮箱已存在', HttpStatus.OK);
         }
         const result = await this.memberModel.findByIdAndUpdate(id, parameters)
         if (!result) {
