@@ -4,18 +4,16 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-03 17:41:21
+ * @LastEditTime: 2021-09-02 10:59:20
  * @Description: Modify here please
  */
 import {
   prop,
   ModelOptions,
   DocumentType,
-  Ref,
 } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { hashSync } from 'bcryptjs';
-import { Commodity } from './commodity.model';
 export type MemberDocument = DocumentType<Member>;
 @ModelOptions({
   schemaOptions: {
@@ -66,16 +64,10 @@ export class Member {
   gender: number;
 
   @ApiProperty({ title: '会员邮箱' })
-  @prop({ required: true })
-  email: string;
+  @prop()
+  email?: string;
 
   @ApiProperty({ title: '会员手机号码' })
-  @prop({ required: true, unique: true })
-  phone: string;
-
-  @ApiProperty({ title: '会员收藏商品' })
-  @prop({ ref:()=> Commodity })
-  collectGoods:Ref<Commodity>[]
-
-  
+  @prop({ unique: true })
+  phone: string; 
 }
