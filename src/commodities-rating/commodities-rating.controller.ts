@@ -49,8 +49,8 @@ export class CommoditiesRatingController {
   @Patch(":id")
   @ApiParam({ name:'id',description:"商品评论记录id" })
   @ApiOperation({ summary: '回复评论' })
-  async replyComment(@Body() parameters: ReplyCommentDto):Promise<BaseResponseResult<CommoditiesRating>>{
-    const result = await this.commoditiesRatingService.replyComment(parameters.id, parameters.content);
+  async replyComment(@Body() parameters: ReplyCommentDto, @Param("id") id: string):Promise<BaseResponseResult<CommoditiesRating>>{
+    const result = await this.commoditiesRatingService.replyComment(id, parameters.content);
     return {
       code:1,
       message: '成功',

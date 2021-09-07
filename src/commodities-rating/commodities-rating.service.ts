@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-09-06 14:45:32
- * @LastEditTime: 2021-09-07 09:58:34
+ * @LastEditTime: 2021-09-07 16:19:56
  * @Description: Modify here please
  */
 import { CommoditiesRating } from '@libs/db/models/commoditiesRating.model';
@@ -21,6 +21,8 @@ export class CommoditiesRatingService {
     async getCommoditiesRatings(parameters: GetCommoditiesRatingsDto):Promise<Array<CommoditiesRating>>{
         const result = await this.commoditiesModel
         .find()
+        .populate("commoditiesId")
+        .populate("memberId")
         .limit(~~parameters.pageSize)
         .skip(~~((parameters.pageNumber - 1) * parameters.pageSize));
         return result;
