@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-09-06 14:49:52
- * @LastEditTime: 2021-09-06 14:58:09
+ * @LastEditTime: 2021-09-07 10:02:07
  * @Description: Modify here please
  */
 
@@ -37,4 +37,14 @@ export class AddCommoditiesRatingDto {
     @ApiProperty({ title: '评价内容', required: false })
     ratingContent: string;
 
+}
+
+
+export class ReplyCommentDto{
+
+    @ApiProperty({ title: '评论记录id' })
+    id: string;
+
+    @ApiProperty({ title: '回复评论内容' })
+    content: string;
 }

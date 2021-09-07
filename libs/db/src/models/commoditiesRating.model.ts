@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-12-11 15:26:39
- * @LastEditTime: 2021-08-09 15:35:21
+ * @LastEditTime: 2021-09-07 11:05:18
  * @Description: Modify here please
  */
 import { ApiProperty } from "@nestjs/swagger";
@@ -22,19 +22,19 @@ export class CommoditiesRating {
 
     @ApiProperty({ title: '商品id' })
     @prop({ required: true ,ref: ()=> Commodity})
-    commoditiesId: Ref<Commodity>
+    commoditiesId: Ref<Commodity>;
 
     @ApiProperty({ title: '评价用户' })
     @prop({ required: true , ref:()=> Member})
-    memberId: Ref<Member>
+    memberId: Ref<Member>;
 
     @ApiProperty({ title: '评价星级' })
     @prop({ required: true })
-    starRating: string
+    starRating: string;
 
     @ApiProperty({ title: '晒图' })
     @prop()
-    blueprint: Array<string>
+    blueprint: string[];
 
     @ApiProperty({ title: '评价内容' })
     @prop()

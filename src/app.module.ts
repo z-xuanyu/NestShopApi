@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-04 11:52:50
+ * @LastEditTime: 2021-09-07 11:27:53
  * @Description: Modify here please
  */
 import { Module } from '@nestjs/common';
@@ -32,7 +32,7 @@ import path = require('path');
 import { RoleModule } from './role/role.module';
 import { MenuModule } from './menu/menu.module';
 import { InitDbModule } from './init-db/init-db.module';
-console.log(path.join(__dirname, './send-email/template'))
+import { CommoditiesRatingModule } from './commodities-rating/commodities-rating.module';
 @Module({
   imports: [
     // 优先加载公共模块
@@ -52,13 +52,14 @@ console.log(path.join(__dirname, './send-email/template'))
         }
       }
     }),
+    AuthModule,
     UsersModule,
     CategoriesModule,
     TagsModule,
     MembersModule,
     ReceiptAddressModule,
     CommoditiesModule,
-    AuthModule,
+    CommoditiesRatingModule,
     UnitModule,
     BannerModule,
     OrderModule,

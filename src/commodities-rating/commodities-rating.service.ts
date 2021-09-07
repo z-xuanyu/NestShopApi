@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-09-06 14:45:32
- * @LastEditTime: 2021-09-06 15:04:03
+ * @LastEditTime: 2021-09-07 09:58:34
  * @Description: Modify here please
  */
 import { CommoditiesRating } from '@libs/db/models/commoditiesRating.model';
@@ -29,6 +29,15 @@ export class CommoditiesRatingService {
     // 删除商品评论
     async delCommoditiesRating(id: string):Promise<CommoditiesRating>{
         const result = await this.commoditiesModel.findByIdAndDelete(id);
+        if(!result) {
+            throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
+        }
+        return result;
+    }
+
+    // 回复评论
+    async replyComment(id: string, content: string):Promise<CommoditiesRating>{
+        const result = await this.commoditiesModel.findByIdAndUpdate(id, { replyContent: content });
         if(!result) {
             throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
         }

@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-09-03 17:03:22
+ * @LastEditTime: 2021-09-07 11:06:54
  * @Description: Modify here please
  */
 import { prop, ModelOptions, Ref } from '@typegoose/typegoose';
@@ -17,7 +17,7 @@ import { User } from './user.model';
   },
 })
 export class ReceiptAddress {
-  // 地址关联会员
+  
   @ApiProperty({ title: '会员id' })
   @prop({ ref: ()=> User })
   userId: Ref<User>;
@@ -36,7 +36,7 @@ export class ReceiptAddress {
 
   @ApiProperty({ title: '邮编' })
   @prop()
-  postalCode: string | number;
+  postalCode: string;
 
   @ApiProperty({ title: '默认' })
   @prop({ default: false })

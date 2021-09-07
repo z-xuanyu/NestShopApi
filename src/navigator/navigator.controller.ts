@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-12-04 10:29:30
- * @LastEditTime: 2021-09-03 17:46:46
+ * @LastEditTime: 2021-09-07 11:01:01
  * @Description: Modify here please
  */
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
@@ -66,7 +66,7 @@ export class NavigatorController {
     return {
       code:1,
       message: '成功',
-      result
+      result,
     }
   }
 }

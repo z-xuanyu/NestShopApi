@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-02 17:30:19
- * @LastEditTime: 2021-08-03 18:33:38
+ * @LastEditTime: 2021-09-07 10:33:25
  * @Description: Modify here please
  */
 import { Menu } from '@libs/db/models/menu.model';
@@ -22,12 +22,12 @@ export class MenuService {
     @InjectModel(Menu) private menuModel: ReturnModelType<typeof Menu>,
     @InjectModel(User) private adminModel: ReturnModelType<typeof User>,
     @InjectModel(Role) private roleModel: ReturnModelType<typeof Role>,
-  ) {}
+  ) { }
 
   /**
    * 通过管理员关联的角色获取权限菜单
    */
-  async getMenuListByRoleAndAdmin(id: string):Promise<any> {
+  async getMenuListByRoleAndAdmin(id: string): Promise<any> {
     // 通过admin查询该管理员的角色
     const roles = await this.adminModel
       .findById({ _id: id })
@@ -47,24 +47,26 @@ export class MenuService {
 
     // 菜单去重
     const MenuObj = {};
-    const allMenus = menus.reduce((cur, next) => {
+    const allMenus = menus.reduce((cur: any, next: any) => {
       MenuObj[next._id] ? '' : (MenuObj[next._id] = true && cur.push(next));
       return cur;
     }, []);
-    return allMenus;
+    return allMenus.sort((a: any, b: any) => {
+      return b.sort - a.sort;
+    });
   }
 
   /**
    * 获取菜单列表
    */
-  async getMenuList():Promise<Array<Menu>> {
+  async getMenuList(): Promise<Array<Menu>> {
     return await this.menuModel.find();
   }
 
   /**
    * 添加菜单
    */
-  async addMenu(addMenuForm: AddMenuDto):Promise<Menu> {
+  async addMenu(addMenuForm: AddMenuDto): Promise<Menu> {
     const result = await this.menuModel.create(addMenuForm as any);
     if (!result) {
       throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
@@ -75,7 +77,7 @@ export class MenuService {
   /**
    * 更新菜单信息
    */
-  async updateMenu(updateMenuForm: UpdateMenuDto, id: string):Promise<Menu> {
+  async updateMenu(updateMenuForm: UpdateMenuDto, id: string): Promise<Menu> {
     const result = await this.menuModel.findByIdAndUpdate(
       id,
       updateMenuForm as any,
@@ -89,7 +91,7 @@ export class MenuService {
   /**
    * 删除菜单
    */
-  async delMenu(id: string):Promise<Menu> {
+  async delMenu(id: string): Promise<Menu> {
     const result = await this.menuModel.findByIdAndDelete({ _id: id });
     if (!result) {
       throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
