@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-09-07 11:27:53
+ * @LastEditTime: 2021-09-07 15:09:24
  * @Description: Modify here please
  */
 import { Module } from '@nestjs/common';
@@ -33,6 +33,7 @@ import { RoleModule } from './role/role.module';
 import { MenuModule } from './menu/menu.module';
 import { InitDbModule } from './init-db/init-db.module';
 import { CommoditiesRatingModule } from './commodities-rating/commodities-rating.module';
+import { ProtalGoodsModule } from './protal-goods/protal-goods.module';
 @Module({
   imports: [
     // 优先加载公共模块
@@ -63,8 +64,6 @@ import { CommoditiesRatingModule } from './commodities-rating/commodities-rating
     UnitModule,
     BannerModule,
     OrderModule,
-    ProtalHomeModule,
-    CartsModule,
     NavigatorModule,
     SendMailModule,
     MailerModule.forRootAsync({
@@ -85,7 +84,10 @@ import { CommoditiesRatingModule } from './commodities-rating/commodities-rating
 		}),
     RoleModule,
     MenuModule,
-    InitDbModule
+    InitDbModule,
+    ProtalHomeModule,
+    ProtalGoodsModule,
+    CartsModule,
   ],
   controllers: [AppController],
 })

@@ -11,7 +11,7 @@ import {
 } from './dto/protal.home.dto';
 
 @Controller('protal-home')
-@ApiTags('客户端首页')
+@ApiTags('客户端首页相关')
 export class ProtalHomeController {
   constructor(
     @InjectModel(Banner)

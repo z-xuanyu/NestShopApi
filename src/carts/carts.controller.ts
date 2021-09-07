@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-07-29 10:25:40
+ * @LastEditTime: 2021-09-07 15:10:04
  * @Description: Modify here please
  */
 import { Controller, Get, Post, Body, Query } from '@nestjs/common';
@@ -29,7 +29,7 @@ import { ModelType } from '@typegoose/typegoose/lib/types';
   },
 })
 @Controller('carts')
-@ApiTags('客户端用户购物车')
+@ApiTags('客户端购物车相关')
 export class CartsController {
   constructor(
     @InjectModel(Cart) private readonly cartModel: ReturnModelType<typeof Cart>,
