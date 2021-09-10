@@ -1,3 +1,4 @@
+import { Menu } from '@libs/db/models/menu.model';
 import { UserDocument } from '@libs/db/models/user.model';
 import {
   Body,
@@ -17,6 +18,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CurrentUser } from 'src/auth/current-user.decorator';
+import { BaseResponseResult } from 'src/BaseResponseResult';
 import { AddMenuDto } from './Dto/addMenuDto';
 import { UpdateMenuDto } from './Dto/updateMenuDto';
 import { MenuService } from './menu.service';
@@ -26,14 +28,14 @@ import { MenuService } from './menu.service';
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class MenuController {
-  constructor(private menuService: MenuService) {}
+  constructor(private menuService: MenuService) { }
 
   /**
    * 获取登录人权限菜单列表
    */
   @Get('roleMenus')
   @ApiOperation({ summary: '获取登录人权限菜单列表' })
-  async menus(@CurrentUser() user: UserDocument) {
+  async menus(@CurrentUser() user: UserDocument): Promise<BaseResponseResult<Array<Menu>>> {
     const result = await this.menuService.getMenuListByRoleAndAdmin(user._id);
     return {
       code: 1,
@@ -47,7 +49,7 @@ export class MenuController {
    */
   @Get('list')
   @ApiOperation({ summary: '获取菜单列表' })
-  async getMenuList() {
+  async getMenuList(): Promise<BaseResponseResult<Array<Menu>>> {
     const result = await this.menuService.getMenuList();
     return {
       code: 1,
@@ -61,7 +63,7 @@ export class MenuController {
    */
   @Get('tree')
   @ApiOperation({ summary: '获取菜单树结构' })
-  async getMenuTree() {
+  async getMenuTree(): Promise<any> {
     // 列表转树
     const list2tree = (items, parentId = null) => {
       return items
@@ -79,6 +81,7 @@ export class MenuController {
               updatedAt: item.updatedAt,
               parentId: item.parentId,
               keepAlive: item.keepAlive,
+              hideMenu: item.hideMenu,
               children: list2tree(items, String(item._id)),
             };
           } else {
@@ -93,6 +96,7 @@ export class MenuController {
               updatedAt: item.updatedAt,
               parentId: item.parentId,
               keepAlive: item.keepAlive,
+              hideMenu: item.hideMenu
             };
           }
         });
@@ -111,7 +115,7 @@ export class MenuController {
    */
   @Post()
   @ApiOperation({ summary: '添加菜单' })
-  async addMenu(@Body() addMenuForm: AddMenuDto) {
+  async addMenu(@Body() addMenuForm: AddMenuDto): Promise<BaseResponseResult<Menu>> {
     if (!addMenuForm.parentId) {
       addMenuForm.parentId = null;
     }
@@ -135,7 +139,7 @@ export class MenuController {
   async updateMenu(
     @Param('id') id: string,
     @Body() updateMenuForm: UpdateMenuDto,
-  ) {
+  ): Promise<BaseResponseResult<Menu>> {
     const result = await this.menuService.updateMenu(updateMenuForm, id);
     return {
       code: 1,
@@ -153,7 +157,7 @@ export class MenuController {
     name: 'id',
     description: '菜单id',
   })
-  async delMenu(@Param('id') id: string) {
+  async delMenu(@Param('id') id: string): Promise<BaseResponseResult<Menu>> {
     const result = await this.menuService.delMenu(id);
     return {
       code: 1,
