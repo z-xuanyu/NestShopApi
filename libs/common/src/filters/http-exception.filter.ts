@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-09-07 16:47:18
- * @LastEditTime: 2021-09-07 17:13:50
+ * @LastEditTime: 2021-09-10 10:28:34
  * @Description: 异常错误拦截处理
  */
 import {
@@ -34,6 +34,7 @@ import {
         code = messageObj.code;
       } catch (e) { }
       Logger.log(exception, '错误提示');
+      Logger.log(message, '错误信息');
       if(message.includes("ObjectId")){
           message = 'id不存在!'
       }

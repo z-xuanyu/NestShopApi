@@ -1,101 +1,38 @@
-import { Controller, Get, Query } from '@nestjs/common';
+/*
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2020-10-20 10:11:57
+ * @LastEditTime: 2021-09-08 15:09:49
+ * @Description: Modify here please
+ */
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { InjectModel } from 'nestjs-typegoose';
-import { Banner } from '@libs/db/models/banner.model';
-import { ReturnModelType } from '@typegoose/typegoose';
-import { Category } from '@libs/db/models/category.model';
-import { Commodity } from '@libs/db/models/commodity.model';
-import {
-  commoditySearchKeywordDto,
-  commodityInfoDto,
-} from './dto/protal.home.dto';
+import { ProtalHomeService } from './protal-home.service';
 
-@Controller('protal-home')
+@Controller('protalHome')
 @ApiTags('客户端首页相关')
 export class ProtalHomeController {
   constructor(
-    @InjectModel(Banner)
-    private readonly bannerModel: ReturnModelType<typeof Banner>,
-    @InjectModel(Category)
-    private readonly categoryModel: ReturnModelType<typeof Category>,
-    @InjectModel(Commodity)
-    private readonly commodityModel: ReturnModelType<typeof Commodity>,
+    private protalHomeService: ProtalHomeService,
   ) { }
 
   @Get()
   @ApiOperation({ summary: '首页全部数据' })
   async getAllHomeData(): Promise<any> {
-    try {
-      // 获取5张banner图
-      const bannerList = await this.bannerModel.find().limit(5);
-      // 获取全部分类
-      const categoryList = await this.categoryModel.find();
-      //  获取推荐商品
-      const hotCommodityList = await this.commodityModel.find({
-        isRecommend: true,
-      });
-
-      // 获取6条最新的商品信息
-      const commodityList = await this.commodityModel.find().limit(6);
-
-      return { bannerList, categoryList, hotCommodityList, commodityList };
-    } catch (err) {
-      return { code: 0, msg: err };
-    }
-  }
-
-  @Get('SearchCommodity')
-  @ApiOperation({ summary: '搜索商品' })
-  async searchCommodity(@Query() searchKeyword: commoditySearchKeywordDto): Promise<any> {
-    const { name, pageSize, pageNo } = searchKeyword;
-    const totalCountData = await this.commodityModel.find(); //总条数
-    // 名称查询
-    if (name) {
-      const data = await this.commodityModel
-        .find({ name: { $regex: name } })
-        .populate('receiptAddress')
-        .limit(Number(pageSize || 10))
-        .skip(Number((pageNo - 1) * pageSize))
-        .exec();
-      return {
-        pageNo: pageNo,
-        pageSize: pageSize,
-        data: data,
-        totalCount: totalCountData.length,
-        totalPage:
-          totalCountData.length / pageSize < 1
-            ? 1
-            : totalCountData.length / pageSize,
-      };
-    } else {
-      const data = await this.commodityModel
-        .find()
-        .populate('receiptAddress')
-        .limit(Number(pageSize || 10))
-        .skip(Number((pageNo - 1) * pageSize))
-        .exec();
-      return {
-        pageNo: pageNo,
-        pageSize: pageSize,
-        data: data,
-        totalCount: totalCountData.length,
-        totalPage:
-          totalCountData.length / pageSize < 1
-            ? 1
-            : totalCountData.length / pageSize,
-      };
-    }
-  }
-
-  @Get('getCommodityInfo')
-  @ApiOperation({ summary: '获取商品详细信息' })
-  async getCommodityInfo(@Query() commodityInfo: commodityInfoDto): Promise<any> {
-    const { commodityID } = commodityInfo;
-    try {
-      const commodityInfo = await this.commodityModel.findById(commodityID);
-      return commodityInfo;
-    } catch (err) {
-      return { code: 0, msg: err };
-    }
+    // 获取5张banner图
+    const banners = await this.protalHomeService.getBanners();
+    // 获取导航列表
+    const navigators = await this.protalHomeService.getNavigators();
+    // 获取6条最新的商品信息
+    const commodityList = await this.protalHomeService.getCommoditys();
+    return {
+      code: 1,
+      message: '成功',
+      result: {
+        banners, navigators, commodityList
+      }
+    };
   }
 }

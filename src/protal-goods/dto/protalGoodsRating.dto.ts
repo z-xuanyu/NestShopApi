@@ -6,7 +6,7 @@ import { ApiProperty } from "@nestjs/swagger";
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-09-07 14:55:28
- * @LastEditTime: 2021-09-07 16:38:17
+ * @LastEditTime: 2021-09-10 10:03:38
  * @Description: Modify here please
  */
 export class AddGoodssRatingDto {
