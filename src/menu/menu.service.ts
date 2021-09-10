@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-02 17:30:19
- * @LastEditTime: 2021-09-07 10:33:25
+ * @LastEditTime: 2021-09-10 15:50:53
  * @Description: Modify here please
  */
 import { Menu } from '@libs/db/models/menu.model';
@@ -28,6 +28,8 @@ export class MenuService {
    * 通过管理员关联的角色获取权限菜单
    */
   async getMenuListByRoleAndAdmin(id: string): Promise<any> {
+    // 获取所有菜单
+    const allMenuList =  await this.menuModel.find();
     // 通过admin查询该管理员的角色
     const roles = await this.adminModel
       .findById({ _id: id })
@@ -44,7 +46,15 @@ export class MenuService {
 
       menus = menus.concat(menuListRes.menuIds);
     }
-
+    // 筛选菜单
+    menus.forEach(item => {
+      if(item.parentId !== null){
+        const parent = allMenuList.find(i=> String(i._id) == String(item.parentId))
+        if(parent) {
+          menus.push(parent)
+        }
+      }
+    })
     // 菜单去重
     const MenuObj = {};
     const allMenus = menus.reduce((cur: any, next: any) => {

@@ -11,9 +11,9 @@ export class InitDbService implements OnModuleInit {
     @InjectModel(User) private userModel: ReturnModelType<typeof User>,
     @InjectModel(Role) private roleModel: ReturnModelType<typeof Role>,
     @InjectModel(Menu) private menuModel: ReturnModelType<typeof Menu>,
-  ) {}
+  ) { }
 
-  onModuleInit() {
+  onModuleInit(): void {
     this.init();
   }
 
@@ -49,6 +49,7 @@ export class InitDbService implements OnModuleInit {
           componentName: 'Account',
           keepAlive: 0,
           icon: 'ant-design:user-outlined',
+          hideMenu: false
         },
         {
           name: '角色管理',
@@ -58,6 +59,7 @@ export class InitDbService implements OnModuleInit {
           sort: 1,
           keepAlive: 0,
           icon: 'ant-design:gold-outlined',
+          hideMenu: false
         },
         {
           name: '菜单管理',
@@ -67,6 +69,7 @@ export class InitDbService implements OnModuleInit {
           sort: 1,
           keepAlive: 0,
           icon: 'ant-design:menu-outlined',
+          hideMenu: false
         },
       ];
 
