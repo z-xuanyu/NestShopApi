@@ -34,6 +34,7 @@ import { MenuModule } from './menu/menu.module';
 import { InitDbModule } from './init-db/init-db.module';
 import { CommoditiesRatingModule } from './commodities-rating/commodities-rating.module';
 import { ProtalGoodsModule } from './protal-goods/protal-goods.module';
+import { LibraryModule } from './library/library.module';
 @Module({
   imports: [
     // 优先加载公共模块
@@ -88,6 +89,7 @@ import { ProtalGoodsModule } from './protal-goods/protal-goods.module';
     ProtalHomeModule,
     ProtalGoodsModule,
     CartsModule,
+    LibraryModule,
   ],
   controllers: [AppController],
 })
