@@ -31,7 +31,7 @@
     }
   },
   "compilerOptions": {
-    "assets": ["**/*.pug"],
+    "assets": ["**/*.pug", "**/*.html"],
     "webpack": true
   }
 }

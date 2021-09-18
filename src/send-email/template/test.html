@@ -1,0 +1,23 @@
+<!--
+ * @Author: xuanyu
+ * @LastEditors: xuanyu
+ * @email: 969718197@qq.com
+ * @github: https://github.com/z-xuanyu
+ * @Date: 2021-09-18 17:04:28
+ * @LastEditTime: 2021-09-18 17:37:52
+ * @Description: Modify here please!
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邮件测试</title>
+</head>
+<body>
+    <h1>您好：{{ name }}</h1>
+    <p>您有{{ list.length }}文章待读：</p>
+    <ul>{{#list}}<li>{{title}} is {{content}}</li>{{/list}}</ul>
+</body>
+</html>
