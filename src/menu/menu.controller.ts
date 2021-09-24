@@ -19,8 +19,8 @@ import {
 } from '@nestjs/swagger';
 import { CurrentUser } from 'src/auth/current-user.decorator';
 import { BaseResponseResult } from 'src/BaseResponseResult';
-import { AddMenuDto } from './Dto/addMenuDto';
-import { UpdateMenuDto } from './Dto/updateMenuDto';
+import { AddMenuDto } from './dto/addMenuDto';
+import { UpdateMenuDto } from './dto/updateMenuDto';
 import { MenuService } from './menu.service';
 
 @Controller('menu')

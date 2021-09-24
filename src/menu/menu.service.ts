@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-02 17:30:19
- * @LastEditTime: 2021-09-10 15:50:53
+ * @LastEditTime: 2021-09-24 10:03:18
  * @Description: Modify here please
  */
 import { Menu } from '@libs/db/models/menu.model';
@@ -13,8 +13,8 @@ import { User } from '@libs/db/models/user.model';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose';
-import { AddMenuDto } from './Dto/addMenuDto';
-import { UpdateMenuDto } from './Dto/updateMenuDto';
+import { AddMenuDto } from './dto/addMenuDto';
+import { UpdateMenuDto } from './dto/updateMenuDto';
 
 @Injectable()
 export class MenuService {
