@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-09-18 16:11:20
+ * @LastEditTime: 2021-09-28 16:12:27
  * @Description: Modify here please
  */
 import { Module } from '@nestjs/common';
@@ -35,8 +35,10 @@ import { InitDbModule } from './init-db/init-db.module';
 import { CommoditiesRatingModule } from './commodities-rating/commodities-rating.module';
 import { ProtalGoodsModule } from './protal-goods/protal-goods.module';
 import { LibraryModule } from './library/library.module';
+import { ChatMessageModule } from './chat-message/chat-message.module';
 @Module({
   imports: [
+    ChatMessageModule,
     // 优先加载公共模块
     CommonModule,
     // 异步加载

@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-07-29 10:07:05
+ * @LastEditTime: 2021-09-28 16:53:19
  * @Description: Modify here please
  */
 import { Module, Global } from '@nestjs/common';
@@ -24,6 +24,7 @@ import { Navigator } from './models/navigator.model';
 import { CommoditiesRating } from './models/commoditiesRating.model';
 import { Role } from './models/role.model';
 import { Menu } from './models/menu.model';
+import { ChatMessage } from './models/chatMessage.model';
 
 // 导入所有的Schema模块
 const models = TypegooseModule.forFeature([
@@ -40,7 +41,8 @@ const models = TypegooseModule.forFeature([
   Navigator,
   CommoditiesRating,
   Role,
-  Menu
+  Menu,
+  ChatMessage
 ]);
 
 @Global()

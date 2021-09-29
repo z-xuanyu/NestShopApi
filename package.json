@@ -30,6 +30,7 @@
     "@nestjs/platform-express": "^7.0.0",
     "@nestjs/platform-socket.io": "^7.6.18",
     "@nestjs/swagger": "^4.5.12",
+    "@nestjs/websockets": "7.4.4",
     "@typegoose/typegoose": "^7.2.0",
     "@types/mongoose": "^5.7.29",
     "@types/passport-jwt": "^3.0.3",
@@ -55,8 +56,10 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
+    "socket.io": "^4.2.0",
     "socket.io-redis": "^6.1.1",
-    "swagger-ui-express": "^4.1.4"
+    "swagger-ui-express": "^4.1.4",
+    "ws": "^8.2.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",
