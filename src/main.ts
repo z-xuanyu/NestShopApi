@@ -18,11 +18,13 @@ import * as rateLimit from 'express-rate-limit';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  // 处理跨域
   app.enableCors();
   // 托管静态文件
   app.useStaticAssets('uploads', {
     prefix: '/uploads',
   });
+  // swagger 文档配置
   const options = new DocumentBuilder()
     .setTitle('小商城api文档')
     .setDescription('这是个小商城练习项目的api文档')
