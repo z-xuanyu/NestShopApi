@@ -4,8 +4,8 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-09-24 10:12:58
- * @LastEditTime: 2021-09-28 17:04:11
- * @Description: Modify here please
+ * @LastEditTime: 2021-10-28 17:54:35
+ * @Description: socket 网关
  */
 import {
     SubscribeMessage,
@@ -27,28 +27,49 @@ import {
   
     private logger: Logger = new Logger('MessageGateway');
   
-    // 发送信息
+    // 聊天室发送信息
     @SubscribeMessage('msgToServer')
     public handleMessage(client: Socket, payload: any): Promise<WsResponse<any>> {
       return this.server.to(payload.room).emit('msgToClient', payload);
     }
   
-    // 建立聊天
+    /**
+     * 多人聊天室
+     *
+     * @param {Socket} client Socket
+     * @param {string} room 多人聊天房间id
+     * @memberof MessageGateway
+     */
     @SubscribeMessage('joinRoom')
     public joinRoom(client: Socket, room: string): void {
       client.join(room);
       client.emit('joinedRoom', room);
+      console.log('建立连接')
     }
-  
-    // 断开聊天
+    
+    // 信息推送
+    @SubscribeMessage("pushMessge")
+    public handlePush(client: Socket, payload):void{
+      console.log(payload,45646)
+      client.emit("pushSu",{ msg: '收到信息' })
+    }
+
+    // 断开多人聊天室
+    /**
+     * @param {Socket} client Socket
+     * @param {string} room 房间id
+     * @memberof MessageGateway
+     */
     @SubscribeMessage('leaveRoom')
     public leaveRoom(client: Socket, room: string): void {
       client.leave(room);
       client.emit('leftRoom', room);
+      console.log("断开连接")
     }
   
     // 初始化
     public afterInit(server: Server): void {
+      console.log('初始化',145454)
       return this.logger.log('Init');
     }
   
