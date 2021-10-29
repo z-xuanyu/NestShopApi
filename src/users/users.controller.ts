@@ -26,6 +26,7 @@ import { reSetUserPasswordDto } from './dto/reSetUserPasswordDto';
 import { addUserDto } from './dto/addUserDto';
 import { editUserDto } from './dto/editUserDto';
 import { BaseResponseResult, TableResponseResult } from 'src/BaseResponseResult';
+import { ParseIdPipe } from '@app/common/pipe/parse.id.pipe';
 
 @Controller('users')
 @ApiTags('后台用户')
@@ -74,7 +75,7 @@ export class UsersController {
   @ApiParam({ name: 'id', description: '用户id' })
   async updateAdmin(
     @Body() editUserForm: editUserDto,
-    @Param('id') id: string,
+    @Param('id', new ParseIdPipe()) id: string,
   ): Promise<BaseResponseResult<User>> {
     const result = await this.userService.updateUser(editUserForm, id);
     return {
@@ -128,7 +129,7 @@ export class UsersController {
     description: '管理员id',
   })
   @ApiOperation({ summary: '删除管理员' })
-  async delAdmin(@Param('id') id: string): Promise<BaseResponseResult<User>> {
+  async delAdmin(@Param('id', new ParseIdPipe()) id: string): Promise<BaseResponseResult<User>> {
     const result = await this.userService.delUser(id);
     return {
       code: 1,

@@ -1,3 +1,4 @@
+import { ParseIdPipe } from '@app/common/pipe/parse.id.pipe';
 import { Menu } from '@libs/db/models/menu.model';
 import { UserDocument } from '@libs/db/models/user.model';
 import {
@@ -137,7 +138,7 @@ export class MenuController {
     description: '菜单id',
   })
   async updateMenu(
-    @Param('id') id: string,
+    @Param('id', new ParseIdPipe()) id: string,
     @Body() updateMenuForm: UpdateMenuDto,
   ): Promise<BaseResponseResult<Menu>> {
     const result = await this.menuService.updateMenu(updateMenuForm, id);
@@ -157,7 +158,7 @@ export class MenuController {
     name: 'id',
     description: '菜单id',
   })
-  async delMenu(@Param('id') id: string): Promise<BaseResponseResult<Menu>> {
+  async delMenu(@Param('id', new ParseIdPipe()) id: string): Promise<BaseResponseResult<Menu>> {
     const result = await this.menuService.delMenu(id);
     return {
       code: 1,

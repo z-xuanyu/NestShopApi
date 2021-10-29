@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-31 14:26:21
+ * @LastEditTime: 2021-10-29 11:18:26
  * @Description: Modify here please
  */
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
@@ -20,6 +20,7 @@ import { GetUnitsDto } from './dto/getUnits.dto';
 import { AddOrUpdateUnitDto } from './dto/addOrUpdateUnit.dto';
 import { BaseResponseResult } from 'src/BaseResponseResult';
 import { Unit } from '@libs/db/models/unit.model';
+import { ParseIdPipe } from '@app/common/pipe/parse.id.pipe';
 
 @Controller('unit')
 @ApiTags('后台商品单位管理')
@@ -58,7 +59,7 @@ export class UnitController {
   @Patch(":id")
   @ApiParam({ name:'id',description:"单位id" })
   @ApiOperation({ summary: '编辑更新单位信息' })
-  async updateUnit(@Param("id") id:string,@Body() parameters:AddOrUpdateUnitDto):Promise<BaseResponseResult<Unit>>{
+  async updateUnit(@Param("id", new ParseIdPipe()) id:string,@Body() parameters:AddOrUpdateUnitDto):Promise<BaseResponseResult<Unit>>{
     const result = await this.unitService.updateUnit(id, parameters)
     return {
       code:1,
@@ -71,7 +72,7 @@ export class UnitController {
   @Delete(":id")
   @ApiParam({ name:'id',description:"单位id" })
   @ApiOperation({ summary: '删除单位信息' })
-  async delUnit(@Param("id") id:string):Promise<BaseResponseResult<Unit>>{
+  async delUnit(@Param("id", new ParseIdPipe()) id:string):Promise<BaseResponseResult<Unit>>{
     const result = await this.unitService.delUnit(id)
     return {
       code:1,

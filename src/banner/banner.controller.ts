@@ -4,8 +4,8 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-09-01 14:57:16
- * @Description: Modify here please
+ * @LastEditTime: 2021-10-29 10:52:06
+ * @Description: Banner模块控制器
  */
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
@@ -14,6 +14,7 @@ import { BannerService } from './banner.service';
 import { GetBannersDto } from './dto/getBanners.dto';
 import { AddBannerDto } from './dto/addBanner.dto';
 import { UpdateBannerDto } from './dto/updateBanner.dto';
+import { ParseIdPipe } from '@app/common/pipe/parse.id.pipe';
 
 
 
@@ -56,7 +57,7 @@ export class BannerController {
   @Patch(":id")
   @ApiParam({ name: 'id', description: "bannerId" })
   @ApiOperation({ summary: '更新banner信息' })
-  async updateBanner(@Param("id") id:string, @Body() parameters:UpdateBannerDto ):Promise<any>{
+  async updateBanner(@Param("id",new ParseIdPipe()) id:string, @Body() parameters:UpdateBannerDto ):Promise<any>{
     const result = await this.bannerService.updateBanner(id,parameters)
     return {
       code: 1,
@@ -70,7 +71,7 @@ export class BannerController {
   @Delete(":id")
   @ApiParam({ name: 'id', description: "bannerId" })
   @ApiOperation({ summary: '删除banner' })
-  async delBanner(@Param("id") id:string):Promise<any>{
+  async delBanner(@Param("id", new ParseIdPipe()) id:string):Promise<any>{
     const result = await this.bannerService.delBanner(id)
     return {
       code: 1,

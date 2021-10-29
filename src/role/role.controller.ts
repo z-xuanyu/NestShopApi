@@ -1,3 +1,4 @@
+import { ParseIdPipe } from '@app/common/pipe/parse.id.pipe';
 import { Role } from '@libs/db/models/role.model';
 import {
   Controller,
@@ -84,7 +85,7 @@ export class RoleController {
     description: '角色id',
   })
   @ApiOperation({ summary: '通过角色获取菜单列表' })
-  async getRoleMenuList(@Param('id') id: string):Promise<BaseResponseResult<Role>> {
+  async getRoleMenuList(@Param('id', new ParseIdPipe()) id: string):Promise<BaseResponseResult<Role>> {
     const result = await this.roleService.getRoleInfo(id);
     return {
       code: 1,
@@ -102,7 +103,7 @@ export class RoleController {
     description: '角色id',
   })
   @ApiOperation({ summary: '编辑更新角色信息' })
-  async updateRole(@Body() editRoleForm: editRoleDto, @Param('id') id: string) :Promise<BaseResponseResult<Role>>{
+  async updateRole(@Body() editRoleForm: editRoleDto, @Param('id', new ParseIdPipe()) id: string) :Promise<BaseResponseResult<Role>>{
     if (editRoleForm.menuIds.includes('')) {
       editRoleForm.menuIds = [];
     }
@@ -123,7 +124,7 @@ export class RoleController {
     name: 'id',
     description: '角色id',
   })
-  async delRole(@Param('id') id: string) :Promise<BaseResponseResult<Role>>{
+  async delRole(@Param('id', new ParseIdPipe()) id: string) :Promise<BaseResponseResult<Role>>{
     const result = await this.roleService.delRole(id);
     return {
       code: 1,

@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-09 17:03:09
+ * @LastEditTime: 2021-10-29 11:17:42
  * @Description: Modify here please
  */
 import { Controller, UseGuards, Get, Query, Patch, Param, Delete, Post, Body } from '@nestjs/common';
@@ -20,6 +20,7 @@ import { TagsService } from './tags.service';
 import { AddTagDto } from './dto/addTag.dto';
 import { Tag } from '@libs/db/models/tag.model';
 import { UpdateTagDto } from './dto/updateTag.dto';
+import { ParseIdPipe } from '@app/common/pipe/parse.id.pipe';
 
 
 @Controller('tags')
@@ -59,7 +60,7 @@ export class TagsController {
   @Patch(":id")
   @ApiParam({ name: 'id', description: '标签id' })
   @ApiOperation( { summary: '更新标签信息' } )
-  async updateTag(@Param('id') id: string,parameters:UpdateTagDto):Promise<Tag>{
+  async updateTag(@Param('id', new ParseIdPipe()) id: string,parameters:UpdateTagDto):Promise<Tag>{
     return this.tagService.updateTag(id, parameters)
   }
 
@@ -68,7 +69,7 @@ export class TagsController {
   @Delete(":id")
   @ApiParam({ name: 'id', description: '标签id' })
   @ApiOperation( { summary: '删除标签' } )
-  async delTag(@Param('id') id: string):Promise<Tag>{
+  async delTag(@Param('id', new ParseIdPipe()) id: string):Promise<Tag>{
     return this.tagService.delTag(id)
   }
 }

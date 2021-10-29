@@ -4,8 +4,8 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-13 17:56:01
- * @Description: Modify here please
+ * @LastEditTime: 2021-10-29 10:54:52
+ * @Description: 商品分类控制器模块
  */
 import { Controller, UseGuards, Query, Get, Body, Post, Patch, Param, Delete } from '@nestjs/common';
 import {
@@ -21,6 +21,7 @@ import { BaseResponseResult, TableResponseResult } from 'src/BaseResponseResult'
 import { Category } from '@libs/db/models/category.model';
 import { AddGoodsCategory } from './dto/addCategory.dto';
 import { UpdateGoodsCategory } from './dto/updateCategory.dto';
+import { ParseIdPipe } from '@app/common/pipe/parse.id.pipe';
 
 
 @Controller('categories')
@@ -59,7 +60,7 @@ export class CategoriesController {
   @Patch(":id")
   @ApiOperation({ summary: '编辑更新商品分类信息' })
   @ApiParam({ name: 'id', description: '商品分类id' })
-  async updateGoodsCategory(@Param('id') id: string, @Body() parameters: UpdateGoodsCategory): Promise<BaseResponseResult<Category>> {
+  async updateGoodsCategory(@Param('id', new ParseIdPipe()) id: string, @Body() parameters: UpdateGoodsCategory): Promise<BaseResponseResult<Category>> {
     const result = await this.categoryService.updateGoodsCategory(id, parameters)
     return {
       code: 1,
@@ -72,7 +73,7 @@ export class CategoriesController {
   @Delete(":id")
   @ApiOperation({ summary: '删除商品分类' })
   @ApiParam({ name: 'id', description: '商品分类id' })
-  async delGoodsCategory(@Param('id') id: string): Promise<BaseResponseResult<Category>> {
+  async delGoodsCategory(@Param('id', new ParseIdPipe()) id: string): Promise<BaseResponseResult<Category>> {
     const result = await this.categoryService.delGoodsCategory(id)
     return {
       code: 1,

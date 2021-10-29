@@ -4,13 +4,12 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-13 10:46:54
- * @LastEditTime: 2021-08-13 15:52:40
- * @Description: Modify here please
+ * @LastEditTime: 2021-10-29 10:55:56
+ * @Description: 商品分类业务服务模块
  */
 import { Category } from '@libs/db/models/category.model';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ReturnModelType } from '@typegoose/typegoose';
-import e = require('express');
 import { InjectModel } from 'nestjs-typegoose';
 import { TableResponseResult } from 'src/BaseResponseResult';
 import { AddGoodsCategory } from './dto/addCategory.dto';

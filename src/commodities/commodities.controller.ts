@@ -4,8 +4,8 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-10-20 10:11:57
- * @LastEditTime: 2021-08-26 18:25:05
- * @Description: Modify here please
+ * @LastEditTime: 2021-10-29 10:56:35
+ * @Description: 商品控制器模块
  */
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
@@ -16,6 +16,7 @@ import { Commodity } from '@libs/db/models/commodity.model';
 import { BaseResponseResult, TableResponseResult } from 'src/BaseResponseResult';
 import { AddCommodityDto } from './dto/addCommodity.dto';
 import { UpdateCommodityDto } from './dto/updateCommodity.dto';
+import { ParseIdPipe } from '@app/common/pipe/parse.id.pipe';
 
 @Controller('commodities')
 @ApiTags('后台商品管理')
@@ -50,7 +51,7 @@ export class CommoditiesController {
   @Patch(":id")
   @ApiParam({ name:'id', description:'商品id' })
   @ApiOperation({ summary: '编辑更新商品' })
-  async updateCommodity(@Param('id') id:string, @Body() parameters: UpdateCommodityDto):Promise<BaseResponseResult<Commodity>>{
+  async updateCommodity(@Param('id', new ParseIdPipe()) id:string, @Body() parameters: UpdateCommodityDto):Promise<BaseResponseResult<Commodity>>{
     const result = await this.commodityService.updateCommodity(id, parameters)
     return {
       code: 1,
@@ -63,7 +64,7 @@ export class CommoditiesController {
   @Delete(":id")
   @ApiParam({ name:'id', description:'商品id' })
   @ApiOperation({ summary: '删除商品' })
-  async delCommodity(@Param('id') id:string,) :Promise<BaseResponseResult<Commodity>>{
+  async delCommodity(@Param('id', new ParseIdPipe()) id:string,) :Promise<BaseResponseResult<Commodity>>{
     const result = await this.commodityService.delCommodity(id)
     return {
       code: 1,

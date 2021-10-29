@@ -4,8 +4,8 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-09-28 16:42:55
- * @LastEditTime: 2021-09-28 17:21:30
- * @Description: Modify here please
+ * @LastEditTime: 2021-10-29 09:55:39
+ * @Description: 客服信息实体模型
  */
 import { ApiProperty } from '@nestjs/swagger';
 import { prop, ModelOptions, Ref } from '@typegoose/typegoose';

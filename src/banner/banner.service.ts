@@ -4,8 +4,8 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-09 10:33:08
- * @LastEditTime: 2021-09-01 17:45:13
- * @Description: Modify here please
+ * @LastEditTime: 2021-10-29 10:53:47
+ * @Description: Banner模块业务服务模块
  */
 import { Banner } from '@libs/db/models/banner.model';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';

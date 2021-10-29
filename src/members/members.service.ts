@@ -4,12 +4,12 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-10 16:27:31
- * @LastEditTime: 2021-09-03 16:17:45
+ * @LastEditTime: 2021-10-29 11:05:15
  * @Description: Modify here please
  */
 import { Member } from '@libs/db/models/member.model';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { mongoose, ReturnModelType } from '@typegoose/typegoose';
+import { ReturnModelType } from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose';
 import { TableResponseResult } from 'src/BaseResponseResult';
 import { AddMemberDto } from './dto/addMember.dto';
@@ -52,13 +52,8 @@ export class MembersService {
 
     // 编辑会员
     async updateMember(id: string, parameters: UpdateMemberDto): Promise<Member> {
-        // 认证会员id是否正确
-        const isObjectId = mongoose.Types.ObjectId.isValid(id)
         const isHasPhone = await this.memberModel.findOne({ phone: parameters.phone });
         const isHasEmail = await this.memberModel.findOne({ email: parameters.email });
-        if (!isObjectId) {
-            throw new HttpException('会员Id有误!', HttpStatus.OK);
-        }
         if(isHasPhone){
             throw new HttpException('手机号码已存在', HttpStatus.OK);
         }
@@ -75,11 +70,6 @@ export class MembersService {
 
     // 删除会员
     async delMember(id: string): Promise<Member> {
-        // 认证会员id是否正确
-        const isObjectId = mongoose.Types.ObjectId.isValid(id)
-        if (!isObjectId) {
-            throw new HttpException('会员Id有误!', HttpStatus.OK);
-        }
         const result = await this.memberModel.findByIdAndDelete(id);
         if (!result) {
             throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);
@@ -89,11 +79,6 @@ export class MembersService {
 
     // 重置会员密码
     async resetMemberPassword(id: string, newPassword: string): Promise<Member> {
-        // 认证会员id是否正确
-        const isObjectId = mongoose.Types.ObjectId.isValid(id)
-        if (!isObjectId) {
-            throw new HttpException('会员Id有误!', HttpStatus.OK);
-        }
         const result = await this.memberModel.findByIdAndUpdate(id, { password: newPassword })
         if (!result) {
             throw new HttpException('系统异常，请联系管理员', HttpStatus.OK);

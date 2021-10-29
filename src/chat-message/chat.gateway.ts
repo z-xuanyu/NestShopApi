@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-09-24 10:12:58
- * @LastEditTime: 2021-10-28 17:54:35
+ * @LastEditTime: 2021-10-29 10:38:26
  * @Description: socket 网关
  */
 import {
@@ -69,7 +69,6 @@ import {
   
     // 初始化
     public afterInit(server: Server): void {
-      console.log('初始化',145454)
       return this.logger.log('Init');
     }
   

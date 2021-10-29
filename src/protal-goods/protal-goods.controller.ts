@@ -4,9 +4,10 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-09-07 14:38:08
- * @LastEditTime: 2021-09-10 10:38:11
+ * @LastEditTime: 2021-10-29 11:09:50
  * @Description: Modify here please
  */
+import { ParseIdPipe } from '@app/common/pipe/parse.id.pipe';
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { CommoditiesService } from 'src/commodities/commodities.service';
@@ -22,7 +23,7 @@ export class ProtalGoodsController {
     @Get("detail/:id")
     @ApiParam({ name: 'id', description: '商品id' })
     @ApiOperation({ summary: "获取商品详情" })
-    async getGoodsDetail(@Param('id') id: string,): Promise<any> {
+    async getGoodsDetail(@Param('id', new ParseIdPipe()) id: string,): Promise<any> {
         const result = await this.protalGoodsService.getGoodsDetail(id);
         return {
             code: 1,

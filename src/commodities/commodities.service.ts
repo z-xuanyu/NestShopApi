@@ -4,8 +4,8 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2021-08-03 18:00:15
- * @LastEditTime: 2021-09-10 10:28:09
- * @Description: Modify here please
+ * @LastEditTime: 2021-10-29 10:58:21
+ * @Description: 商品业务服务模块
  */
 import { Commodity } from '@libs/db/models/commodity.model';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';

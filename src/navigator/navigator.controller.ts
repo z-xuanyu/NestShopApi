@@ -4,7 +4,7 @@
  * @email: 969718197@qq.com
  * @github: https://github.com/z-xuanyu
  * @Date: 2020-12-04 10:29:30
- * @LastEditTime: 2021-09-07 11:01:01
+ * @LastEditTime: 2021-10-29 11:07:47
  * @Description: Modify here please
  */
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
@@ -14,6 +14,7 @@ import { NavigatorService } from './navigator.service';
 import { AddNavigatorDto, GetNavigatorDto, UpdateNavigatorDto } from './dto/navigators.dto';
 import { BaseResponseResult } from 'src/BaseResponseResult';
 import { Navigator } from '@libs/db/models/navigator.model';
+import { ParseIdPipe } from '@app/common/pipe/parse.id.pipe';
 
 @Controller('navigator')
 @ApiTags('后台导航管理')
@@ -49,7 +50,7 @@ export class NavigatorController {
   @Patch(":id")
   @ApiParam({ name:'id',description:"导航id" })
   @ApiOperation({ summary: '编辑导航信息' })
-  async updateNavigator(@Param("id") id:string, @Body() parameters:UpdateNavigatorDto):Promise<BaseResponseResult<Navigator>>{
+  async updateNavigator(@Param("id", new ParseIdPipe()) id:string, @Body() parameters:UpdateNavigatorDto):Promise<BaseResponseResult<Navigator>>{
     const result = await this.navigatorService.updateNavigator(id, parameters)
     return {
       code:1,
@@ -61,7 +62,7 @@ export class NavigatorController {
   @Delete(":id")
   @ApiParam({ name:'id',description:"导航id" })
   @ApiOperation({ summary: '删除导航信息' })
-  async delNavigator(@Param("id") id:string):Promise<BaseResponseResult<Navigator>>{
+  async delNavigator(@Param("id", new ParseIdPipe()) id:string):Promise<BaseResponseResult<Navigator>>{
     const result = await this.navigatorService.delNavigator(id)
     return {
       code:1,
